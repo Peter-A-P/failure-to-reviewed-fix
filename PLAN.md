@@ -1,0 +1,263 @@
+# Plan: Self-Healing Production AI
+
+**Written:** 2026-09-07. **Status:** plan only, nothing built.
+
+**Build:** three weeks, Jul 5 to Jul 25 2027, slack to Jul 31 (July is shared with 08's two
+weeks per the sequence). **Package:** `mend`. **Fed by:** 03 (the gate runs every
+comparison with intervals; graders are tests, not judges), 04 (every model call through the
+gateway, with the fixer and the reviewer on different providers by alias and a spend cap
+per issue), 09 (its chaos runs left labelled failure traces, used as a capture-stage
+dataset), 11 (LangGraph patterns). **Feeds:** nothing in the ten.
+
+> **Employer boundary, before anything else.** This project is close to an agentic layer
+> built inside the Government of Newfoundland and Labrador. It is built against public
+> repositories and public issue histories only, from public sources (the SWE-bench line of
+> work and published agent designs), with no internal architecture, prompts, thresholds or
+> code. Open question 02 in the plan repository was closed on 2026-09-06 on exactly this
+> basis. The design here differs on purpose: failing test first, adversarial review by a
+> different vendor, clustering learned from maintainers' own duplicate links. If any part
+> starts to resemble the internal system, the substitute named in the plan repository (a
+> quantisation implementation) takes the slot. Rule G applies to every commit.
+
+---
+
+## 1. What this produces
+
+When a production system fails, the failure is captured with its context, twenty symptoms
+of one bug become one ticket, a failing test that demonstrates the bug is written before
+any fix, a patch is drafted and run against that test and the whole suite, a second model
+from a different vendor reviews the patch adversarially, and only then does an engineer
+receive a ready-to-approve pull request, or a suggestion, or nothing, depending on a
+confidence threshold justified by measurement. Nothing changes without a person saying
+yes.
+
+The interesting engineering is the clustering and knowing when not to act. Anyone can wire
+a model to a stack trace.
+
+The numbers a stranger can check:
+
+| Number | What it shows |
+|---|---|
+| Symptoms per root cause: failures ingested against tickets opened, on labelled sets (maintainer duplicate links, injected faults, 09's chaos traces), with cluster purity, completeness and adjusted Rand index, 95% CIs | Twenty symptoms became one ticket, or did not |
+| Test-first rate: share of issues where a test was produced that fails on the broken commit and demonstrates the reported behaviour | No patch without proof of the bug |
+| **Honest hit rate**: share of issues resolved, judged by the benchmark's hidden tests, overall and per routing tier, with CIs | The claim, verified by tests the system never saw |
+| **Confidently wrong rate**: patches the system would have auto-proposed that failed the hidden tests, with the false-positive analysis by cause | The number that matters more than the hit rate |
+| Reviewer value: disagreement rate between fixer and reviewer, and the share of disagreements where the fixer was wrong | Whether the second model earns its cost |
+| Routing trade-off: hit rate and confidently-wrong rate at every threshold, and the threshold chosen against a stated false-positive target | Thresholds justified by data, not feel |
+| Stay-quiet precision: of issues routed to silence, the share where the drafted fix was in fact wrong | Knowing when not to act, measured |
+| Cost per attempted issue and per resolved issue from the gateway ledger; minutes per issue by hop | Triage in minutes, priced |
+| Ablations through the gate: without test-first, with same-vendor self-review, with fingerprint-only clustering, paired | Which parts of the design carry the result |
+
+## 2. Design decisions
+
+### 2.1 Real targets, hidden tests
+
+The patch stage is evaluated on a stratified subset of SWE-bench Verified, the
+human-validated set of real issues from public Python repositories, using its official
+containerised harness: a resolution counts only if the benchmark's hidden tests pass and
+nothing that passed before fails. The system never sees those tests. This is what makes the
+hit rate honest, and it is why the number will be modest.
+
+### 2.2 Clustering has ground truth, from three places
+
+| Set | Truth | What it exercises |
+|---|---|---|
+| Maintainer duplicate links mined from public issue trackers of three large repositories (issues closed as duplicates of another) | The maintainers' own judgement | Real symptom diversity in human reports |
+| Injected faults on two open-source test suites: one fault, many failing tests | Known by construction | Traceback-level symptoms of a single root cause |
+| 09's chaos runs: recorded traces and logs from each injected failure scenario | The scenario that was injected | Production-shaped signals: traces, logs, metrics, not only exceptions |
+
+Clustering combines a fingerprint (exception type, top in-project frame, normalised
+message), embeddings of the normalised failure text, and code locality (shared frames and
+files), with an agglomerative threshold tuned on a validation split and reported. The
+fingerprint-only baseline is a Rule C candidate.
+
+### 2.3 Failing test first, or no patch
+
+For each ticket the system must produce a test that fails on the broken commit and
+expresses the reported behaviour, run in the sandbox. If it cannot, it stops and says why.
+Only then does it draft a patch, which must make that test pass and leave the existing
+suite green. A patch without a demonstrating test is the most common way an automated fix
+is confidently wrong, and the ablation measures exactly that.
+
+### 2.4 Adversarial review by a different vendor
+
+The reviewer is a model from a different provider than the fixer, addressed through the
+gateway by alias so the pairing is a configuration, given the issue, the test, the patch
+and the test output, and asked to break it: find the case the patch misses, the regression
+it risks, the test that proves nothing. Disagreement escalates to a person instead of
+proceeding. Same-vendor self-review is a Rule C candidate.
+
+### 2.5 Confidence routing, calibrated
+
+A routing score combines signals: test written and fails-then-passes, suite green,
+reviewer verdict, cluster size, diff size, files touched, whether the patch touches the
+frames in the traceback. Thresholds for the three tiers (auto-propose as a draft pull
+request, suggest as a comment, stay quiet) are set on the validation split against a
+stated target of at most 3% confidently-wrong auto-proposals, and the full trade-off curve
+is published so a reader can choose a different target.
+
+### 2.6 Bounded cost, always
+
+The gateway enforces a spend cap per issue (US$1.00 at plan time) and a project cap;
+localisation uses a small model, drafting and review mid-tier; development caching is on
+for everything except the final evaluation runs. Cost per attempted and per resolved issue
+come from the ledger, not from estimates.
+
+### 2.7 The live demonstration acts only on Peter's own repositories
+
+A GitHub Actions workflow in this repository and in two of the portfolio's public
+repositories runs `mend` on CI failure in suggest mode: capture, cluster, propose as a
+comment, and open a draft pull request only when the routing says so and only in those
+repositories. It never acts on anyone else's repository. Every action is logged and visible.
+
+### 2.8 Out of scope, on purpose
+
+- Merging anything. There is no merge path; a person approves every pull request.
+- Languages beyond Python for this version. The benchmark and the sandbox are Python.
+- Runtime hot-patching, config changes in production, restarts. This proposes code
+  changes for review, nothing else.
+- Learning from outcomes across runs. Every run is stateless by design; the audit is the
+  memory.
+- Beating the leaderboard. The hit rate is reported as it falls; capability is not the
+  differentiator, the measurement is.
+
+## 3. Data
+
+| Source | Size | What it gives | Access and terms |
+|---|---|---|---|
+| SWE-bench Verified | 500 issues; a stratified subset of about 120 for the main run | Real issues with hidden tests in a containerised harness | MIT-licensed dataset; underlying repositories under their own open licences; images built locally |
+| Public issue trackers of three large Python repositories | Several thousand issues with duplicate links | Clustering truth from maintainers | GitHub API under its terms; issue text cached, not redistributed; ids and labels published |
+| Injected faults on two open-source test suites | About 40 faults, hundreds of failing tests | Clustering truth by construction | Repositories under open licences; faults are local mutations, never proposed upstream |
+| 09's chaos run traces and logs | Eight scenarios, multiple runs | Production-shaped failure signals with known causes | Own |
+| Portfolio repositories for the live demonstration | Two public repositories plus this one | Real CI failures in suggest mode | Own |
+
+Nothing raw is committed; loaders verify checksums; every licence is recorded.
+
+## 4. Architecture
+
+```
+mend/
+  capture/     schema.py (FailureRecord: fingerprint, traceback, logs, trace ids, commit, test id, env, repro
+               context), pytest_ingest.py (JUnit XML), otel_ingest.py (traces and logs), github_ingest.py
+               (issue text and CI logs), normalise.py
+  cluster/     fingerprint.py, embed.py (local), locality.py (shared frames and files), agglomerate.py
+               (threshold from validation), metrics.py (purity, completeness, ARI, symptoms per root cause),
+               ticket.py (one ticket per cluster with representative symptoms)
+  graph/       localise.py (traceback frames plus repository search; small model), test_first.py (write, run,
+               must fail), patch.py (draft, apply, run test and suite), review.py (different-vendor reviewer
+               via alias; adversarial rubric), route.py (score, thresholds, tier), act.py (draft PR, comment,
+               or log), graph.py (LangGraph; no merge node exists)
+  sandbox/     docker runner per task; SWE-bench harness adapter; timeouts; resource limits
+  data/        swebench.py (subset sampling, stratified by repository), duplicates.py (mining duplicate links),
+               faults.py (injection on two suites), chaos09.py (09's traces)
+  eval/        gate/ (eval specs: main run, ablations; graders are test outcomes), hitrate.py, confident_wrong.py
+               (false-positive taxonomy), reviewer_value.py, routing_curve.py, quiet_precision.py, cost.py
+               (from the gateway ledger), latency.py
+  cli.py       mend capture | cluster | fix | review | route | eval | report
+  action/      GitHub Actions workflow for the live demonstration (suggest mode; own repositories only)
+docs/          boundary.md (what this is and is not built from, with sources), routing.md (the curve and the
+               chosen threshold), false-positives.md, clustering.md
+```
+
+### Tests that matter
+
+No merge path exists (a test scans the GitHub client usage); a patch is never proposed
+without a test that failed first (asserted in the graph's state machine); the reviewer
+alias resolves to a different provider than the fixer alias (configuration test); the
+spend cap per issue is enforced before the first call; clustering metrics against a fixture
+with known labels; the sandbox refuses network access from task containers; the live
+workflow is scoped to the repository it runs in.
+
+## 5. Week by week
+
+| Dates | Built | Done when |
+|---|---|---|
+| Jul 5 to 11 | Failure record and ingestion (pytest, OpenTelemetry, GitHub); the three clustering sets built; clustering and metrics with threshold from validation; SWE-bench harness running locally with the stratified subset sampled; gateway aliases (localiser, fixer, tester, reviewer on a different provider) and the per-issue cap; gate eval specs | Symptoms-per-root-cause table with CIs on all three sets; one benchmark task runs end to end in the sandbox |
+| Jul 12 to 18 | LangGraph graph: localise, test-first, patch, run, review, route, act; validation run on 30 tasks; routing thresholds calibrated against the 3% target; routing curve | Validation hit rate and confidently-wrong rate; `docs/routing.md` |
+| Jul 19 to 25 | Main run on about 120 tasks through the gate; ablations (no test-first, same-vendor review, fingerprint-only clustering) on 40 tasks each; false-positive taxonomy; reviewer value; cost and latency; live workflow on own repositories in suggest mode; Rule C; README; `v0.1.0`; repository public | Every table in section 1 filled |
+| Jul 26 to 31 | Slack (shared with 08) | |
+
+First to drop if behind: the injected-fault clustering set (duplicates and 09's traces
+stay); ablation samples from 40 to 25; the live workflow on one repository instead of
+three. The hidden-test hit rate, the confidently-wrong analysis, test-first, the
+different-vendor reviewer, the routing curve and cost per issue are not droppable.
+
+## 6. Cost
+
+Prices as of 2026-09-07 (Anthropic list per million tokens: Haiku 4.5 at $1 in and $5 out,
+Sonnet 5 at $2 in and $10 out; the reviewer is a mid-tier model from another vendor at a
+comparable price). Per-issue cap US$1.00 enforced by the gateway. Sandbox runs on the
+laptop's Docker; a rented CPU box for the main run if the laptop is too slow (about CA$10).
+
+| Item | Basis | US$ | CA$ |
+|---|---|---:|---:|
+| Main run | About 120 tasks; localisation about 40k tokens on the small model, test and patch about 60k in and 6k out on the mid-tier model, review about 30k on the other vendor; about US$0.45 per task with one retry allowed | 54 | 73 |
+| Validation run | 30 tasks, same profile | 14 | 19 |
+| Ablations | Three ablations, 40 tasks each, localisation cached | 36 | 49 |
+| Clustering | Embeddings local; ticket summaries on the small model | 3 | 4 |
+| Live workflow, July | Suggest mode on own repositories, capped | 3 | 4 |
+| Sandbox compute | Rented CPU box if needed | 7 | 10 |
+| **Total** | | **117** | **159** |
+
+Right at the CA$160 line. If the validation run shows a higher per-task cost, the main run
+shrinks to 100 tasks before anything else moves, and the plan repository's STATUS records
+it. Actuals go there next to the estimate.
+
+## 7. Handover
+
+`mend` v0.1.0 on Jul 25 2027. Nothing in the ten imports it. What carries forward: the
+failure record schema as the shape 09's observability could emit; the routing-curve method
+as the pattern for any "should the system act" decision in the portfolio; and the live
+workflow, which keeps running on the portfolio's own repositories after the build as a
+standing demonstration.
+
+## 8. Risks
+
+| Risk | Handling |
+|---|---|
+| Employer boundary, second highest in the plan | Public repositories and public sources only; `docs/boundary.md` lists what the design is built from; the design differs deliberately (test-first, different-vendor review, duplicate-link clustering); substitute named; Rule G on every commit |
+| The hit rate is low | Published as it falls. A system resolving a fifth of issues with a 3% confidently-wrong rate is useful; one claiming most of them is not believable |
+| Agent cost runs away | Per-issue cap in the gateway before the first call; one retry; caching in development; the main run shrinks before the budget moves |
+| The sandbox is slow on the laptop | The harness images are built once; a rented CPU box is budgeted; the subset is stratified so a smaller run still covers every repository |
+| The category moves monthly | Differentiate on measurement, not capability; the README leads with the confidently-wrong analysis |
+| Duplicate links are noisy truth | Reported as maintainers' judgement, with the injected-fault set as the by-construction check |
+| The reviewer rubber-stamps | Reviewer value is measured; if disagreements do not predict wrong patches, the plan says so and the reviewer becomes an ablation, not a gate |
+| The live workflow acts where it should not | Scoped to the repository it runs in; suggest mode; draft pull requests only; every action logged |
+
+## 9. Rule C candidates
+
+1. **Patching without a failing test first.** Expected: a higher confidently-wrong rate,
+   because patches that satisfy the model's own reading of the issue fail the hidden tests
+   more often when nothing forced the bug to be demonstrated.
+2. **Self-review by the same vendor.** Expected: higher agreement and a lower catch rate of
+   wrong patches than the different-vendor reviewer, on the same tasks.
+3. **Fingerprint-only clustering.** Expected: high purity, poor completeness: one bug
+   across several exception types stays several tickets. The ARI gap is the evidence.
+
+Whichever produces the clearest evidence becomes `docs/rejected.md`.
+
+## 10. Definition of done
+
+- [ ] Symptoms-per-root-cause ratio with purity, completeness and ARI on three labelled sets, with CIs
+- [ ] Failing test generated and verified to fail before every patch proposal; test-first rate reported
+- [ ] Adversarial review by a different vendor's model, escalation on disagreement; reviewer value measured
+- [ ] Routing thresholds calibrated against a stated false-positive target; the trade-off curve published
+- [ ] Honest hit rate on hidden tests, overall and per tier, with CIs
+- [ ] Confidently-wrong rate and the false-positive analysis by cause
+- [ ] Stay-quiet precision reported
+- [ ] Cost per attempted and per resolved issue from the gateway ledger; minutes per issue by hop
+- [ ] Ablations through the 03 gate: no test-first, same-vendor review, fingerprint-only clustering
+- [ ] Live workflow running in suggest mode on the portfolio's own repositories; no merge path, asserted by a test
+- [ ] `docs/boundary.md` published
+- [ ] One rejected approach documented with evidence (Rule C)
+- [ ] Repository public, `v0.1.0` tagged
+
+## 11. Deferred
+
+| Deferred | Kept so the door stays open |
+|---|---|
+| Other languages | The sandbox is a container per task; the harness adapter is the only Python-specific part outside test generation |
+| Learning across runs (which clusters recur, which fixes held) | The failure records and routing decisions are stored; a memory would read them |
+| Production hooks beyond CI (error trackers, on-call pagers) | The capture module takes OpenTelemetry already; an error-tracker webhook is one more ingester |
+| Root-cause explanation as a deliverable in itself | The ticket carries the representative symptoms and the frames; an explanation step would consume the same record |
+| Auto-merge for the lowest-risk class | Never in this repository; the routing curve gives a reader the data to argue about it elsewhere |

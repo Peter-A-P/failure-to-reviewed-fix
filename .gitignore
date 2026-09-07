@@ -1,0 +1,43 @@
+# Private working notes, never committed
+CLAUDE.local.md
+
+# Secrets and tokens
+.env
+.env.*
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+dist/
+build/
+*.egg-info/
+
+# Benchmark data, task repositories, harness images and logs (fetched and built locally; never committed)
+data/raw/
+data/swebench/
+data/issues/
+sandbox/work/
+sandbox/logs/
+*.tar
+
+# Run outputs, ledgers, caches
+runs/
+.cache/
+*.sqlite
+*.sqlite3
+*.duckdb
+
+# Models
+models/
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
