@@ -53,7 +53,7 @@ with a spend cap per issue; every comparison runs through the release gate with 
 
 ## Part of a portfolio
 
-One of ten projects built over twelve months. It calls models through the Compliant AI
+One of fifteen projects built over twelve months. It calls models through the Compliant AI
 Gateway, is measured with the AI Release Gate, uses the failure traces from the Real-Time
 Risk Platform's chaos runs, and inherits its agent patterns from Overload.
 
