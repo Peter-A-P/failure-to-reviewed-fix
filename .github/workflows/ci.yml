@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# No secrets, no keys, no network calls to any vendor. Everything checked here is the
+# offline half of the package: capture, clustering, the rails, routing and the metrics.
+# The gateway extra is deliberately not installed, which is also a check: if the offline
+# half ever grows a hard dependency on it, this job fails.
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+      - run: uv sync --frozen
+      - run: uv run ruff format --check .
+      - run: uv run ruff check .
+      - run: uv run mypy
+      # -m "not docker" is the default set; the Docker-marked test runs in the job below,
+      # where there is a daemon. Marked rather than skipped silently, so the sandbox
+      # guarantee is tested somewhere on every commit rather than nowhere.
+      - run: uv run pytest -m "not docker"
+
+  sandbox:
+    # The one test that needs a real daemon: that a task container cannot reach the
+    # network. It is skipped on the build laptop, which has no Docker, so this job is the
+    # only place the property is checked against something other than the flag list.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+      - run: uv sync --frozen
+      - run: docker pull python:3.13-alpine
+      - run: uv run pytest -m docker -v

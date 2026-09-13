@@ -1,0 +1,34 @@
+# Spend caps, enforced by the gateway before a call is made. USD, because vendors bill in
+# USD; the portfolio's planning currency is CAD at roughly 1.35.
+#
+# per_run_usd is the per-issue cap (PLAN.md section 2.6). mend passes the issue id as the
+# gateway's run_id and nothing else ever, so one issue is one run and the cap binds where
+# the plan says it binds: before the first call, with no request made. mend.gateway holds
+# the same number as PER_ISSUE_CAP_USD and a test asserts the two agree, because a cap
+# that only exists in one of the two places is a cap that drifts.
+#
+# US$1.00 an issue against a plan of about US$0.45 an issue with one retry allowed. The
+# headroom is for the tasks that are hard rather than for the runs that go wrong: a task
+# needing more than twice the budgeted work is a task this system should decline, and the
+# refusal is a result worth reporting.
+#
+# monthly_usd covers the whole July build: the validation run, the main run, three
+# ablations and the clustering summaries, at US$107 in PLAN.md section 6, plus room for
+# one repeat of the validation run. Raising either of these is a deliberate commit, never
+# a change in code, and never a bypass.
+#
+# These are the second line of defence. The first is the hard cap in each vendor console,
+# which fails far less gracefully: an internal cap refuses cleanly before a call leaves, a
+# console cap returns errors partway through a four-hour run.
+
+version: 1
+portfolio_monthly_usd: 350
+
+projects:
+  self-healing-production-ai:
+    monthly_usd: 130
+    per_run_usd: 1.00
+
+default:
+  monthly_usd: 10
+  per_run_usd: 1.00

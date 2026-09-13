@@ -1,0 +1,111 @@
+[project]
+name = "mend"
+version = "0.1.0.dev1"
+description = "Self-healing production AI: failure capture and clustering, test-first patch drafting, adversarial review by a different vendor's model, and calibrated confidence routing to a human-approved pull request."
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+authors = [{ name = "Peter Parker" }]
+license = { file = "LICENSE" }
+dependencies = [
+  # Failure records, tickets and configuration validation. The record schema is the one
+  # thing every module shares, so it is validated at the edges rather than trusted.
+  "pydantic>=2,<3",
+  # Configuration files: routes, caps, clustering thresholds.
+  "pyyaml>=6,<7",
+  # Vectors for the embedding and locality channels, and the bootstrap resamples. 2.x is
+  # the current line; the 1.x to 2.x break already happened, so the major pin is real.
+  "numpy>=2,<3",
+  # Average-linkage agglomerative clustering on a precomputed distance matrix, which is
+  # the one numerical routine here worth borrowing rather than writing. Pinned below 2
+  # because scipy.cluster.hierarchy is stable within 1.x and a 2.0 has not landed.
+  "scipy>=1,<2",
+  # Command line. 0.x is the only line there is; pinned below 1 deliberately.
+  "typer>=0.15,<1",
+]
+
+[project.optional-dependencies]
+# Sentence-transformer embeddings for the clustering text channel. Off by default: it
+# pulls torch, which turns a two-second test run into a two-minute one, and the default
+# hashing embedder is what CI measures. Any reported number says which embedder produced
+# it (see docs/clustering.md).
+st = ["sentence-transformers>=3,<6"]
+
+# The portfolio gateway (project 04), through which every model call goes. An extra
+# rather than a hard dependency because the half of this package built so far (capture,
+# clustering, routing, the rails, the metrics) makes no model call and should install and
+# test without a second private repository. The hops that do call models need it, and
+# `mend roles` says so plainly when it is missing.
+#
+# Pinned to the 0.2 line: 0.2 is what adds the env argument and ledger schema v3, and the
+# 04 plan promises additive changes only within a major version.
+gateway = ["boundary>=0.2,<0.3"]
+
+[dependency-groups]
+dev = [
+  "pytest>=9,<10",
+  "mypy>=1,<2",
+  "ruff>=0.13,<1",
+  "types-PyYAML>=6,<7",
+]
+
+[tool.uv.sources]
+# Private until the first measured numbers; CI authenticates with a fine-grained read
+# token. Pinned to the tag that carries the 0.2 interface.
+boundary = { git = "https://github.com/Peter-A-P/compliant-ai-gateway", tag = "v0.2.0" }
+
+[project.scripts]
+mend = "mend.cli:app"
+
+[build-system]
+requires = ["hatchling>=1,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mend"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+# ruff formats Python blocks inside Markdown by default; the plan and the docs keep their
+# own layout.
+extend-exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "N", "RUF"]
+ignore = [
+  # Line length is the formatter's business.
+  "E501",
+  # The error names (NoFailingTest, MergePathForbidden, SameVendorReview) read as states of
+  # the machine, not as exceptions with an Error suffix.
+  "N818",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# The traceback and log fixtures are real captured text: tabs, odd unicode and all.
+"tests/fixtures/*" = ["RUF001", "E501"]
+"tests/test_normalise.py" = ["RUF001"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+files = ["mend", "tests"]
+plugins = ["pydantic.mypy"]
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = ["scipy.*"]
+ignore_missing_imports = true
+
+# Both are optional extras and are imported lazily, inside the one function that needs
+# each. Neither is installed in the default development environment, so mypy would
+# otherwise fail on the import rather than on anything about this code.
+[[tool.mypy.overrides]]
+module = ["boundary", "boundary.*", "sentence_transformers", "sentence_transformers.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+  "docker: needs a working Docker daemon; skipped when there is none",
+]

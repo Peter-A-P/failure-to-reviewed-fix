@@ -1,0 +1,59 @@
+# The gateway configuration mend runs under.
+#
+# mend ships its own rather than borrowing project 04's, because the four role aliases and
+# the per-issue cap are part of this project's design and belong in this repository where
+# they are reviewed with the code that depends on them. The provider entries below are the
+# same shape 04 documents (docs/interface.md section 8); the keys come from environment
+# variables named here and are never in any file.
+#
+# The ledger path is deliberately outside the repository tree that is committed: the
+# ledger is run data, and .gitignore keeps *.sqlite out. Cost per attempted and per
+# resolved issue are read back from it (PLAN.md section 2.6), never estimated.
+
+version: 1
+
+providers:
+  anthropic:
+    kind: anthropic
+    base_url: https://api.anthropic.com
+    api_key_env: ANTHROPIC_API_KEY
+    api_version: "2023-06-01"
+  openai:
+    kind: openai_compat
+    base_url: https://api.openai.com/v1
+    api_key_env: OPENAI_API_KEY
+    max_tokens_field: max_completion_tokens
+
+# The four roles, in their own file so that the different-vendor pairing is one short
+# document a reader can check at a glance. See config/mend.routes.yaml.
+routes: mend.routes.yaml
+
+prices: prices
+caps: mend.caps.yaml
+
+defaults:
+  max_tokens: 4096
+  timeouts:
+    connect_s: 10
+    # Generous, because a fixer drafting a patch against a long file is a slow call and a
+    # timeout here costs the whole issue, having already paid for localisation.
+    read_s: 300
+
+retry:
+  # One retry, as PLAN.md section 6 budgets for. max_attempts counts the first try.
+  max_attempts: 2
+  base_delay_s: 1.0
+  max_delay_s: 30
+
+ledger:
+  path: ../runs/mend-ledger.sqlite
+  env: local
+
+telemetry:
+  exporter: none
+
+cache:
+  # On in development, off for the evaluation runs (PLAN.md section 2.6). An evaluation
+  # run that answered from cache would report a cost of nothing and a latency of nothing.
+  enabled: true
+  path: ../.cache/boundary

@@ -261,3 +261,77 @@ Whichever produces the clearest evidence becomes `docs/rejected.md`.
 | Production hooks beyond CI (error trackers, on-call pagers) | The capture module takes OpenTelemetry already; an error-tracker webhook is one more ingester |
 | Root-cause explanation as a deliverable in itself | The ticket carries the representative symptoms and the frames; an explanation step would consume the same record |
 | Auto-merge for the lowest-risk class | Never in this repository; the routing curve gives a reader the data to argue about it elsewhere |
+
+---
+
+## 12. Build log: what was built early, and where this plan changed
+
+**2026-09-13.** The offline half was built ten months ahead of the July 2027 slot, because
+none of it needs money, a benchmark container, or anything from projects 09 and 03 that
+does not exist yet. Built: capture and its three ingesters, clustering with its metrics and
+a threshold tuner, the state machine that carries the rails, routing with calibration and
+the trade-off curve, the sandbox specification, the evaluation statistics, the subset
+sampler, the configuration, and 204 tests. `mypy --strict` and `ruff` clean. No model has
+been called and nothing has been measured.
+
+Five places where the code does not match section 4, and why. Each was a decision taken
+while building, not a drift noticed later.
+
+**The rails live in `graph/machine.py`, not inside the graph framework.** Section 4 lists
+`graph.py (LangGraph; no merge node exists)`. The LangGraph wiring still lands with the
+node bodies, because a node body is a model call and there are none yet. What changed is
+that the invariants (no patch without a failing test, no merge, a different-vendor
+reviewer) were pulled out into a plain typed state machine that `advance()` enforces on
+every hop. The reason is testability: the rails are now asserted on every commit without a
+model, a network or a container, rather than only on the days a full run happens. The graph
+calls `advance()` and has no other way to move an issue forward.
+
+**The locality channel has three parts, not two.** Section 2.2 says code locality is
+"shared frames and files". Building the fixture first showed that overlap alone
+systematically understates the case this project exists to get right: a bug reached from
+four call sites gives frame sets that overlap one in three, which reads as mostly different
+when they agree on the only frame that identifies the bug. Whether the two failures broke
+at the same innermost project frame is now scored separately, at the largest of the three
+weights. With overlap alone the four-symptom fixture bug stayed split at every threshold
+that kept the other bugs apart; with the new term the fixture resolves exactly.
+`docs/clustering.md` records this.
+
+**The default embedder hashes character n-grams; a trained encoder is optional.** Section 4
+says `embed.py (local)`. Both are local. The default needs nothing but numpy, is
+deterministic across processes and machines, and is fast enough to bootstrap a thousand
+resamples in CI, which is what makes the clustering metrics a per-commit check rather than
+an occasional one. A sentence-transformer backend sits behind the `st` extra, and every
+clustering result carries the name of the embedder that produced it, so no reported number
+can be ambiguous about which one ran. Which becomes the default for the measured runs is
+itself a measurement, on the labelled sets, not a decision to take now.
+
+**Threshold tuning is its own module, `cluster/tune.py`.** Section 4 folds "threshold from
+validation" into `agglomerate.py`. It is separate because the validation split has a
+property worth its own tests: it splits by root cause, not by record. Records of one bug
+are not independent, and a random split by record puts symptoms of one cause on both sides,
+which lets a threshold look good on the held-out half for the wrong reason.
+
+**The eval modules are consolidated.** Section 4 lists `hitrate.py`, `confident_wrong.py`,
+`reviewer_value.py`, `routing_curve.py`, `quiet_precision.py`, `cost.py` and `latency.py`.
+All but the false-positive taxonomy are functions over one `IssueOutcome` record type and
+live in `eval/results.py`; the routing curve lives with the routing it describes, in
+`graph/route.py`. Seven files whose contents are each one function over the same list was
+more structure than the thing has, and the shape that matters is that every headline number
+is recomputable from the stored outcomes.
+
+One smaller thing: `config/prices/` holds a copy of project 04's dated price list rather
+than a path into it, so that a public checkout can reproduce the cost numbers without a
+second private repository beside it. Repricing stays a new dated file in both places.
+
+### What is blocked, and on what
+
+- The SWE-bench harness and everything measured through it need Docker, which the build
+  laptop does not have. The sandbox specification and the runner's refusals are tested
+  without it; the one test that needs a real daemon is marked `docker` and runs in CI.
+- The chaos-trace clustering set needs project 09, which is at week three of nine and has
+  produced no chaos runs.
+- The ablations run through project 03's release gate, whose Part B is built December 2026
+  to January 2027. The ablation definitions can be written; they cannot be run through the
+  gate yet.
+- Nothing has called a model, so no spend has occurred against the US$1.00 per-issue cap or
+  the US$130 monthly cap now configured in `config/mend.caps.yaml`.

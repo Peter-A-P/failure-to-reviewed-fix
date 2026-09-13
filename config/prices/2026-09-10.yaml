@@ -1,0 +1,50 @@
+# Prices for the models mend calls, USD per million tokens.
+#
+# Copied from project 04's dated price list of the same date, which is itself copied from
+# each vendor's price page. Only the four models the role aliases point at are here: a
+# price list carrying models this project never calls is a list nobody notices going stale.
+#
+# This is a copy rather than a path into 04 on purpose. A public checkout of this
+# repository has to be able to reproduce the cost numbers without a second private
+# repository sitting beside it, and a relative path out of the tree is a path that works
+# on the build laptop and nowhere else.
+#
+# Repricing is a new dated file, never an edit to this one. The newest date wins, and the
+# ledger records which file priced each call, so a run is always attributable to a rate.
+#
+# Sources, both fetched 2026-09-10:
+#   Anthropic: https://platform.claude.com/docs/en/about-claude/pricing
+#              (cache read 0.1x input, 5-minute cache write 1.25x input, batch 50%)
+#   OpenAI:    https://developers.openai.com/api/docs/pricing
+#              (cached input shown per model, batch 50%)
+
+version: 1
+date: 2026-09-10
+currency: USD
+source: "Copied from 04-compliant-ai-gateway config/prices/2026-09-10.yaml; vendor pages fetched 2026-09-09 and 2026-09-10"
+
+per_million_tokens:
+  anthropic:
+    # mend-localiser
+    claude-haiku-4-5-20251001:
+      input: 1.00
+      output: 5.00
+      cache_read: 0.10
+      cache_write: 1.25
+      batch_multiplier: 0.5
+    # mend-tester and mend-fixer
+    claude-sonnet-5:
+      input: 2.00
+      output: 10.00
+      cache_read: 0.20
+      cache_write: 2.50
+      batch_multiplier: 0.5
+
+  openai:
+    # mend-reviewer. Comparable to the fixer's rate, which is what makes the reviewer
+    # value measurement in PLAN.md section 1 a fair comparison rather than a cost story.
+    gpt-5:
+      input: 1.25
+      output: 10.00
+      cache_read: 0.125
+      batch_multiplier: 0.5

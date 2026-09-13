@@ -1,0 +1,38 @@
+# The four roles mend calls models in, as gateway aliases.
+#
+# This file is the different-vendor rule (PLAN.md section 2.4). The pairing is here, in
+# configuration, rather than in code or in a prompt, so that changing which vendor reviews
+# which is a commit somebody can see. mend.gateway.check_roles reads these back from the
+# gateway at start-up and refuses to run if the fixer and the reviewer land on the same
+# provider; tests/test_roles.py asserts the same thing against this file.
+#
+# Why each role points where it does (PLAN.md section 2.6, bounded cost):
+#
+#   localiser  the cheap model. Localisation reads a traceback and greps a repository;
+#              it is the highest-token, lowest-judgement hop, and paying mid-tier rates
+#              for it is where an agent budget silently goes.
+#   tester     mid-tier. Writing a test that fails for the right reason is the hop the
+#              whole design rests on, and the cheap model writes tests that pass.
+#   fixer      mid-tier, Anthropic.
+#   reviewer   mid-tier, OpenAI. A DIFFERENT VENDOR from the fixer, and that is the
+#              point: a model reviewing its own vendor's output shares its blind spots,
+#              which is the Rule C candidate in PLAN.md section 9.2.
+#
+# Swapping fixer and reviewer between vendors is a legitimate experiment and costs nothing
+# but a commit. Pointing them at the same provider is not, and will not start.
+
+version: 1
+
+routes:
+  mend-localiser:
+    provider: anthropic
+    model: claude-haiku-4-5-20251001
+  mend-tester:
+    provider: anthropic
+    model: claude-sonnet-5
+  mend-fixer:
+    provider: anthropic
+    model: claude-sonnet-5
+  mend-reviewer:
+    provider: openai
+    model: gpt-5
