@@ -8,8 +8,8 @@ without a person saying yes.
 **Status: building. The offline half works; nothing has been measured.** The capture,
 clustering, routing and evaluation machinery is built, typed and tested. Nothing has called
 a model, nothing has run against the benchmark, and every results table below is still
-empty. The plan is in [PLAN.md](PLAN.md): a three-week build in July 2027, measured against
-real open-source issues with hidden tests.
+empty. The plan is in [PLAN.md](PLAN.md): a build measured against real open-source issues
+with hidden tests.
 
 The interesting engineering is the clustering and knowing when not to act, not the model
 call. The numbers below are reported as they fall.
@@ -56,12 +56,12 @@ Built, tested, and reproducible today with `uv sync && uv run pytest`:
 
 Not built yet: the four hops that call models (localise, write the failing test, draft the
 patch, review it), the SWE-bench harness adapter, the labelled clustering sets, and the
-live workflow. Those are the July 2027 weeks in [PLAN.md](PLAN.md) section 5.
+live workflow. Those are in [PLAN.md](PLAN.md) section 5.
 
 Three things this is waiting on rather than choosing to skip: the benchmark harness needs
 Docker, which the build laptop does not have; the chaos-trace clustering set needs project
-09, which is at week three of nine; and the ablations run through project 03's release
-gate, whose Part B is built December 2026.
+09, which has not got there yet; and the ablations run through project 03's release
+gate, whose Part B is not built.
 
 ## What this does not do
 
@@ -117,7 +117,7 @@ uv run mend cluster metrics records.jsonl --threshold 0.6
 
 ## Part of a portfolio
 
-One of fifteen projects built over twelve months. It calls models through the Compliant AI
+One of fifteen projects. It calls models through the Compliant AI
 Gateway, is measured with the AI Release Gate, uses the failure traces from the Real-Time
 Risk Platform's chaos runs, and inherits its agent patterns from Overload.
 
