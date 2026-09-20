@@ -1,4 +1,4 @@
-# Self-Healing Production AI
+# From Failure to Reviewed Fix, in Minutes
 
 When a production system fails, this captures the failure with full context, drafts the
 fix, has a second AI review it adversarially, and hands an engineer a ready-to-approve pull

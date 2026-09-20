@@ -1,4 +1,4 @@
-# Plan: Self-Healing Production AI
+# Plan: From Failure to Reviewed Fix, in Minutes
 
 **Written:** 2026-09-07. **Status:** plan only, nothing built.
 
