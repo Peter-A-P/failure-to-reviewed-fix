@@ -63,27 +63,27 @@
 <rect x="448.0" y="962.0" width="5" height="64.0" rx="2" fill="#A64C1C"/>
 <text x="588.0" y="990.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">A draft pull request</text>
 <text x="588.0" y="1006.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">an engineer approves, or not</text>
-<rect x="558.5" y="144.0" width="59.0" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="564.7" y="144.0" width="46.7" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="588.0" y="156.0" font-size="12" text-anchor="middle" fill="#14201E">failures</text>
-<rect x="561.4" y="256.0" width="53.2" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="563.7" y="256.0" width="48.7" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="588.0" y="268.0" font-size="12" text-anchor="middle" fill="#14201E">records</text>
-<rect x="552.6" y="368.0" width="70.8" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="558.0" y="368.0" width="60.0" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="588.0" y="380.0" font-size="12" text-anchor="middle" fill="#14201E">one ticket</text>
-<rect x="549.7" y="480.0" width="76.7" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="557.0" y="480.0" width="62.0" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="588.0" y="492.0" font-size="12" text-anchor="middle" fill="#14201E">where it is</text>
-<rect x="535.0" y="592.0" width="106.1" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="543.3" y="592.0" width="89.4" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="588.0" y="604.0" font-size="12" text-anchor="middle" fill="#14201E">observed to fail</text>
-<rect x="330.8" y="648.0" width="94.3" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="338.0" y="648.0" width="80.0" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="378.0" y="660.0" font-size="12" text-anchor="middle" fill="#14201E">runs the suite</text>
-<rect x="535.0" y="704.0" width="106.1" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="538.3" y="704.0" width="99.4" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="588.0" y="716.0" font-size="12" text-anchor="middle" fill="#14201E">observed to pass</text>
-<rect x="786.1" y="760.0" width="23.8" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="787.3" y="760.0" width="21.3" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="798.0" y="772.0" font-size="12" text-anchor="middle" fill="#5C6B67">no</text>
-<rect x="526.1" y="816.0" width="123.7" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="533.0" y="816.0" width="110.1" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="588.0" y="828.0" font-size="12" text-anchor="middle" fill="#14201E">verdict, confidence</text>
-<rect x="736.1" y="872.0" width="123.7" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="742.0" y="872.0" width="112.1" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="798.0" y="884.0" font-size="12" text-anchor="middle" fill="#5C6B67">below the threshold</text>
-<rect x="558.5" y="928.0" width="59.0" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="563.0" y="928.0" width="50.0" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="588.0" y="940.0" font-size="12" text-anchor="middle" fill="#14201E">above it</text>
 <rect x="28" y="1048" width="26" height="16" rx="3" fill="#FFFFFF" stroke="#0E6E60" stroke-width="1.6"/>
 <text x="62" y="1060" font-size="11" fill="#5C6B67">the rails</text>

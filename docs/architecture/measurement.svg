@@ -73,17 +73,17 @@
 <text x="1120.0" y="311.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">README tables</text>
 <text x="1120.0" y="327.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Wilson and bootstrap intervals</text>
 <text x="1120.0" y="344.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend.eval.stats</text>
-<rect x="276.4" y="200.0" width="47.3" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="278.0" y="200.0" width="44.0" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="300.0" y="212.0" font-size="12" text-anchor="middle" fill="#14201E">scores</text>
-<rect x="604.4" y="200.0" width="47.3" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="608.3" y="200.0" width="39.3" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="628.0" y="212.0" font-size="12" text-anchor="middle" fill="#14201E">writes</text>
-<rect x="279.3" y="312.0" width="41.4" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="284.0" y="312.0" width="32.0" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="300.0" y="324.0" font-size="12" text-anchor="middle" fill="#14201E">truth</text>
-<rect x="604.4" y="312.0" width="47.3" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="608.3" y="312.0" width="39.3" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="628.0" y="324.0" font-size="12" text-anchor="middle" fill="#14201E">writes</text>
-<rect x="282.2" y="424.0" width="35.5" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="283.3" y="424.0" width="33.3" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="300.0" y="436.0" font-size="12" text-anchor="middle" fill="#14201E">rows</text>
-<rect x="604.4" y="424.0" width="47.3" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="608.3" y="424.0" width="39.3" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="628.0" y="436.0" font-size="12" text-anchor="middle" fill="#14201E">writes</text>
 <text x="1120.0" y="501.2" font-size="11" text-anchor="middle" fill="#5C6B67" font-style="italic">solid: built and testable today;</text>
 <text x="1120.0" y="516.2" font-size="11" text-anchor="middle" fill="#5C6B67" font-style="italic">dashed: waits on Docker, 09 or 03</text>

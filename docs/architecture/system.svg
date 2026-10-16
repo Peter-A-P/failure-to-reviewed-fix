@@ -80,33 +80,33 @@
 <text x="1038.0" y="681.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Evaluation</text>
 <text x="1038.0" y="697.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">SWE-bench subset; confidently wrong</text>
 <text x="1038.0" y="714.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend.eval, mend.data.swebench</text>
-<rect x="144.5" y="169.0" width="59.0" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="150.7" y="169.0" width="46.7" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="174.0" y="181.0" font-size="12" text-anchor="middle" fill="#14201E">failures</text>
-<rect x="147.4" y="283.0" width="53.2" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="149.7" y="283.0" width="48.7" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="174.0" y="295.0" font-size="12" text-anchor="middle" fill="#14201E">records</text>
-<rect x="144.5" y="397.0" width="59.0" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="149.0" y="397.0" width="50.0" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="174.0" y="409.0" font-size="12" text-anchor="middle" fill="#14201E">clusters</text>
-<rect x="433.5" y="671.3" width="159.0" height="20.0" rx="3" fill="#FFFFFF"/>
-<text x="513.0" y="683.3" font-size="12" text-anchor="middle" fill="#5C6B67">purity, completeness, ARI</text>
-<rect x="354.6" y="283.0" width="70.8" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="448.6" y="671.3" width="148.7" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="523.0" y="683.3" font-size="12" text-anchor="middle" fill="#5C6B67">purity, completeness, ARI</text>
+<rect x="360.0" y="283.0" width="60.0" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="390.0" y="295.0" font-size="12" text-anchor="middle" fill="#14201E">one ticket</text>
-<rect x="573.5" y="169.0" width="64.9" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="580.7" y="169.0" width="50.7" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="606.0" y="181.0" font-size="12" text-anchor="middle" fill="#14201E">the fault</text>
-<rect x="550.0" y="283.0" width="112.0" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="563.3" y="283.0" width="85.4" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="606.0" y="295.0" font-size="12" text-anchor="middle" fill="#14201E">a test that fails</text>
-<rect x="544.1" y="397.0" width="123.7" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="549.6" y="397.0" width="112.7" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="606.0" y="409.0" font-size="12" text-anchor="middle" fill="#14201E">a patch that passes</text>
-<rect x="508.9" y="511.0" width="194.3" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="517.0" y="511.0" width="178.1" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="606.0" y="523.0" font-size="12" text-anchor="middle" fill="#14201E">verdict; disagreement escalates</text>
-<rect x="786.6" y="112.0" width="70.8" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="792.3" y="112.0" width="59.3" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="822.0" y="124.0" font-size="12" text-anchor="middle" fill="#14201E">every call</text>
-<rect x="871.4" y="226.0" width="47.3" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="877.7" y="226.0" width="34.7" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="895.0" y="238.0" font-size="12" text-anchor="middle" fill="#14201E">run it</text>
-<rect x="777.8" y="340.0" width="88.4" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="785.0" y="340.0" width="74.0" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="822.0" y="352.0" font-size="12" text-anchor="middle" fill="#14201E">run the suite</text>
-<rect x="760.1" y="568.0" width="123.7" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="765.3" y="568.0" width="113.4" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="822.0" y="580.0" font-size="12" text-anchor="middle" fill="#14201E">above the threshold</text>
-<rect x="684.2" y="692.7" width="129.6" height="20.0" rx="3" fill="#FFFFFF"/>
+<rect x="685.6" y="692.7" width="126.7" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="749.0" y="704.7" font-size="12" text-anchor="middle" fill="#14201E">outcomes, confidence</text>
 <rect x="28" y="746" width="26" height="16" rx="3" fill="#FFFFFF" stroke="#0E6E60" stroke-width="1.6"/>
 <text x="62" y="758" font-size="11" fill="#5C6B67">built here</text>
