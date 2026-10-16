@@ -89,7 +89,9 @@ decides whether to open a draft pull request, leave a suggestion, or stay quiet.
 model call goes through the portfolio gateway with a spend cap per issue; every comparison
 runs through the release gate with intervals.
 
-[docs/boundary.md](docs/boundary.md) records what the design is built from, with sources.
+[docs/boundary.md](docs/boundary.md) records what the design is built from, with sources. Three
+architecture diagrams, the system, one failure through the pipeline and how the numbers are produced, are
+in [docs/architecture.md](docs/architecture.md).
 
 ## Installing and running
 

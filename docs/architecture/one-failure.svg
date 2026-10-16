@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1176" height="1084" viewBox="0 0 1176 1084" role="img" aria-label="An alert storm is captured as records and clustered into one ticket; the fault is localised, a test is written that must fail on the broken commit or the system stops, a patch is drafted that must pass it and the suite in a sandbox, a reviewer from another vendor tries to break it, and a calibrated confidence decides between a draft pull request, a suggestion and silence." font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 z" fill="#14201E"/></marker><marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 z" fill="#0E6E60"/></marker><marker id="arrow-signal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 z" fill="#A64C1C"/></marker><marker id="arrow-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 z" fill="#5C6B67"/></marker></defs>
+<rect width="1176" height="1084" fill="#FFFFFF"/>
+<text x="28" y="42" font-size="16" font-weight="700" fill="#14201E">One failure through the pipeline</text>
+<path d="M 588.0 130.0 L 588.0 178.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 588.0 242.0 L 588.0 290.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 588.0 354.0 L 588.0 402.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 588.0 466.0 L 588.0 514.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 588.0 578.0 L 588.0 626.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 308.0 658.0 L 448.0 658.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<path d="M 588.0 690.0 L 588.0 738.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 728.0 770.0 L 868.0 770.0" fill="none" stroke="#14201E" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<path d="M 588.0 802.0 L 588.0 850.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 728.0 882.0 L 868.0 882.0" fill="none" stroke="#14201E" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<path d="M 588.0 914.0 L 588.0 962.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<rect x="448.0" y="66.0" width="280.0" height="64.0" rx="4" fill="#F2F4F3" stroke="#5C6B67" stroke-width="1.1" stroke-dasharray="5 3"/>
+<text x="588.0" y="94.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">An alert storm</text>
+<text x="588.0" y="110.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">twenty symptoms of one bug</text>
+<rect x="448.0" y="178.0" width="280.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/>
+<text x="588.0" y="199.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Captured as records</text>
+<text x="588.0" y="215.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">tracebacks parsed, paths normalised</text>
+<text x="588.0" y="232.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend.capture</text>
+<rect x="448.0" y="290.0" width="280.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#0E6E60" stroke-width="1.6"/>
+<rect x="448.0" y="290.0" width="5" height="64.0" rx="2" fill="#0E6E60"/>
+<text x="588.0" y="311.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Clustered into one ticket</text>
+<text x="588.0" y="327.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">fingerprint, embedding, code locality</text>
+<text x="588.0" y="344.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend.cluster</text>
+<rect x="448.0" y="402.0" width="280.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/>
+<text x="588.0" y="423.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Localise the fault</text>
+<text x="588.0" y="439.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">the cheap model reads and greps</text>
+<text x="588.0" y="456.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend-localiser</text>
+<rect x="448.0" y="514.0" width="280.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#0E6E60" stroke-width="1.6"/>
+<rect x="448.0" y="514.0" width="5" height="64.0" rx="2" fill="#0E6E60"/>
+<text x="588.0" y="535.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Write a test that must fail</text>
+<text x="588.0" y="551.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">on the broken commit; else stop</text>
+<text x="588.0" y="568.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend-tester</text>
+<text x="168.0" y="542.0" font-size="13" font-weight="400" text-anchor="middle" fill="#5C6B67" font-style="italic">No failing test, no patch</text>
+<text x="168.0" y="558.0" font-size="13" font-weight="400" text-anchor="middle" fill="#5C6B67" font-style="italic">the state machine has no way round it</text>
+<rect x="448.0" y="626.0" width="280.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/>
+<text x="588.0" y="647.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Draft a patch</text>
+<text x="588.0" y="663.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">must pass the new test and the suite</text>
+<text x="588.0" y="680.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend-fixer</text>
+<path d="M 28.0 628.0 a 140.0 7 0 0 1 280.0 0 L 308.0 688.0 a 140.0 7 0 0 1 -280.0 0 Z" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/><path d="M 28.0 628.0 a 140.0 7 0 0 0 280.0 0" fill="none" stroke="#14201E" stroke-width="1.1"/>
+<text x="168.0" y="651.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">The sandbox</text>
+<text x="168.0" y="667.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">one container, no network, limits</text>
+<text x="168.0" y="684.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend.sandbox</text>
+<rect x="448.0" y="738.0" width="280.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#0E6E60" stroke-width="1.6"/>
+<rect x="448.0" y="738.0" width="5" height="64.0" rx="2" fill="#0E6E60"/>
+<text x="588.0" y="759.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Adversarial review</text>
+<text x="588.0" y="775.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">another vendor&#x27;s model tries to break it</text>
+<text x="588.0" y="792.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend-reviewer</text>
+<rect x="868.0" y="738.0" width="280.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/>
+<text x="1008.0" y="766.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Disagreement</text>
+<text x="1008.0" y="782.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">escalates; never merges</text>
+<rect x="448.0" y="850.0" width="280.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#0E6E60" stroke-width="1.6"/>
+<rect x="448.0" y="850.0" width="5" height="64.0" rx="2" fill="#0E6E60"/>
+<text x="588.0" y="871.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Route by confidence</text>
+<text x="588.0" y="887.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">thresholds set to a false-positive target</text>
+<text x="588.0" y="904.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend.graph.route</text>
+<rect x="868.0" y="850.0" width="280.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/>
+<text x="1008.0" y="886.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Suggest, or stay quiet</text>
+<rect x="448.0" y="962.0" width="280.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#A64C1C" stroke-width="1.6"/>
+<rect x="448.0" y="962.0" width="5" height="64.0" rx="2" fill="#A64C1C"/>
+<text x="588.0" y="990.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">A draft pull request</text>
+<text x="588.0" y="1006.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">an engineer approves, or not</text>
+<rect x="558.5" y="144.0" width="59.0" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="588.0" y="156.0" font-size="12" text-anchor="middle" fill="#14201E">failures</text>
+<rect x="561.4" y="256.0" width="53.2" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="588.0" y="268.0" font-size="12" text-anchor="middle" fill="#14201E">records</text>
+<rect x="552.6" y="368.0" width="70.8" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="588.0" y="380.0" font-size="12" text-anchor="middle" fill="#14201E">one ticket</text>
+<rect x="549.7" y="480.0" width="76.7" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="588.0" y="492.0" font-size="12" text-anchor="middle" fill="#14201E">where it is</text>
+<rect x="535.0" y="592.0" width="106.1" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="588.0" y="604.0" font-size="12" text-anchor="middle" fill="#14201E">observed to fail</text>
+<rect x="330.8" y="648.0" width="94.3" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="378.0" y="660.0" font-size="12" text-anchor="middle" fill="#14201E">runs the suite</text>
+<rect x="535.0" y="704.0" width="106.1" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="588.0" y="716.0" font-size="12" text-anchor="middle" fill="#14201E">observed to pass</text>
+<rect x="786.1" y="760.0" width="23.8" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="798.0" y="772.0" font-size="12" text-anchor="middle" fill="#5C6B67">no</text>
+<rect x="526.1" y="816.0" width="123.7" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="588.0" y="828.0" font-size="12" text-anchor="middle" fill="#14201E">verdict, confidence</text>
+<rect x="736.1" y="872.0" width="123.7" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="798.0" y="884.0" font-size="12" text-anchor="middle" fill="#5C6B67">below the threshold</text>
+<rect x="558.5" y="928.0" width="59.0" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="588.0" y="940.0" font-size="12" text-anchor="middle" fill="#14201E">above it</text>
+<rect x="28" y="1048" width="26" height="16" rx="3" fill="#FFFFFF" stroke="#0E6E60" stroke-width="1.6"/>
+<text x="62" y="1060" font-size="11" fill="#5C6B67">the rails</text>
+<rect x="136.51" y="1048" width="26" height="16" rx="3" fill="#FFFFFF" stroke="#A64C1C" stroke-width="1.6"/>
+<text x="170.51" y="1060" font-size="11" fill="#5C6B67">what an engineer gets</text>
+<path d="M 309.7 1056 L 337.7 1056" stroke="#14201E" stroke-width="1.4" fill="none" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<text x="345.7" y="1060" font-size="11" fill="#5C6B67">the restrained paths</text>
+</svg>
