@@ -429,15 +429,34 @@ blueprint tests still green, a different-vendor review that agreed, routed to SU
 seconds and US$0.15; the harness judged it resolved. It is one task picked by hand and is
 not a result. The subset has not been sampled, and this task is not excluded from it.
 
+**2026-10-17, the subset.** Drawn once with `mend subset`, seed 20261017 (the date it was
+drawn, chosen before any run), from the 500 tasks of SWE-bench Verified: 150 tasks
+stratified by repository, then a validation split of 30 drawn from those by the same method
+and seed, and the other 120 as the main run. The ids are committed in
+`data/subset/validation.json` and `data/subset/main.json`, and `write_subset` refuses to
+overwrite either. Every one of the twelve repositories is in the validation split; pallets
+and its single task fell there by the one-per-repository floor, so the main run has eleven
+repositories. That single task is pallets__flask-5014, the plumbing smoke test above: it is
+in the validation split, where thresholds are calibrated, and not in the main run, where
+the headline numbers come from.
+
+**Each task's image is removed once it is scored** (decided 2026-10-17), because the laptop
+has about 50 GB free and the images are one to three gigabytes each. `mend run` takes a
+committed subset file and, for each task in order, pulls the image, runs the pipeline,
+scores the drafted patch with the harness while the image is still there, then removes the
+image and the repository copy. It resumes after a crash without running any task's fix
+twice: a second draw of a fix, kept if it came out better, is exactly the selection the
+rules forbid. The repository copies now go to the system's temporary directory, outside
+the OneDrive-synced tree.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops
 were built.
 
 - The benchmark runs are no longer blocked: Docker runs on the build laptop and the harness
-  scores there (2026-10-17). The constraint is disk: about 50 GB free, and each task image
-  is one to three gigabytes, so the main run will need images removed as it goes, or the
-  rented box section 6 budgets for. The sandbox specification and the runner's refusals are tested
+  scores there (2026-10-17). Disk is handled by removing each task's image once it is
+  scored, so the rented box section 6 budgets for is not needed for space. The sandbox specification and the runner's refusals are tested
   without it; the one test that needs a real daemon is marked `docker` and runs in CI.
   Project 09's chaos runs were made on a machine with Docker; whether that machine can run
   the benchmark harness has not been tried.

@@ -146,3 +146,25 @@ def test_there_is_no_way_to_filter_the_subset() -> None:
     source = Path(module.__file__).read_text(encoding="utf-8")
     for forbidden in ("def exclude", "exclude_ids", "skip_failed", "drop_hard", "def filter"):
         assert forbidden not in source, f"{forbidden} would let the subset be trimmed after a run"
+
+
+def test_the_validation_split_and_the_main_run_partition_the_draw() -> None:
+    from mend.data.swebench import split_validation
+
+    tasks = [
+        Task(
+            instance_id=f"{repo.split('/')[1]}-{i}",
+            repo=repo,
+            base_commit="c",
+            problem_statement="",
+        )
+        for repo, n in (("a/a", 40), ("b/b", 20), ("c/c", 5))
+        for i in range(n)
+    ]
+    drawn = sample(tasks, size=30, seed=7, source="test")
+    validation, main = split_validation(tasks, drawn, validation_size=10)
+    assert set(validation.instance_ids) | set(main.instance_ids) == set(drawn.instance_ids)
+    assert not set(validation.instance_ids) & set(main.instance_ids)
+    assert len(validation) == 10 and len(main) == 20
+    assert set(validation.per_repo) == {"a/a", "b/b", "c/c"}
+    assert split_validation(tasks, drawn, validation_size=10) == (validation, main)

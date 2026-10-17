@@ -191,6 +191,35 @@ def sample(
     )
 
 
+def split_validation(
+    tasks: Sequence[Task], drawn: Subset, *, validation_size: int
+) -> tuple[Subset, Subset]:
+    """Divide a drawn subset into a validation split and the main run, both stratified.
+
+    The validation split is where the routing thresholds are calibrated (PLAN.md section
+    2.5), so it must never overlap the run they are reported on. It is itself a stratified
+    draw from the drawn tasks with the same seed, and the main run is every drawn task not
+    in it: nothing is chosen by hand, and the two together are exactly the original draw.
+    """
+    pool = [t for t in tasks if t.instance_id in set(drawn.instance_ids)]
+    validation = sample(
+        pool, size=validation_size, seed=drawn.seed, source=f"validation split of {drawn.source}"
+    )
+    rest = tuple(sorted(set(drawn.instance_ids) - set(validation.instance_ids)))
+    per_repo: dict[str, int] = {}
+    for task in pool:
+        if task.instance_id in rest:
+            per_repo[task.repo_key] = per_repo.get(task.repo_key, 0) + 1
+    main = Subset(
+        instance_ids=rest,
+        seed=drawn.seed,
+        sampled_at=drawn.sampled_at,
+        source=f"main run: {drawn.source}, less its validation split",
+        per_repo=dict(sorted(per_repo.items())),
+    )
+    return validation, main
+
+
 def write_subset(subset: Subset, path: Path) -> None:
     """Write the subset file, refusing to overwrite an existing one.
 

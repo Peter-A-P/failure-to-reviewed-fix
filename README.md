@@ -9,8 +9,8 @@ without a person saying yes.
 clustering, the four model hops, the rails between them, routing, scoring on the
 benchmark's hidden tests and the evaluation machinery are built and tested. One task has
 been through the whole pipeline and the official harness as a smoke test of the plumbing;
-the subset has not been sampled, nothing has been run against it, and every results table
-below is still empty. The plan is in [PLAN.md](PLAN.md): a build measured against real
+the subset is drawn and committed, nothing has been run against it yet, and every results
+table below is still empty. The plan is in [PLAN.md](PLAN.md): a build measured against real
 open-source issues with hidden tests.
 
 The interesting engineering is the clustering and knowing when not to act, not the model
@@ -78,6 +78,10 @@ Built, tested, and reproducible today with `uv sync && uv run pytest`:
   harness could not judge is never counted as unresolved; it has to be run again. The
   harness runs in a Linux container of its own, because on a Windows host it writes scripts
   bash cannot run and even the benchmark's reference patches fail.
+- **Resumable runs over a committed subset.** `mend run` works through a subset file task
+  by task: fix, score on the hidden tests, remove the image. A crash costs one task, and a
+  resume never runs a task's fix twice. The subset (seed 20261017, 30 validation and 120
+  main) is committed in [data/subset/](data/subset/).
 - **Each repository's own test runner.** Django and sympy, 61% of SWE-bench Verified, do
   not run their tests with pytest; the sandbox uses each project's documented runner and
   reads its output with the harness's own parsers.
@@ -87,10 +91,9 @@ workflow. Those are in [PLAN.md](PLAN.md) section 5.
 Until the validation split has run, routing is uncalibrated and nothing auto-proposes: the
 top tier is held at a suggestion.
 
-What this is waiting on rather than choosing to skip: the chaos-trace clustering set needs
-project 09's re-recorded chaos runs to finish, which they are doing. The laptop's disk is
-the constraint on the benchmark runs: each task image is one to three gigabytes, and the
-main run is planned at about 120 tasks.
+Nothing here waits on anything outside this repository now. The chaos-trace clustering
+set is recorded and read, and needs the two-stage clustering described in
+[docs/clustering.md](docs/clustering.md), which is the next piece of work.
 
 ## What this does not do
 
@@ -145,6 +148,13 @@ the whole pipeline, in its sandbox (needs Docker and the task's harness image):
 
 ```
 uv run mend fix data/swebench/verified.jsonl --instance django__django-11099
+```
+
+A committed subset, end to end and resumable, removing each task's image after it is
+scored:
+
+```
+uv run mend run data/subset/validation.json
 ```
 
 Scoring a run log on the hidden tests, with the official harness (needs Docker; the

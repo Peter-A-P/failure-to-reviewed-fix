@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Any
 
 import typer
 
@@ -310,9 +310,10 @@ def fix(
         str | None,
         typer.Option(help="Task image. Default: the one the dataset row names."),
     ] = None,
-    work: Annotated[Path, typer.Option(help="Where the repository copy goes.")] = Path(
-        "sandbox/work"
-    ),
+    work: Annotated[
+        Path | None,
+        typer.Option(help="Where the repository copy goes. Default: outside the repository."),
+    ] = None,
     out: Annotated[Path, typer.Option(help="Run log, one JSON line per issue.")] = Path(
         "runs/fix.jsonl"
     ),
@@ -344,7 +345,11 @@ def fix(
     if chosen is None:
         typer.echo(f"{instance} names no image; pass --image")
         raise typer.Exit(code=2)
-    workspace = DockerWorkspace.extract(chosen, work / instance, tests=runner_for(task.repo))
+    from mend.sandbox.batch import WORK_ROOT
+
+    workspace = DockerWorkspace.extract(
+        chosen, (work or WORK_ROOT) / instance, tests=runner_for(task.repo)
+    )
     client = GatewayClient.open(config)
     try:
         record = run_issue(Issue.from_task(task), Deps(client=client, workspace=workspace))
@@ -429,6 +434,124 @@ def score(
             else ""
         )
         typer.echo(f"  {row.tier}: {row.n} tasks, hit rate {row.hit_rate.as_percent()}{wrong}")
+
+
+@app.command()
+def subset(
+    tasks: Annotated[Path, typer.Argument(help="SWE-bench Verified, as JSON or JSONL.")],
+    seed: Annotated[int, typer.Option(help="The seed. Recorded in both files.")],
+    size: Annotated[int, typer.Option(help="Tasks drawn in all.")] = 150,
+    validation: Annotated[int, typer.Option(help="Of those, the validation split.")] = 30,
+    out_dir: Annotated[Path, typer.Option(help="Where the two subset files go.")] = Path(
+        "data/subset"
+    ),
+) -> None:
+    """Draw the benchmark subset once, stratified by repository, and split it into the
+    validation split and the main run. Refuses to overwrite a subset already drawn."""
+    from mend.data.swebench import sample, split_validation, write_subset
+
+    all_tasks = load_tasks_or_exit(tasks)
+    drawn = sample(
+        all_tasks, size=size, seed=seed, source=f"SWE-bench Verified ({len(all_tasks)} tasks)"
+    )
+    val, main = split_validation(all_tasks, drawn, validation_size=validation)
+    write_subset(val, out_dir / "validation.json")
+    write_subset(main, out_dir / "main.json")
+    typer.echo(f"seed {seed}: {len(val)} validation, {len(main)} main -> {out_dir}")
+    for repo, n in main.per_repo.items():
+        typer.echo(f"  {repo}: {val.per_repo.get(repo, 0)} validation, {n} main")
+
+
+def load_tasks_or_exit(path: Path) -> list[Any]:
+    from mend.data.swebench import load_tasks
+
+    if not path.is_file():
+        typer.echo(f"no dataset at {path}")
+        raise typer.Exit(code=2)
+    return load_tasks(path)
+
+
+@app.command("run")
+def run_split(
+    split: Annotated[
+        Path, typer.Argument(help="A committed subset file, e.g. data/subset/validation.json.")
+    ],
+    tasks: Annotated[Path, typer.Option(help="SWE-bench Verified, as JSON or JSONL.")] = Path(
+        "data/swebench/verified.jsonl"
+    ),
+    name: Annotated[
+        str | None, typer.Option(help="Run name. Default: the subset file's name.")
+    ] = None,
+    config: Annotated[Path, typer.Option(help="Gateway configuration.")] = CONFIG_DEFAULT,
+) -> None:
+    """Run a committed subset task by task: fix, score on the hidden tests, remove the
+    image. Resumable: run it again after a crash and it carries on where it stopped."""
+    from dataclasses import asdict
+
+    from mend.data.swebench import load_subset
+    from mend.eval.results import hit_rate, test_first_rate
+    from mend.graph.context import Deps, Issue
+    from mend.graph.graph import run_issue
+    from mend.graph.llm import GatewayClient
+    from mend.sandbox.batch import (
+        WORK_ROOT,
+        RunPaths,
+        recorded_runs,
+        recorded_verdicts,
+        remove_task,
+        run_subset,
+        score_one,
+    )
+    from mend.sandbox.harness import HarnessIncomplete, outcomes
+    from mend.sandbox.runner import docker_available
+    from mend.sandbox.runners import runner_for
+    from mend.sandbox.workspace import DockerWorkspace
+
+    chosen = load_subset(split)
+    by_id = {t.instance_id: t for t in load_tasks_or_exit(tasks)}
+    run_name = name or split.stem
+    paths = RunPaths(Path("runs") / run_name)
+    if not docker_available():
+        typer.echo("no Docker daemon answered; the sandbox and the harness need one")
+        raise typer.Exit(code=2)
+
+    client = GatewayClient.open(config)
+
+    def fix_one(task: Any) -> dict[str, Any]:
+        if not task.image:
+            raise typer.BadParameter(f"{task.instance_id} names no image")
+        workspace = DockerWorkspace.extract(
+            task.image, WORK_ROOT / task.instance_id, tests=runner_for(task.repo)
+        )
+        record = run_issue(Issue.from_task(task), Deps(client=client, workspace=workspace))
+        loaded: dict[str, Any] = json.loads(record.to_json())
+        return loaded
+
+    try:
+        run_subset(
+            chosen.instance_ids,
+            by_id,
+            paths,
+            fix=fix_one,
+            score=lambda run: score_one(run, paths, name=run_name),
+            cleanup=remove_task,
+            echo=typer.echo,
+        )
+    finally:
+        client.close()
+
+    rows = list(recorded_runs(paths).values())
+    try:
+        results = outcomes(rows, recorded_verdicts(paths))
+    except HarnessIncomplete as error:
+        typer.echo(f"INCOMPLETE: {error}; run the same command again")
+        raise typer.Exit(code=1) from error
+    with (paths.root / "outcomes.jsonl").open("w", encoding="utf-8") as handle:
+        for outcome in results:
+            handle.write(json.dumps(asdict(outcome)) + "\n")
+    typer.echo(f"{run_name}: {len(results)} tasks")
+    typer.echo(f"  hit rate on hidden tests  {hit_rate(results).as_percent()}")
+    typer.echo(f"  test-first rate           {test_first_rate(results).as_percent()}")
 
 
 if __name__ == "__main__":  # pragma: no cover

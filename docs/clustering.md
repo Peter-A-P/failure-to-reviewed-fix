@@ -134,6 +134,24 @@ capture machine's load rather than 09's. From each manifest it reads the run id 
 scenario, and nothing else: the injection times would let a detector find the fault by
 knowing when to look.
 
+The full campaign arrived on 2026-10-17: 42 runs, 373 symptoms, none from the two control
+runs and at least one from every faulted run. A first look, on the whole set and not
+tuned on a held-out split, so not a result: the record-level clustering above does not
+recover the faults at any threshold, and neither does the fingerprint baseline. The reason
+is structural. One fault here shows as a dozen different metrics, each a record with its
+own name, and nothing in the fingerprint, the text or the code-locality channel says that
+two of them happened together. A traceback set never posed this problem, because one bug
+tends to fail in one place.
+
+What does recover them, in the same first look, is two stages: group symptoms that began
+together into incidents, then group incidents whose sets of symptoms are alike. That is
+being built as part of the clustering, with incidents found from onset times rather than
+from the run they came from, and its threshold tuned on a split held out by fault. With
+eight faults, a held-out split is two or three of them, and the intervals will be wide; the
+report will say so. The record-level clustering failing on production signals is the
+evidence for the rejected approach PLAN.md section 9 asks for, measured as a paired
+comparison once both exist.
+
 ## Reproducing the table above
 
 ```
