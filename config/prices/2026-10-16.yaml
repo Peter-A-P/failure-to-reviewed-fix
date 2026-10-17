@@ -1,0 +1,55 @@
+# Prices for the models mend calls, USD per million tokens.
+#
+# Copied from project 04's dated price list of the same date (boundary/prices/2026-10-16.yaml
+# in 04), which is itself copied from each vendor's price page. Only the four models the
+# role aliases point at are here, for the reason 2026-09-10.yaml gives: a list carrying
+# models this project never calls is a list nobody notices going stale.
+#
+# Supersedes 2026-09-10.yaml because the roles moved to current models on 2026-10-17
+# (PLAN.md section 12): Haiku 5.5 for the localiser, Sonnet 5.5 for the tester and fixer,
+# GPT-6.1 Sol for the reviewer. 2026-09-10.yaml stays, unedited, because the ledger names
+# the file that priced each call.
+#
+# One thing left out on purpose. 04's file carries a long_prompt block for Haiku 5.5 (five
+# times the rate above 100,000 input tokens) and for GPT-6.1 Sol (above 272,000). The
+# gateway version mend pins (0.2) does not read that block, so it is not copied. mend's
+# prompts stay well under both lines: mend/graph/prompts.py caps the file listing at 3,000
+# paths and the source shown at 120,000 characters, roughly 35,000 tokens. If a prompt ever
+# crossed 100,000 tokens on the localiser, the ledger would understate its cost five times,
+# which is the reason the caps are in that file and not left to the model's context window.
+#
+# Sources, as 04 recorded them:
+#   Anthropic: https://platform.claude.com/docs/en/about-claude/pricing
+#   OpenAI:    https://developers.openai.com/api/docs/pricing, read 2026-10-16
+
+version: 1
+date: 2026-10-16
+currency: USD
+source: "Copied from 04-compliant-ai-gateway boundary/prices/2026-10-16.yaml, four models, long_prompt blocks omitted"
+
+per_million_tokens:
+  anthropic:
+    # mend-localiser
+    claude-haiku-5-5:
+      input: 0.10
+      output: 0.50
+      cache_read: 0.01
+      cache_write: 0.125
+      batch_multiplier: 0.5
+    # mend-tester and mend-fixer
+    claude-sonnet-5-5:
+      input: 2.00
+      output: 10.00
+      cache_read: 0.20
+      cache_write: 2.50
+      batch_multiplier: 0.5
+
+  openai:
+    # mend-reviewer. The same input and output rates as the fixer, which keeps the reviewer
+    # value measurement in PLAN.md section 1 a comparison of judgement, not of price.
+    gpt-6.1-sol:
+      input: 2.00
+      output: 10.00
+      cache_read: 0.10
+      cache_write: 2.50
+      batch_multiplier: 0.5

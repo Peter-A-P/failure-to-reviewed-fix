@@ -14,6 +14,10 @@
 #   tester     mid-tier. Writing a test that fails for the right reason is the hop the
 #              whole design rests on, and the cheap model writes tests that pass.
 #   fixer      mid-tier, Anthropic.
+#
+# Current models since 2026-10-17 (PLAN.md section 12): Haiku 5.5, Sonnet 5.5 and GPT-6.1
+# Sol, priced in config/prices/2026-10-16.yaml. Sonnet 5.5 and GPT-6.1 Sol cost the same
+# per token, which keeps the fixer and the reviewer comparable.
 #   reviewer   mid-tier, OpenAI. A DIFFERENT VENDOR from the fixer, and that is the
 #              point: a model reviewing its own vendor's output shares its blind spots,
 #              which is the Rule C candidate in PLAN.md section 9.2.
@@ -26,13 +30,13 @@ version: 1
 routes:
   mend-localiser:
     provider: anthropic
-    model: claude-haiku-4-5-20251001
+    model: claude-haiku-5-5
   mend-tester:
     provider: anthropic
-    model: claude-sonnet-5
+    model: claude-sonnet-5-5
   mend-fixer:
     provider: anthropic
-    model: claude-sonnet-5
+    model: claude-sonnet-5-5
   mend-reviewer:
     provider: openai
-    model: gpt-5
+    model: gpt-6.1-sol

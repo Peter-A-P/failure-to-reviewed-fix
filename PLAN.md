@@ -186,7 +186,14 @@ different-vendor reviewer, the routing curve and cost per issue are not droppabl
 
 Prices as of 2026-09-07 (Anthropic list per million tokens: Haiku 4.5 at $1 in and $5 out,
 Sonnet 5 at $2 in and $10 out; the reviewer is a mid-tier model from another vendor at a
-comparable price). Per-issue cap US$1.00 enforced by the gateway. Sandbox runs on the
+comparable price). Per-issue cap US$1.00 enforced by the gateway.
+
+**Models moved on 2026-10-17** (section 12): Haiku 5.5 for localisation at US$0.10 in and
+US$0.50 out, Sonnet 5.5 for the tester and fixer at the same US$2 and US$10 as Sonnet 5, and
+GPT-6.1 Sol as the reviewer at US$2 and US$10, the fixer's own rate. The table below is left
+at the 2026-09-07 prices it was written with. On its own token profile the change saves about
+US$0.036 a task on localisation and adds about US$0.023 on review, so a task is about a cent
+cheaper than budgeted; the validation run replaces both with ledger figures. Sandbox runs on the
 laptop's Docker; a rented CPU box for the main run if the laptop is too slow (about CA$10).
 
 | Item | Basis | US$ | CA$ |
@@ -328,7 +335,14 @@ second private repository beside it. Repricing stays a new dated file in both pl
 no merge node), the Docker-backed workspace in `sandbox/workspace.py`, and `mend ping` and
 `mend fix`. Tested end to end with scripted models and a scripted sandbox; `mypy --strict` and
 `ruff` clean. The first live calls went through the gateway the same day (`mend ping`, one word
-per role); the Anthropic roles answered, for a combined US$0.00013.
+per role). The same day the roles moved to current models: Haiku 5.5 for the localiser,
+Sonnet 5.5 for the tester and fixer, and GPT-6.1 Sol for the reviewer, replacing Haiku 4.5,
+Sonnet 5 and GPT-5, which were a year old by then. GPT-6.1 Sol costs exactly what Sonnet 5.5
+does per token, which keeps the reviewer comparison about judgement rather than price. All
+four roles answered on the new models, and the ledger's total for every live call that day
+is US$0.0003. The prices are in `config/prices/2026-10-16.yaml`, copied from project 04's
+list of that date without its long-prompt surcharges, which the pinned gateway does not read
+and which mend's prompt caps keep it well under.
 
 Six places where the code does not match section 4, and why.
 
@@ -387,5 +401,5 @@ were built.
 - The ablations are no longer blocked from outside. Project 03's release gate, Part B
   included, was built from 2026-09-19 and released as v0.1.0 on 2026-10-06. What the
   ablations wait on now is the harness adapter and a running Docker daemon.
-- Spend so far is US$0.00013, from `mend ping` on 2026-10-17, against the US$1.00 per-issue
+- Spend so far is US$0.0003, from `mend ping` on 2026-10-17 (the ledger's total), against the US$1.00 per-issue
   cap and the US$130 monthly cap in `config/mend.caps.yaml`.

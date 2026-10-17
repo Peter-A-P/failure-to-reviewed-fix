@@ -19,6 +19,8 @@ import pytest
 import yaml
 
 CONFIG = Path(__file__).resolve().parent.parent / "config"
+# The gateway prices with the newest dated file, so that is the one the routes must match.
+LATEST_PRICES = "prices/" + max(p.name for p in (CONFIG / "prices").glob("*.yaml"))
 
 
 def load(name: str) -> dict[str, Any]:
@@ -68,7 +70,7 @@ def test_the_reviewer_is_a_different_model_too(routes: dict[str, Any]) -> None:
 
 def test_the_localiser_is_the_cheap_model(routes: dict[str, Any]) -> None:
     """Bounded cost (PLAN.md section 2.6): the highest-token hop runs on the small model."""
-    prices = load("prices/2026-09-10.yaml")["per_million_tokens"]
+    prices = load(LATEST_PRICES)["per_million_tokens"]
 
     def rate(alias: str) -> float:
         route = routes[alias]
@@ -80,7 +82,7 @@ def test_the_localiser_is_the_cheap_model(routes: dict[str, Any]) -> None:
 
 def test_every_role_has_a_price(routes: dict[str, Any]) -> None:
     """A model with no price is written to the ledger uncosted, and the cost table lies."""
-    prices = load("prices/2026-09-10.yaml")["per_million_tokens"]
+    prices = load(LATEST_PRICES)["per_million_tokens"]
     for alias, route in routes.items():
         provider, model = route["provider"], route["model"]
         assert provider in prices, f"{alias} routes to unpriced provider {provider}"
