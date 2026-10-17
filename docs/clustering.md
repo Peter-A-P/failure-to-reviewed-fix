@@ -152,6 +152,37 @@ report will say so. The record-level clustering failing on production signals is
 evidence for the rejected approach PLAN.md section 9 asks for, measured as a paired
 comparison once both exist.
 
+### The first held-out measurement, as it fell (2026-10-17)
+
+`mend.cluster.incidents` is the two-stage clustering. It was measured the way
+`cluster/tune.py` prescribes: `split_by_cause` with its committed seed put three faults in
+the validation split (duplicates, pause, scorer-stall; 148 records) and five in the
+held-out half (clock-skew, out-of-order, poison, schema-change, throttle; 225 records).
+Each method's parameters were chosen on the validation split by ARI and scored once on the
+held-out half, with bootstrap intervals over the records.
+
+| Method, tuned on the validation split | Chosen | Tickets | Purity | Completeness | ARI (95% CI) |
+|---|---|---|---|---|---|
+| Record-level (fingerprint, text, locality) | threshold 0.525 | 8 | 50.7% | 41.8% | 0.034 (0.011 to 0.080) |
+| Fingerprint only | none to choose | 65 | | | 0.015 (0.020 to 0.046) |
+| Two-stage (incidents, then signatures) | gap 45 s, threshold 0.85 | 7 | 54.2% | 87.1% | 0.080 (0.030 to 0.136) |
+
+(The fingerprint-only point estimate sits below its own bootstrap interval, which is what a
+percentile bootstrap does to a statistic as skewed as ARI near zero; both are as computed.)
+
+The two-stage method beats the record-level one, but by little, and the reason is visible
+in the sweep. On the validation split, ARI rose steadily to its best at a threshold of
+0.85, where pause and scorer-stall, two faults that both make the scorer fall behind, are
+merged; there was nothing in three faults to argue against merging. On the held-out half,
+which was looked at only after the choice was fixed and is reported here so a reader can
+see it, the same method scores 0.83 at thresholds of 0.50 to 0.55 and collapses above 0.70.
+So the method separates faults it was not tuned on, and three faults are too few to tune
+it with.
+
+Changing the tuning procedure now would be a decision taken after seeing the held-out
+half, and is not done silently. Whatever is adopted next is reported beside this table,
+with that said, and this table stays.
+
 ## Reproducing the table above
 
 ```

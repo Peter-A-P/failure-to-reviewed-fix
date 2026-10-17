@@ -441,7 +441,7 @@ in the validation split, where thresholds are calibrated, and not in the main ru
 the headline numbers come from.
 
 **Each task's image is removed once it is scored** (decided 2026-10-17), because the laptop
-has about 50 GB free and the images are one to three gigabytes each. `mend run` takes a
+has about 50 GB free and the images are about four gigabytes each. `mend run` takes a
 committed subset file and, for each task in order, pulls the image, runs the pipeline,
 scores the drafted patch with the harness while the image is still there, then removes the
 image and the repository copy. It resumes after a crash without running any task's fix
