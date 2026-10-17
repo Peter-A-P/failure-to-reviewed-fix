@@ -183,6 +183,38 @@ Changing the tuning procedure now would be a decision taken after seeing the hel
 half, and is not done silently. Whatever is adopted next is reported beside this table,
 with that said, and this table stays.
 
+### Cross-validated over causes (adopted 2026-10-17, after the table above)
+
+Adopted after the single-split result had been seen, for the reason that result showed:
+three causes are too few to choose two parameters from, and the answer depended on which
+three a seed picked. The procedure was fixed before it was run, and was not changed after:
+every one of the 56 ways of holding three of the eight faults out, each method tuned on the
+other five and scored on the three, the methods paired by fold
+(`mend.cluster.crossval`). The tuning grids are the ones the single split used.
+
+| Method | Mean held-out ARI | Spread across the 56 folds (2.5th to 97.5th percentile) |
+|---|---|---|
+| Record-level (fingerprint, text, locality) | 0.032 | 0.009 to 0.055 |
+| Fingerprint only | 0.021 | 0.004 to 0.044 |
+| Two-stage (incidents, then signatures) | 0.636 | 0.136 to 0.991 |
+| Two-stage minus record-level, paired | 0.604 | 0.125 to 0.956; two-stage higher on all 56 folds |
+
+The spread is how much the answer depends on which faults were held out. The folds share
+causes, so it is not a confidence interval and is not labelled as one; with eight faults,
+there is no honest interval narrower than this to give. The weakest folds are the ones
+that hold out faults with few or similar symptoms (duplicates, poison and schema-change
+together; pause with scorer-stall), and the single split's 0.080 sits at the bottom of this
+range, not outside it.
+
+What this supports: on production-shaped signals, comparing symptoms one by one does not
+find root causes at all, and grouping by incident first does, most of the time. What it
+does not support: a claim about traceback-shaped failures, where the record-level method
+was designed and is still to be measured on the duplicate-link and injected-fault sets; or
+about overlapping incidents, which this campaign never produced.
+
+Reproduce with `mend cluster crossval runs/chaos09-2026-10-17.jsonl --k 3` after
+`mend capture chaos09` on the campaign (about 25 minutes).
+
 ## Reproducing the table above
 
 ```

@@ -449,6 +449,17 @@ twice: a second draw of a fix, kept if it came out better, is exactly the select
 rules forbid. The repository copies now go to the system's temporary directory, outside
 the OneDrive-synced tree.
 
+**2026-10-17, clustering production signals.** On 09's chaos campaign the record-level
+clustering of section 2.2 does not recover the faults (held-out ARI 0.032 averaged over
+every way of holding three of eight faults out) and the fingerprint baseline does no
+better (0.021). A two-stage method, symptoms into incidents by onset time and incidents
+into tickets by the Jaccard distance between their symptom sets (`cluster/incidents.py`),
+averages 0.636 and is higher on all 56 folds. The first measurement, a single seeded split,
+gave 0.080; the cross-validation was adopted after seeing it, and `docs/clustering.md`
+reports both, in that order, with the reason. This is the clearest Rule C evidence so far
+(section 9, candidate 3, broadened from fingerprint-only to record-level clustering) and is
+the likely subject of `docs/rejected.md`, pending the ablations.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops

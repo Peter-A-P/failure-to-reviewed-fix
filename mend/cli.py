@@ -212,6 +212,61 @@ def cluster_metrics(
     typer.echo(f"adjusted Rand index      {result.ari_interval.as_value(3)}")
 
 
+@cluster_app.command("crossval")
+def cluster_crossval(
+    records_path: Annotated[Path, typer.Argument(help="Labelled records, JSON lines.")],
+    k: Annotated[int, typer.Option(help="Causes held out per fold.")] = 3,
+    out: Annotated[Path | None, typer.Option(help="Write every fold's scores here.")] = None,
+) -> None:
+    """Every way of holding k causes out: each method tuned on the rest, scored on them.
+
+    Compares record-level clustering, the fingerprint baseline and two-stage clustering,
+    paired by fold. Prints the mean ARI with its spread across folds, which describes how
+    much the answer depends on the causes held out and is not a confidence interval.
+    """
+    from collections.abc import Sequence
+
+    from mend.cluster.crossval import Clusterer, leave_causes_out, paired, summarise
+    from mend.cluster.incidents import cluster_two_stage, tune_two_stage
+    from mend.cluster.tune import tune
+
+    gaps = [10.0, 20.0, 30.0, 45.0, 60.0, 90.0, 120.0, 180.0]
+    thresholds = [i / 20 for i in range(1, 20)]
+
+    def record_level(train: Sequence[FailureRecord]) -> Clusterer:
+        chosen = tune(train).threshold
+        return lambda test: cluster_records(test, threshold=chosen).labels
+
+    def fingerprint_only(train: Sequence[FailureRecord]) -> Clusterer:
+        return lambda test: cluster_by_fingerprint(test).labels
+
+    def two_stage(train: Sequence[FailureRecord]) -> Clusterer:
+        best, _ = tune_two_stage(train, gaps=gaps, thresholds=thresholds)
+        return lambda test: (
+            cluster_two_stage(test, gap_s=best.gap_s, threshold=best.threshold).labels
+        )
+
+    methods = {
+        "record-level": record_level,
+        "fingerprint": fingerprint_only,
+        "two-stage": two_stage,
+    }
+    folds = leave_causes_out(_read_records(records_path), methods, k=k)
+    for name in methods:
+        typer.echo(f"{name:13} ARI {summarise(folds, name).as_value()}")
+    difference, wins = paired(folds, "two-stage", "record-level")
+    typer.echo(
+        f"two-stage minus record-level {difference.as_value()}; "
+        f"two-stage higher on {wins} of {len(folds)} folds"
+    )
+    if out is not None:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(
+            json.dumps([{"held_out": f.held_out, "ari": f.ari} for f in folds], indent=1),
+            encoding="utf-8",
+        )
+
+
 @cluster_app.command("weights")
 def cluster_weights(
     fingerprint: Annotated[float, typer.Option(help="Fingerprint channel weight.")] = 0.4,
