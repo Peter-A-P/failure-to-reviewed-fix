@@ -79,7 +79,7 @@ def localiser_prompt(
 
 
 TESTER_SYSTEM = """\
-You write a single pytest test that reproduces a reported bug. The test must fail on the \
+You write a single test that reproduces a reported bug, for the repository's own test runner. The test must fail on the \
 current code because of the bug, and pass once the bug is fixed. It must not fail for any \
 other reason: an import that does not exist, a typo, or a missing fixture makes it useless.
 
@@ -88,6 +88,7 @@ Rules:
 existing tests, with a file name starting with test_.
 - Test behaviour the issue describes, through the public interface where you can.
 - Assert the correct behaviour, so the assertion fails on the buggy code.
+- Write it in the form described in <framework>, which is what the repository's runner picks up.
 - No network, no files outside a temporary directory, no sleeping.
 
 Reply with exactly:
@@ -102,8 +103,9 @@ def tester_prompt(
     sources: Mapping[str, str],
     example_test: tuple[str, str] | None,
     feedback: str = "",
+    style: str = "a pytest test module",
 ) -> str:
-    parts = [issue, files_block(sources)]
+    parts = [issue, f"<framework>{style}</framework>", files_block(sources)]
     if example_test is not None:
         path, text = example_test
         parts.append(f'<existing_test path="{path}">\n{clip(text, 8_000, path)}</existing_test>')

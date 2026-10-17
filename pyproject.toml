@@ -45,6 +45,12 @@ st = ["sentence-transformers>=3,<6"]
 # Haiku 5.5 and GPT-6.1 Sol both have.
 gateway = ["boundary>=1.4,<2"]
 
+# The official SWE-bench harness, which builds the task images and runs the hidden tests.
+# An extra because it is only needed to score a run, and it brings Docker's SDK and the
+# datasets library with it. 5.x is the current line; the major pin is because the harness's
+# report format is what mend.sandbox.harness reads.
+bench = ["swebench>=5,<6"]
+
 [dependency-groups]
 dev = [
   "pytest>=9,<10",
@@ -101,11 +107,11 @@ warn_unreachable = true
 module = ["scipy.*"]
 ignore_missing_imports = true
 
-# Both are optional extras and are imported lazily, inside the one function that needs
-# each. Neither is installed in the default development environment, so mypy would
+# All three are optional extras and are imported lazily, inside the one function that needs
+# each. None is installed in the default development environment, so mypy would
 # otherwise fail on the import rather than on anything about this code.
 [[tool.mypy.overrides]]
-module = ["boundary", "boundary.*", "sentence_transformers", "sentence_transformers.*"]
+module = ["boundary", "boundary.*", "sentence_transformers", "sentence_transformers.*", "swebench", "swebench.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

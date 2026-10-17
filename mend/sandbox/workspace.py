@@ -21,8 +21,9 @@ from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath
 
-from mend.graph.workspace import TestReport, parse_junit
+from mend.graph.workspace import TestReport
 from mend.sandbox.runner import RunResult, run
+from mend.sandbox.runners import PYTEST, TestRunner
 from mend.sandbox.spec import DockerUnavailable, RunSpec, SandboxError
 
 _IN = "/mend/in"
@@ -37,33 +38,19 @@ _ACTIVATE = (
 )
 
 
-def sandbox_script(test_paths: Sequence[str], *, has_diff: bool, workdir: str) -> str:
+def sandbox_script(test_command: str, *, has_diff: bool, workdir: str) -> str:
     """The shell script a run executes inside the container.
 
     Setup steps fail the run (set -e) because a diff that does not apply is not a test
-    result. The test command itself does not: pytest exits non-zero when a test fails,
-    which is the expected outcome half the time, and the verdict is read from the XML.
-    xunit1 is asked for because it puts the file on every test case, which is how a test
-    id names its file (mend.graph.workspace.parse_junit).
+    result. The test command itself does not: a runner exits non-zero when a test fails,
+    which is the expected outcome half the time, and the verdict is read from its report.
     """
     lines = ["set -e", _ACTIVATE, f"cd {shlex.quote(workdir)}"]
     if has_diff:
         lines.append(f"git apply --whitespace=nowarn {_IN}/patch.diff")
     lines.append(f"if [ -d {_IN}/files ]; then cp -r {_IN}/files/. .; fi")
     lines.append("set +e")
-    pytest = [
-        "python",
-        "-m",
-        "pytest",
-        "-p",
-        "no:cacheprovider",
-        "-o",
-        "junit_family=xunit1",
-        f"--junitxml={_OUT}/report.xml",
-        "-rA",
-        *test_paths,
-    ]
-    lines.append(" ".join(shlex.quote(part) for part in pytest))
+    lines.append(test_command)
     lines.append("exit 0")
     return "\n".join(lines)
 
@@ -74,12 +61,15 @@ class DockerWorkspace:
     checkout: Path
     workdir: str = "/testbed"
     timeout_s: int = 900
-    runner: Callable[[RunSpec], RunResult] = run
+    tests: TestRunner = PYTEST
+    execute: Callable[[RunSpec], RunResult] = run
     _files: tuple[str, ...] | None = field(default=None, init=False, repr=False)
     _cache: dict[str, str] = field(default_factory=dict, init=False, repr=False)
 
     @classmethod
-    def extract(cls, image: str, dest: Path, *, workdir: str = "/testbed") -> DockerWorkspace:
+    def extract(
+        cls, image: str, dest: Path, *, tests: TestRunner = PYTEST, workdir: str = "/testbed"
+    ) -> DockerWorkspace:
         """Copy the image's repository to dest on the host, once, without starting it."""
         dest.mkdir(parents=True, exist_ok=True)
         try:
@@ -102,7 +92,11 @@ class DockerWorkspace:
             raise SandboxError(f"could not copy {workdir} out of {image}: {exc.stderr}") from exc
         finally:
             subprocess.run(["docker", "rm", container], capture_output=True, check=False)
-        return cls(image=image, checkout=dest, workdir=workdir)
+        return cls(image=image, checkout=dest, workdir=workdir, tests=tests)
+
+    @property
+    def test_style(self) -> str:
+        return self.tests.style
 
     def files(self) -> tuple[str, ...]:
         if self._files is None:
@@ -144,16 +138,20 @@ class DockerWorkspace:
                 target.write_text(text, encoding="utf-8", newline="\n")
             spec = RunSpec(
                 image=self.image,
+                # bash, not sh: conda's activate script needs it, and every task image
+                # has it.
                 command=(
-                    "sh",
+                    "bash",
                     "-c",
-                    sandbox_script(test_paths, has_diff=bool(diff), workdir=self.workdir),
+                    sandbox_script(
+                        self.tests.command(test_paths), has_diff=bool(diff), workdir=self.workdir
+                    ),
                 ),
                 workdir=self.workdir,
                 timeout_s=self.timeout_s,
                 mounts=((in_dir, _IN, True), (out_dir, _OUT, False)),
             )
-            result = self.runner(spec)
+            result = self.execute(spec)
             report = out_dir / "report.xml"
             xml = report.read_text(encoding="utf-8") if report.exists() else ""
-        return parse_junit(xml, output=result.stdout + result.stderr, timed_out=result.timed_out)
+        return self.tests.report(result.stdout + result.stderr, xml, timed_out=result.timed_out)

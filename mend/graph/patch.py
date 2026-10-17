@@ -29,23 +29,6 @@ from mend.graph.parse import MalformedReply, apply_edits, diff_size, parse_edits
 from mend.graph.workspace import TestReport, is_test_file, related_tests
 
 
-def own_results(report: TestReport, test_path: str) -> TestReport:
-    """The part of a run that belongs to one test file, by its test ids."""
-    prefix = f"{test_path}::"
-
-    def mine(ids: frozenset[str]) -> frozenset[str]:
-        return frozenset(i for i in ids if i.startswith(prefix))
-
-    return TestReport(
-        passed=mine(report.passed),
-        failed=mine(report.failed),
-        errored=mine(report.errored),
-        skipped=mine(report.skipped),
-        timed_out=report.timed_out,
-        output=report.output,
-    )
-
-
 def regressions(baseline: TestReport, patched: TestReport) -> frozenset[str]:
     """Tests that passed on the broken commit and do not pass with the patch."""
     return baseline.passed - patched.passed
@@ -118,12 +101,15 @@ def draft_patch(issue: Issue, state: IssueState, scratch: Scratch, deps: Deps) -
         if suite not in baselines:
             baselines[suite] = workspace.run_tests(list(suite)) if suite else TestReport()
         baseline = baselines[suite]
-        patched = workspace.run_tests(
-            [scratch.test_path, *suite],
+        # The new test and the existing ones run separately. Each runner names its tests its
+        # own way (a pytest id, a Django dotted name, a bare sympy function), so picking the
+        # new test's results out of one combined run would mean trusting a naming format.
+        own = workspace.run_tests(
+            [scratch.test_path],
             diff=diff,
             new_files={scratch.test_path: scratch.test_source},
         )
-        own = own_results(patched, scratch.test_path)
+        patched = workspace.run_tests(list(suite), diff=diff) if suite else TestReport()
         broken = regressions(baseline, patched)
         attempt = PatchAttempt(
             diff=diff,
@@ -135,7 +121,7 @@ def draft_patch(issue: Issue, state: IssueState, scratch: Scratch, deps: Deps) -
             suite_files=suite,
         )
         if best is None or _rank(attempt) >= _rank(best):
-            best, best_report = attempt, patched
+            best, best_report = attempt, own
         if attempt.is_green:
             break
         if not attempt.test_passes:
@@ -148,7 +134,7 @@ def draft_patch(issue: Issue, state: IssueState, scratch: Scratch, deps: Deps) -
         feedback = (
             f"Your patch:\n{diff}\nproblem: {last_problem}\n"
             + (f"now failing: {', '.join(sorted(broken)[:10])}\n" if broken else "")
-            + f"output:\n{patched.output}"
+            + f"output:\n{patched.output if attempt.test_passes else own.output}"
         )
 
     if best is None or best_report is None:

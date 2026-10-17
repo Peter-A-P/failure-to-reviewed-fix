@@ -26,8 +26,9 @@ sandbox/work/
 sandbox/logs/
 *.tar
 
-# Run outputs, ledgers, caches
+# Run outputs, ledgers, caches; the harness writes its per-task logs under logs/
 runs/
+logs/
 .cache/
 *.sqlite
 *.sqlite3

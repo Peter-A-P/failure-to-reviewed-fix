@@ -45,6 +45,10 @@ class Task:
     base_commit: str
     problem_statement: str
     environment_setup_commit: str | None = None
+    # The harness's prebuilt image for the broken commit (harness 5.x names it in the row).
+    # The environment, not the evaluation: the hidden tests are applied by the harness's
+    # eval_script, which is not read here.
+    image: str | None = None
 
     @property
     def repo_key(self) -> str:
@@ -91,6 +95,7 @@ def load_tasks(path: Path) -> list[Task]:
                 if row.get("environment_setup_commit")
                 else None
             ),
+            image=str(row["image"]) if row.get("image") else None,
         )
         for row in rows
     ]

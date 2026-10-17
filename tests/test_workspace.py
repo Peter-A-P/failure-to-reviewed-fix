@@ -7,6 +7,7 @@ from pathlib import Path
 from mend.graph.localise import terms
 from mend.graph.workspace import module_name, parse_junit, related_tests, source_files
 from mend.sandbox.runner import RunResult
+from mend.sandbox.runners import PYTEST
 from mend.sandbox.spec import RunSpec
 from mend.sandbox.workspace import DockerWorkspace, sandbox_script
 from tests.fakes import ScriptedWorkspace, report
@@ -76,7 +77,7 @@ def test_terms_pick_identifiers_not_prose() -> None:
 
 
 def test_the_script_applies_the_diff_then_runs_pytest_and_never_fails_on_a_red_test() -> None:
-    script = sandbox_script(["tests/test_a.py"], has_diff=True, workdir="/testbed")
+    script = sandbox_script(PYTEST.command(["tests/test_a.py"]), has_diff=True, workdir="/testbed")
     lines = script.splitlines()
     assert lines[0] == "set -e"
     assert any(line.startswith("git apply") for line in lines)
@@ -107,7 +108,7 @@ def test_a_docker_run_is_isolated_and_reads_the_report_from_its_mount(tmp_path: 
         (out_dir / "report.xml").write_text(JUNIT)
         return RunResult(1, "out", "", False, 0.1, ())
 
-    w = DockerWorkspace(image="sweb.eval.x86_64.demo", checkout=checkout, runner=runner)
+    w = DockerWorkspace(image="sweb.eval.x86_64.demo", checkout=checkout, execute=runner)
     assert w.files() == ("pkg/a.py",)  # .git is never listed
     r = w.run_tests(
         ["tests/test_new.py"],
@@ -115,4 +116,4 @@ def test_a_docker_run_is_isolated_and_reads_the_report_from_its_mount(tmp_path: 
         new_files={"tests/test_new.py": "def test(): pass\n"},
     )
     assert r.failed == {"tests/test_x.py::test_bad"}
-    assert len(seen) == 1 and seen[0].command[:2] == ("sh", "-c")
+    assert len(seen) == 1 and seen[0].command[:2] == ("bash", "-c")

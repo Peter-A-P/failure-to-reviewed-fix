@@ -394,14 +394,50 @@ pricing, so `config/prices/2026-10-17.yaml` carries the surcharges `2026-10-16.y
 omit. `mend ping` now sends a fresh request each time, since an answer from the development
 cache proves nothing about the keys. Ledger total after the upgrade's live check: US$0.00053.
 
+**2026-10-17, scoring.** `sandbox/harness.py` and `mend score`: the drafted patches go to the
+official SWE-bench harness (5.0.2) and one verdict per task comes back. Four things found
+while building it.
+
+**The harness does not run on a Windows host.** It writes its eval script and the patch
+with CRLF line endings, bash in the task container cannot run the script, and the
+benchmark's own reference patch for pallets__flask-5014 scored as unresolved. The harness
+now runs in a small Linux container of its own (the image tag carries the harness version
+and a hash of its recipe), driving the laptop's Docker through its socket, and the same
+reference patch resolves.
+
+**Section 4's sandbox assumed pytest.** SWE-bench Verified is 46% Django and 15% sympy, and
+neither runs its suite with pytest. The sandbox now uses each project's documented runner
+(`sandbox/runners.py`) and reads Django and sympy output with the harness's own parsers, so
+a test the sandbox calls failing is one the harness would call failing. The new test and
+the related existing tests run in separate containers, because the three runners name
+tests three different ways.
+
+**Harness 5.x keeps each task's test command inside its eval_script, beside the hidden test
+patch.** mend reads no part of that field, so the commands in `sandbox/runners.py` are
+written from each project's documentation instead. `Task` now carries the task's image
+name, which the dataset row gives and which is the broken commit's environment, not its
+evaluation.
+
+**A task the harness cannot judge is not a failure.** `sandbox.harness.outcomes` refuses
+to build the results while any submitted patch lacks a verdict, so an infrastructure error
+is run again rather than counted against the hit rate.
+
+The first end-to-end run, on 2026-10-17, was a plumbing smoke test on pallets__flask-5014,
+chosen as the smallest repository in the set before anything was known about how mend
+would do on it: localise, a test that failed first, a three-line patch with the existing
+blueprint tests still green, a different-vendor review that agreed, routed to SUGGEST, 25
+seconds and US$0.15; the harness judged it resolved. It is one task picked by hand and is
+not a result. The subset has not been sampled, and this task is not excluded from it.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops
 were built.
 
-- The SWE-bench harness and everything measured through it need a running Docker daemon.
-  Docker Desktop is installed on the build laptop (noticed 2026-10-17) but has not been
-  started or tried with a harness image, and the disk has about 50 GB free. The sandbox specification and the runner's refusals are tested
+- The benchmark runs are no longer blocked: Docker runs on the build laptop and the harness
+  scores there (2026-10-17). The constraint is disk: about 50 GB free, and each task image
+  is one to three gigabytes, so the main run will need images removed as it goes, or the
+  rented box section 6 budgets for. The sandbox specification and the runner's refusals are tested
   without it; the one test that needs a real daemon is marked `docker` and runs in CI.
   Project 09's chaos runs were made on a machine with Docker; whether that machine can run
   the benchmark harness has not been tried.
@@ -417,5 +453,5 @@ were built.
 - The ablations are no longer blocked from outside. Project 03's release gate, Part B
   included, was built from 2026-09-19 and released as v0.1.0 on 2026-10-06. What the
   ablations wait on now is the harness adapter and a running Docker daemon.
-- Spend so far is US$0.00053, from `mend ping` on 2026-10-17 (the ledger's total), against the US$1.00 per-issue
+- Spend so far is US$0.15, almost all of it the smoke run on 2026-10-17 (the ledger's total), against the US$1.00 per-issue
   cap and the US$130 monthly cap in `config/mend.caps.yaml`.

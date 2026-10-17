@@ -308,7 +308,7 @@ def fix(
     instance: Annotated[str, typer.Option(help="The instance id to run.")],
     image: Annotated[
         str | None,
-        typer.Option(help="Task image. Default: the harness's local name for the instance."),
+        typer.Option(help="Task image. Default: the one the dataset row names."),
     ] = None,
     work: Annotated[Path, typer.Option(help="Where the repository copy goes.")] = Path(
         "sandbox/work"
@@ -329,6 +329,7 @@ def fix(
     from mend.graph.graph import run_issue
     from mend.graph.llm import GatewayClient
     from mend.sandbox.runner import docker_available
+    from mend.sandbox.runners import runner_for
     from mend.sandbox.workspace import DockerWorkspace
 
     task = next((t for t in load_tasks(tasks) if t.instance_id == instance), None)
@@ -339,9 +340,11 @@ def fix(
         typer.echo("no Docker daemon answered; the sandbox needs one")
         raise typer.Exit(code=2)
 
-    workspace = DockerWorkspace.extract(
-        image or f"sweb.eval.x86_64.{instance}:latest", work / instance
-    )
+    chosen = image or task.image
+    if chosen is None:
+        typer.echo(f"{instance} names no image; pass --image")
+        raise typer.Exit(code=2)
+    workspace = DockerWorkspace.extract(chosen, work / instance, tests=runner_for(task.repo))
     client = GatewayClient.open(config)
     try:
         record = run_issue(Issue.from_task(task), Deps(client=client, workspace=workspace))
@@ -358,6 +361,74 @@ def fix(
         typer.echo(f"  tier {state.tier}, score {state.score:.2f}")
     cost = f"US${record.cost_usd:.4f}" if record.cost_usd is not None else "uncosted"
     typer.echo(f"  {len(record.hops)} model calls, {cost}, {record.duration_s:.0f} s")
+
+
+@app.command()
+def score(
+    runs: Annotated[Path, typer.Argument(help="The run log mend fix wrote.")],
+    run_id: Annotated[str, typer.Option(help="A name for this scoring run.")],
+    workers: Annotated[int, typer.Option(help="Harness workers; at most 3/4 of the cores.")] = 2,
+    out_dir: Annotated[
+        Path, typer.Option(help="Where predictions, report and outcomes go.")
+    ] = Path("runs/score"),
+) -> None:
+    """Score a run with the official SWE-bench harness, on the hidden tests. Needs Docker
+    and the bench extra.
+
+    Submits every drafted patch, whatever its tier, as the source diff alone. A task the
+    harness could not judge is reported and must be run again; it is never counted as
+    unresolved.
+    """
+    from dataclasses import asdict
+
+    from mend.eval.results import hit_rate, tier_table
+    from mend.sandbox.harness import (
+        HarnessIncomplete,
+        evaluate,
+        outcomes,
+        predictions,
+        read_runs,
+        verdicts,
+        write_predictions,
+    )
+
+    rows = read_runs(runs)
+    preds = predictions(rows)
+    target = (out_dir / run_id).resolve()
+    target.mkdir(parents=True, exist_ok=True)
+    predictions_path = target / "predictions.jsonl"
+    write_predictions(preds, predictions_path)
+    typer.echo(f"{len(rows)} tasks, {len(preds)} with a drafted patch -> {predictions_path}")
+
+    judged: dict[str, bool | None] = {}
+    if preds:
+        report = evaluate(
+            predictions_path.name,
+            run_id=run_id,
+            instance_ids=[p["instance_id"] for p in preds],
+            workdir=target,
+            max_workers=workers,
+        )
+        judged = verdicts(report)
+    try:
+        results = outcomes(rows, judged)
+    except HarnessIncomplete as error:
+        typer.echo(f"INCOMPLETE: {error}")
+        raise typer.Exit(code=1) from error
+
+    with (target / "outcomes.jsonl").open("w", encoding="utf-8") as handle:
+        for outcome in results:
+            handle.write(json.dumps(asdict(outcome)) + "\n")
+    typer.echo(f"hit rate on hidden tests: {hit_rate(results).as_percent()}")
+    for row in tier_table(results):
+        if row.n == 0:
+            continue
+        wrong = (
+            f", confidently wrong {row.confidently_wrong.as_percent()}"
+            if row.confidently_wrong is not None and row.confidently_wrong.n
+            else ""
+        )
+        typer.echo(f"  {row.tier}: {row.n} tasks, hit rate {row.hit_rate.as_percent()}{wrong}")
 
 
 if __name__ == "__main__":  # pragma: no cover

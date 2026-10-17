@@ -22,7 +22,7 @@ recorded as such rather than claimed as original.
 
 | Source | Public at | What was taken |
 |---|---|---|
-| SWE-bench and SWE-bench Verified | The dataset, its paper and its containerised harness, all public | The evaluation method: real issues from public Python repositories, judged by tests the system never sees. The harness runs the tests; this project does not reimplement it |
+| SWE-bench and SWE-bench Verified | The dataset, its paper and its containerised harness (5.0.2), all public | The evaluation method: real issues from public Python repositories, judged by tests the system never sees. The harness runs the tests; this project does not reimplement it. Its Django and sympy log parsers are also used to read the sandbox's own test runs |
 | The published agent literature on issue resolution | Papers and open repositories | The general shape of localise, edit, test. This shape is common knowledge in the field and is not anybody's private design |
 | LangGraph | Public framework and documentation | Graph orchestration patterns, carried in through portfolio project 11 |
 | OpenTelemetry | Public specification | The span and log shapes the capture stage reads. `mend/capture/otel_ingest.py` parses the standard OTLP JSON export and nothing else |
@@ -73,6 +73,18 @@ tests, the gold patch or the test directives could be lifted into, so a prompt b
 a `Task` cannot contain them even by accident.
 `tests/test_subset.py::test_the_task_type_cannot_carry_hidden_tests` loads a dataset row
 carrying all three and asserts none of them survives into the object.
+
+Harness 5.x adds a fourth place they live: each row's `eval_script`, which applies the
+hidden test patch and runs the task's test command. `Task` has no field for it either, and
+the same test asserts so. That is why the sandbox's per-repository test commands in
+`mend/sandbox/runners.py` are written from each project's own documentation rather than
+taken from the benchmark: the benchmark keeps them in the one field mend does not read.
+
+The hidden tests' results come back as one bit per task, resolved or not, read from the
+harness's report (`mend.sandbox.harness.verdicts`). The per-task test output the harness
+writes under `logs/` names the hidden tests and is not read by mend or shown to any model;
+when the harness was checked on this laptop, its setup log was read and its test output
+was not.
 
 ## The subset is chosen before the run
 

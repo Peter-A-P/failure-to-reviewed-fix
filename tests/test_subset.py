@@ -112,6 +112,9 @@ def test_the_task_type_cannot_carry_hidden_tests(tmp_path: Path) -> None:
         "FAIL_TO_PASS": ["tests.test_secret"],
         "patch": "the gold patch",
         "test_patch": "the hidden tests",
+        # Harness 5.x also embeds the hidden test patch and its test command here.
+        "eval_script": "git apply the hidden tests && run them",
+        "image": "swebench/sweb.eval.x86_64.django_1776_django-1:latest",
     }
     path.write_text(json.dumps(row) + "\n", encoding="utf-8")
 
@@ -121,6 +124,11 @@ def test_the_task_type_cannot_carry_hidden_tests(tmp_path: Path) -> None:
     assert "test_patch" not in fields
     assert "patch" not in fields
     assert "hidden" not in " ".join(fields)
+    assert "eval_script" not in fields
+    assert "the hidden tests" not in repr(loaded)
+    # The image is not hidden: it is the broken commit's environment, which the harness
+    # pulls by this name.
+    assert loaded.image == row["image"]
 
     serialised = json.dumps({k: getattr(loaded, k) for k in fields})
     assert "hidden tests" not in serialised

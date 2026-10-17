@@ -5,12 +5,13 @@ fix, has a second AI review it adversarially, and hands an engineer a ready-to-a
 request. Triage in minutes instead of days, engineers back on new work, and nothing changes
 without a person saying yes.
 
-**Status: building. The pipeline is wired; nothing has been measured.** Capture,
-clustering, the four model hops, the rails between them, routing and the evaluation
-machinery are built, typed and tested with scripted models. The gateway has made its first
-live calls (one word each, to check the keys); nothing has run against the benchmark, and
-every results table below is still empty. The plan is in [PLAN.md](PLAN.md): a build measured against real open-source issues
-with hidden tests.
+**Status: building. The pipeline runs end to end; nothing has been measured.** Capture,
+clustering, the four model hops, the rails between them, routing, scoring on the
+benchmark's hidden tests and the evaluation machinery are built and tested. One task has
+been through the whole pipeline and the official harness as a smoke test of the plumbing;
+the subset has not been sampled, nothing has been run against it, and every results table
+below is still empty. The plan is in [PLAN.md](PLAN.md): a build measured against real
+open-source issues with hidden tests.
 
 The interesting engineering is the clustering and knowing when not to act, not the model
 call. The numbers below are reported as they fall.
@@ -72,16 +73,24 @@ Built, tested, and reproducible today with `uv sync && uv run pytest`:
   a fresh no-network container per test run, with the diff and the new test mounted
   read-only. No code path runs a model's test on the host.
 
-Not built yet: the SWE-bench harness adapter that scores a run on the hidden tests, the
-labelled clustering sets, and the live workflow. Those are in [PLAN.md](PLAN.md) section 5.
+- **Scoring on the hidden tests.** `mend score` submits every drafted patch, whatever its
+  tier, to the official SWE-bench harness and reads back one verdict per task. A task the
+  harness could not judge is never counted as unresolved; it has to be run again. The
+  harness runs in a Linux container of its own, because on a Windows host it writes scripts
+  bash cannot run and even the benchmark's reference patches fail.
+- **Each repository's own test runner.** Django and sympy, 61% of SWE-bench Verified, do
+  not run their tests with pytest; the sandbox uses each project's documented runner and
+  reads its output with the harness's own parsers.
+
+Not built yet: the duplicate-link and injected-fault clustering sets, and the live
+workflow. Those are in [PLAN.md](PLAN.md) section 5.
 Until the validation split has run, routing is uncalibrated and nothing auto-proposes: the
 top tier is held at a suggestion.
 
-What this is waiting on rather than choosing to skip: the benchmark needs a running Docker
-daemon, which the build laptop has installed but has not yet run; and the chaos-trace
-clustering set needs project 09's chaos runs recorded again with their logs, traces and
-metrics kept, which 09 is doing. The ablations no longer wait on anything outside this
-repository.
+What this is waiting on rather than choosing to skip: the chaos-trace clustering set needs
+project 09's re-recorded chaos runs to finish, which they are doing. The laptop's disk is
+the constraint on the benchmark runs: each task image is one to three gigabytes, and the
+main run is planned at about 120 tasks.
 
 ## What this does not do
 
@@ -136,6 +145,13 @@ the whole pipeline, in its sandbox (needs Docker and the task's harness image):
 
 ```
 uv run mend fix data/swebench/verified.jsonl --instance django__django-11099
+```
+
+Scoring a run log on the hidden tests, with the official harness (needs Docker; the
+harness runs in a container `mend score` builds once):
+
+```
+uv run mend score runs/fix.jsonl --run-id my-run
 ```
 
 Clustering a set of captured records, and measuring it against known causes:

@@ -65,7 +65,14 @@ class TestReport:
 
 
 class Workspace(Protocol):
-    """One task's repository at its broken commit."""
+    """One task's repository at its broken commit.
+
+    test_style says what kind of test file the repository's own runner picks up (a pytest
+    module, a Django TestCase module, a sympy test module), for the tester's prompt.
+    """
+
+    @property
+    def test_style(self) -> str: ...
 
     def files(self) -> tuple[str, ...]:
         """Every tracked file, as repository-relative POSIX paths."""

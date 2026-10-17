@@ -68,6 +68,7 @@ def write_test(issue: Issue, state: IssueState, scratch: Scratch, deps: Deps) ->
                     scratch.sources,
                     example,
                     feedback,
+                    workspace.test_style,
                 ),
             )
         except HopFailed as exc:

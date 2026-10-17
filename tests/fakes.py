@@ -80,6 +80,7 @@ class ScriptedWorkspace:
     contents: dict[str, str]
     respond: Responder
     runs: list[Run] = field(default_factory=list)
+    test_style: str = "a pytest test module"
 
     def files(self) -> tuple[str, ...]:
         return tuple(sorted(self.contents))
