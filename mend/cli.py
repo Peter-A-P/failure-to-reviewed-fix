@@ -279,7 +279,9 @@ def ping(
                     role,
                     issue_id=run_id,
                     system="Reply with the single word: ready",
-                    prompt="Are you ready?",
+                    # The run id makes every ping a fresh request: an answer from the
+                    # development cache would prove nothing about the keys.
+                    prompt=f"Are you ready? ({run_id})",
                     max_tokens=2048 if role is Role.REVIEWER else 16,
                 )
             except HopFailed as error:

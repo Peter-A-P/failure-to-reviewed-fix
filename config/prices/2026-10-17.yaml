@@ -1,0 +1,59 @@
+# Prices for the models mend calls, USD per million tokens.
+#
+# The same rates as 2026-10-16.yaml, plus the long-prompt rates that file had to leave out.
+# mend moved from gateway 0.2 to 1.4.2 on 2026-10-17, and 1.4 reads a long_prompt block:
+# above the stated input size the vendor bills the whole request at the higher rates, and
+# the ledger now prices such a request correctly instead of understating it. mend's prompt
+# caps (mend/graph/prompts.py) keep every call well under both lines; the rates are here
+# so that a cap raised later cannot quietly make the cost figures wrong.
+#
+# Copied from project 04's boundary/prices/2026-10-16.yaml, four models. Repricing is a new
+# dated file, never an edit to an older one; the newest date wins.
+#
+# Sources, as 04 recorded them:
+#   Anthropic: https://platform.claude.com/docs/en/about-claude/pricing
+#   OpenAI:    https://developers.openai.com/api/docs/pricing, read 2026-10-16
+
+version: 1
+date: 2026-10-17
+currency: USD
+source: "Copied from 04-compliant-ai-gateway boundary/prices/2026-10-16.yaml, four models, long_prompt blocks included"
+
+per_million_tokens:
+  anthropic:
+    # mend-localiser
+    claude-haiku-5-5:
+      input: 0.10
+      output: 0.50
+      cache_read: 0.01
+      cache_write: 0.125
+      batch_multiplier: 0.5
+      long_prompt:
+        above_tokens: 100000
+        input: 0.50
+        output: 2.50
+        cache_read: 0.05
+        cache_write: 0.625
+    # mend-tester and mend-fixer
+    claude-sonnet-5-5:
+      input: 2.00
+      output: 10.00
+      cache_read: 0.20
+      cache_write: 2.50
+      batch_multiplier: 0.5
+
+  openai:
+    # mend-reviewer. The same base rates as the fixer, which keeps the reviewer value
+    # measurement in PLAN.md section 1 a comparison of judgement, not of price.
+    gpt-6.1-sol:
+      input: 2.00
+      output: 10.00
+      cache_read: 0.10
+      cache_write: 2.50
+      batch_multiplier: 0.5
+      long_prompt:
+        above_tokens: 272000
+        input: 4.00
+        output: 15.00
+        cache_read: 0.20
+        cache_write: 5.00

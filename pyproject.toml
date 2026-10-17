@@ -40,9 +40,10 @@ st = ["sentence-transformers>=3,<6"]
 # test without a second private repository. The hops that do call models need it, and
 # `mend roles` says so plainly when it is missing.
 #
-# Pinned to the 0.2 line: 0.2 is what adds the env argument and ledger schema v3, and the
-# 04 plan promises additive changes only within a major version.
-gateway = ["boundary>=0.2,<0.3"]
+# Pinned to the 1.x line: 1.0 froze the interface (anything removed or renamed is 2.0), and
+# 1.4 is the first version mend runs on that reads a price list's long-prompt rates, which
+# Haiku 5.5 and GPT-6.1 Sol both have.
+gateway = ["boundary>=1.4,<2"]
 
 [dependency-groups]
 dev = [
@@ -54,8 +55,8 @@ dev = [
 
 [tool.uv.sources]
 # Private until the first measured numbers; CI authenticates with a fine-grained read
-# token. Pinned to the tag that carries the 0.2 interface.
-boundary = { git = "https://github.com/Peter-A-P/compliant-ai-gateway", tag = "v0.2.0" }
+# token. Pinned to the release tag.
+boundary = { git = "https://github.com/Peter-A-P/compliant-ai-gateway", tag = "v1.4.2" }
 
 [project.scripts]
 mend = "mend.cli:app"

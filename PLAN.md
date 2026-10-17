@@ -387,6 +387,13 @@ produce: dead letters for poison, broker request and I/O rates for pause and thr
 committed-offset rate for a scorer stall, late-event errors for out-of-order. No clustering
 number is reported from a partial campaign; the set is measured once all 42 runs are in.
 
+**2026-10-17, gateway.** mend moved from project 04's gateway 0.2.0 to 1.4.2, the current
+release. 1.0 froze 04's interface, and nothing mend calls had changed: the tests, the role
+check and a live call per role passed unaltered. What 1.4 adds that mend uses is long-prompt
+pricing, so `config/prices/2026-10-17.yaml` carries the surcharges `2026-10-16.yaml` had to
+omit. `mend ping` now sends a fresh request each time, since an answer from the development
+cache proves nothing about the keys. Ledger total after the upgrade's live check: US$0.00053.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops
@@ -410,5 +417,5 @@ were built.
 - The ablations are no longer blocked from outside. Project 03's release gate, Part B
   included, was built from 2026-09-19 and released as v0.1.0 on 2026-10-06. What the
   ablations wait on now is the harness adapter and a running Docker daemon.
-- Spend so far is US$0.0003, from `mend ping` on 2026-10-17 (the ledger's total), against the US$1.00 per-issue
+- Spend so far is US$0.00053, from `mend ping` on 2026-10-17 (the ledger's total), against the US$1.00 per-issue
   cap and the US$130 monthly cap in `config/mend.caps.yaml`.
