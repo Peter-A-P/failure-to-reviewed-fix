@@ -33,7 +33,7 @@ if TYPE_CHECKING:  # pragma: no cover - imported for types only
     from boundary import Gateway
 
 # The ledger's project column, and the key into the gateway's caps.yaml.
-PROJECT = "self-healing-production-ai"
+PROJECT = "mend"
 
 # PLAN.md section 2.6. USD, and enforced by the gateway rather than by this package: a cap
 # a caller could forget to pass is not a cap. The value here is what the shipped caps file

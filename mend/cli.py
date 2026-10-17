@@ -213,7 +213,7 @@ def roles(
     Makes no model call: Gateway.resolve answers from configuration. Exits non-zero when
     the fixer and the reviewer share a provider, so CI can assert the pairing.
     """
-    from mend.gateway import SameVendorConfiguration, check_roles, resolve_roles
+    from mend.gateway import PROJECT, SameVendorConfiguration, check_roles, resolve_roles
 
     try:
         from boundary import Gateway
@@ -221,7 +221,7 @@ def roles(
         typer.echo("the gateway (project 04) is not installed; see docs/boundary.md")
         raise typer.Exit(code=2) from None
 
-    with Gateway.from_config(config, project="self-healing-production-ai") as gateway:
+    with Gateway.from_config(config, project=PROJECT) as gateway:
         resolutions = resolve_roles(gateway)
         for resolution in resolutions.values():
             typer.echo(f"  {resolution}")

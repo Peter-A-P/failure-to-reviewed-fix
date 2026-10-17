@@ -25,7 +25,7 @@ version: 1
 portfolio_monthly_usd: 350
 
 projects:
-  self-healing-production-ai:
+  mend:
     monthly_usd: 130
     per_run_usd: 1.00
 
