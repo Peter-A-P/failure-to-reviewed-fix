@@ -1,10 +1,10 @@
 """The command line.
 
-What is here is what can run today: ingestion, clustering with its metrics, the routing
-curve and calibration, and the configuration checks. The hops that call models (localise,
-test-first, patch, review) land with the graph wiring; `mend roles` already resolves and
-checks the aliases they will use, because a configuration that would refuse to run should
-refuse before the build depends on it and not during the first paid run.
+Ingestion, clustering with its metrics, the routing curve and calibration, the
+configuration checks, and the pipeline itself. `mend roles` resolves the four aliases and
+calls nothing; `mend ping` makes one short paid call per role to prove the keys and the
+vendor split end to end; `mend fix` runs one benchmark task through the whole graph in its
+sandbox, and needs Docker.
 
 Every command that reports a number prints it with its interval. There is no flag to turn
 that off.
@@ -231,6 +231,110 @@ def roles(
             typer.echo(f"REFUSED: {error}")
             raise typer.Exit(code=1) from error
     typer.echo("fixer and reviewer are on different vendors")
+
+
+@app.command()
+def ping(
+    config: Annotated[Path, typer.Option(help="Gateway configuration.")] = CONFIG_DEFAULT,
+) -> None:
+    """One short call to each of the four roles, through the gateway, capped and ledgered.
+
+    Proves the keys, the routes and the different-vendor split against what actually
+    answers, for well under a cent. The four calls share one run id, so the per-issue cap
+    covers them together.
+    """
+    from datetime import UTC, datetime
+
+    from mend.gateway import Role
+    from mend.graph.llm import GatewayClient, HopFailed
+
+    client = GatewayClient.open(config)
+    run_id = "ping-" + datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+    providers: dict[Role, str] = {}
+    try:
+        for role in Role:
+            try:
+                reply = client.ask(
+                    role,
+                    issue_id=run_id,
+                    system="Reply with the single word: ready",
+                    prompt="Are you ready?",
+                    max_tokens=2048 if role is Role.REVIEWER else 16,
+                )
+            except HopFailed as error:
+                typer.echo(f"  {role.name.lower()}: FAILED: {error}")
+                raise typer.Exit(code=1) from error
+            providers[role] = reply.provider
+            cost = f"US${reply.cost_usd:.5f}" if reply.cost_usd is not None else "uncosted"
+            cached = ", cached" if reply.cached else ""
+            typer.echo(
+                f"  {role.name.lower()}: {reply.provider}/{reply.model} said "
+                f"{reply.text.strip()[:40]!r} ({cost}, {reply.latency_ms:.0f} ms{cached})"
+            )
+    finally:
+        client.close()
+    if providers[Role.FIXER] == providers[Role.REVIEWER]:
+        typer.echo("REFUSED: the fixer and the reviewer answered from the same vendor")
+        raise typer.Exit(code=1)
+    typer.echo(f"all four roles answered; fixer and reviewer on different vendors ({run_id})")
+
+
+@app.command()
+def fix(
+    tasks: Annotated[Path, typer.Argument(help="SWE-bench JSON or JSONL export.")],
+    instance: Annotated[str, typer.Option(help="The instance id to run.")],
+    image: Annotated[
+        str | None,
+        typer.Option(help="Task image. Default: the harness's local name for the instance."),
+    ] = None,
+    work: Annotated[Path, typer.Option(help="Where the repository copy goes.")] = Path(
+        "sandbox/work"
+    ),
+    out: Annotated[Path, typer.Option(help="Run log, one JSON line per issue.")] = Path(
+        "runs/fix.jsonl"
+    ),
+    config: Annotated[Path, typer.Option(help="Gateway configuration.")] = CONFIG_DEFAULT,
+) -> None:
+    """Run one benchmark task through the pipeline, in its sandbox. Needs Docker.
+
+    The task is read through mend.data.swebench, which cannot carry the hidden tests, the
+    gold patch or the test directives. Routing is uncalibrated until the validation split
+    has run, so nothing auto-proposes.
+    """
+    from mend.data.swebench import load_tasks
+    from mend.graph.context import Deps, Issue
+    from mend.graph.graph import run_issue
+    from mend.graph.llm import GatewayClient
+    from mend.sandbox.runner import docker_available
+    from mend.sandbox.workspace import DockerWorkspace
+
+    task = next((t for t in load_tasks(tasks) if t.instance_id == instance), None)
+    if task is None:
+        typer.echo(f"no task {instance} in {tasks}")
+        raise typer.Exit(code=2)
+    if not docker_available():
+        typer.echo("no Docker daemon answered; the sandbox needs one")
+        raise typer.Exit(code=2)
+
+    workspace = DockerWorkspace.extract(
+        image or f"sweb.eval.x86_64.{instance}:latest", work / instance
+    )
+    client = GatewayClient.open(config)
+    try:
+        record = run_issue(Issue.from_task(task), Deps(client=client, workspace=workspace))
+    finally:
+        client.close()
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with out.open("a", encoding="utf-8") as handle:
+        handle.write(record.to_json() + "\n")
+    state = record.state
+    typer.echo(
+        f"{instance}: {state.stage}" + (f" ({state.stop_reason})" if state.stop_reason else "")
+    )
+    if state.tier:
+        typer.echo(f"  tier {state.tier}, score {state.score:.2f}")
+    cost = f"US${record.cost_usd:.4f}" if record.cost_usd is not None else "uncosted"
+    typer.echo(f"  {len(record.hops)} model calls, {cost}, {record.duration_s:.0f} s")
 
 
 if __name__ == "__main__":  # pragma: no cover

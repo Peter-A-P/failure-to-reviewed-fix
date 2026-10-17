@@ -323,13 +323,56 @@ One smaller thing: `config/prices/` holds a copy of project 04's dated price lis
 than a path into it, so that a public checkout can reproduce the cost numbers without a
 second private repository beside it. Repricing stays a new dated file in both places.
 
+**2026-10-17.** The hops that call models, and the graph that wires them. Built:
+`graph/localise.py`, `test_first.py`, `patch.py`, `review.py`, `act.py` and `graph.py` (LangGraph,
+no merge node), the Docker-backed workspace in `sandbox/workspace.py`, and `mend ping` and
+`mend fix`. Tested end to end with scripted models and a scripted sandbox; `mypy --strict` and
+`ruff` clean. The first live calls went through the gateway the same day (`mend ping`, one word
+per role); the Anthropic roles answered, for a combined US$0.00013.
+
+Six places where the code does not match section 4, and why.
+
+**Four small modules section 4 does not list.** `graph/llm.py` is the one interface the hops
+ask a model through, so the wiring is tested without keys and only `GatewayClient` touches the
+gateway. `graph/parse.py` reads tagged replies and builds diffs. `graph/prompts.py` holds the
+four prompts and the size limits on what goes into them. `graph/context.py` holds the issue,
+the dependencies and the working material handed from hop to hop. The route node lives in
+`act.py` beside the act node, since routing is `graph/route.py` applied to the state.
+
+**Edits, not diffs, from the fixer.** The fixer quotes the exact text to change and gives the
+replacement; an edit whose quoted text does not occur exactly once is refused with the
+reason. The diff the sandbox applies is computed from the edits, so a malformed hunk header
+cannot be why a patch failed. Replies are tagged rather than JSON because code inside JSON
+has to be escaped by the model.
+
+**"The existing suite stays green" needed a definition.** The benchmark's own lists of tests
+to run are derived from the hidden test patch, so they cannot be used. The patch hop picks
+the existing test files related to the touched modules (named for them, or importing them),
+runs them on the broken commit and again with the patch, and calls the suite green when
+everything that passed before still passes. When no related test file exists the suite is
+not called green, and the router keeps the issue at QUIET. `PatchAttempt.suite_files` records
+which files the claim is about.
+
+**A patch that breaks the suite is still reviewed.** It is routed to QUIET whatever the
+review says, but whether the reviewer catches a patch the suite already condemned is part of
+what reviewer value measures, and the review costs a few cents.
+
+**Until the validation split exists, nothing auto-proposes.** With no calibrated thresholds
+the router holds the top tier at SUGGEST. A threshold nobody has measured should not open
+pull requests.
+
+**Test runs use pytest.** That covers most of SWE-bench Verified but not Django, whose suite
+runs through its own runner. The harness adapter, not yet built, is where a repository's test
+command will come from.
+
 ### What is blocked, and on what
 
-Updated 2026-10-17. The 2026-09-13 version of this list had projects 03 and 09 where they
-stood that day; both have moved since.
+Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops
+were built.
 
-- The SWE-bench harness and everything measured through it need Docker, which the build
-  laptop does not have. The sandbox specification and the runner's refusals are tested
+- The SWE-bench harness and everything measured through it need a running Docker daemon.
+  Docker Desktop is installed on the build laptop (noticed 2026-10-17) but has not been
+  started or tried with a harness image, and the disk has about 50 GB free. The sandbox specification and the runner's refusals are tested
   without it; the one test that needs a real daemon is marked `docker` and runs in CI.
   Project 09's chaos runs were made on a machine with Docker; whether that machine can run
   the benchmark harness has not been tried.
@@ -337,11 +380,12 @@ stood that day; both have moved since.
   09 is live and ran its chaos faults on 2026-09-22 (`verdict chaos run`: broker pause,
   throttle, scorer stall), with every failure mode in its plan written up. Each run kept a
   summary report (counts, lag, catch-up time), not the traces and logs section 2.2 assumes,
-  and 09 exports Prometheus metrics rather than OpenTelemetry. Two ways forward, not yet
-  chosen: record the runs again with the scorer's logs kept per scenario, or write an
-  ingester for what 09 does emit.
+  and 09 exports Prometheus metrics rather than OpenTelemetry. Chosen 2026-10-17: 09 is
+  recording the runs again (eight scenarios, five repeats each, two controls) with its logs
+  and a full Prometheus dump kept per run and the label in a separate manifest, and this
+  repository writes ingesters for those logs and metrics. There are no traces to read.
 - The ablations are no longer blocked from outside. Project 03's release gate, Part B
   included, was built from 2026-09-19 and released as v0.1.0 on 2026-10-06. What the
-  ablations wait on now is this repository's own hops that call models.
-- Nothing has called a model, so no spend has occurred against the US$1.00 per-issue cap or
-  the US$130 monthly cap now configured in `config/mend.caps.yaml`.
+  ablations wait on now is the harness adapter and a running Docker daemon.
+- Spend so far is US$0.00013, from `mend ping` on 2026-10-17, against the US$1.00 per-issue
+  cap and the US$130 monthly cap in `config/mend.caps.yaml`.

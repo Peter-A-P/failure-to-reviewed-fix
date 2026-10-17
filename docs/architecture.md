@@ -24,9 +24,10 @@ from a failing test and no terminal state that means merged. Routing (`mend.grap
 turns a confidence score into a draft pull request, a suggestion or silence, with thresholds
 calibrated to a stated false-positive target. Every model call goes through the gateway with a
 cap per issue (`mend.gateway`), and the evaluation (`mend.eval`) scores the hidden-test hit
-rate, the confidently-wrong rate and the cost per issue. The four hops that call models, the
-SWE-bench harness adapter, the labelled clustering sets and the live workflow are not built
-yet; the capture, clustering, rails, routing, sandbox specification and measurement are.
+rate, the confidently-wrong rate and the cost per issue. The hops are wired as a LangGraph
+graph (`mend.graph.graph`) over that state machine, each in its own module, and are tested
+end to end with scripted models. The SWE-bench harness adapter, the labelled clustering sets
+and the live workflow are not built yet.
 
 ## One failure through the pipeline
 
@@ -47,14 +48,15 @@ not; below it the system leaves a suggestion or stays quiet.
 
 The hit rate on hidden tests comes from a stratified subset of SWE-bench Verified
 (`mend.data.swebench`), sampled before the first run by a sampler that refuses to be resampled
-afterwards, through a harness adapter that is not built because the build laptop has no
-Docker. The confidently-wrong rate and the trade-off curve come from the routing scores and
-outcomes (`mend.eval.confident_wrong`), and the calibration picks the lowest threshold that
+afterwards, through a harness adapter that is not built yet; the laptop has Docker installed
+and its daemon has not yet run. The confidently-wrong rate and the trade-off curve come from
+the routing scores and outcomes (`mend.eval.confident_wrong`), and the calibration picks the lowest threshold that
 meets the false-positive target without hitting it by proposing almost nothing. Clustering
 quality is purity, completeness and the adjusted Rand index with bootstrap intervals
 (`mend.cluster.metrics`, `mend.cluster.tune`) against three labelled sets, one of which waits
-for project 09's chaos runs to be recorded with their traces and logs kept (the runs so far
-kept a summary report each). Cost per attempted and per resolved issue comes from the gateway
+for project 09's chaos runs, being recorded again with their logs and metrics kept (the runs
+before kept a summary report each). Cost per attempted and per resolved issue comes from the gateway
 ledger. The ablations run through project 03's release gate, which is built and released; they
-wait only on the hops that call models.
+wait now on the harness adapter and a running Docker daemon, not on anything outside
+this repository.
 Wilson and bootstrap intervals (`mend.eval.stats`) go on every number the README will carry.

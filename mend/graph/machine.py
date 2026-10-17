@@ -109,7 +109,13 @@ class TestAttempt:
 
 @dataclass(frozen=True, slots=True)
 class PatchAttempt:
-    """A candidate diff and what the sandbox said about it."""
+    """A candidate diff and what the sandbox said about it.
+
+    suite_files names the existing test files that suite_green was judged on. "The suite
+    stayed green" is a claim about some set of tests, and a claim that does not say which
+    one cannot be checked; an empty tuple means no existing test was found to run, and the
+    patch hop then refuses to call the suite green at all.
+    """
 
     diff: str
     test_passes: bool = False
@@ -117,6 +123,7 @@ class PatchAttempt:
     files_touched: tuple[str, ...] = ()
     lines_changed: int = 0
     touches_traceback_frames: bool = False
+    suite_files: tuple[str, ...] = ()
 
     @property
     def is_green(self) -> bool:

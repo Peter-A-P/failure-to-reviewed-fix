@@ -30,7 +30,9 @@ recorded as such rather than claimed as original.
 | Wilson score intervals; the percentile bootstrap; purity, completeness and the adjusted Rand index | Standard statistics, textbook definitions | Implemented in this repository from the published definitions, with the worked examples in `tests/test_cluster_metrics.py` as the check |
 | Portfolio project 04, the Compliant AI Gateway | Peter's own, same portfolio | Every model call, the cost ledger, the spend caps, the route aliases |
 | Portfolio project 03, the AI Release Gate | Peter's own, same portfolio | The evaluation discipline: graders are tests rather than judges, and every comparison carries an interval |
-| Portfolio project 09, the Real-Time Risk Platform | Peter's own, same portfolio | Recorded chaos runs, to be used as a labelled capture set once they are recorded with their traces and logs kept |
+| Portfolio project 09, the Real-Time Risk Platform | Peter's own, same portfolio | Recorded chaos runs, used as a labelled capture set: logs and Prometheus metrics per run, the injected scenario as the label |
+| Agentless (Xia et al., 2024) and SWE-agent (Yang et al., 2024) | Papers and open repositories | The published shape the hops follow: localise from the file listing before reading code, reproduce the issue with a test, then edit. Nothing of their prompts or code |
+| Aider's search-and-replace edit format | Open-source repository and documentation | The idea that a model quotes the exact text to change rather than writing a unified diff. The tag syntax, the refusal messages and the diff construction in `mend/graph/parse.py` are this repository's |
 
 ## Where this design deliberately differs
 
@@ -58,7 +60,7 @@ test rather than by intention:
 | SWE-bench Verified | MIT-licensed dataset; the underlying repositories keep their own open licences | The sampled subset ids, the seed and the sampling date. No dataset rows, no repository contents, no images |
 | Public issue trackers | GitHub API terms | Issue ids and the duplicate labels derived from them. Issue text is cached locally for reproducibility and is not redistributed |
 | Injected faults on two open-source test suites | The repositories' own open licences | The mutation definitions. The faults are local and are never proposed upstream |
-| Project 09 chaos traces | Peter's own | Nothing yet; its chaos runs so far kept a summary report each, not the traces and logs |
+| Project 09 chaos runs | Peter's own | Nothing yet; the runs are being recorded again with logs and metrics kept (2026-10-17), and stay in 09's working tree |
 
 Nothing raw is committed. `.gitignore` keeps `data/raw/`, `data/swebench/`, `data/issues/`
 and the sandbox working directories out of the repository.

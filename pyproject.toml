@@ -21,6 +21,10 @@ dependencies = [
   "scipy>=1,<2",
   # Command line. 0.x is the only line there is; pinned below 1 deliberately.
   "typer>=0.15,<1",
+  # The graph that wires the hops together (mend.graph.graph). A hard dependency rather
+  # than an extra because the wiring is tested offline on every commit with scripted
+  # models. 1.x is the stable line since the 1.0 API freeze; 1.2 is what project 11 uses.
+  "langgraph>=1.2,<2",
 ]
 
 [project.optional-dependencies]

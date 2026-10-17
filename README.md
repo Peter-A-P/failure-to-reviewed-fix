@@ -5,10 +5,11 @@ fix, has a second AI review it adversarially, and hands an engineer a ready-to-a
 request. Triage in minutes instead of days, engineers back on new work, and nothing changes
 without a person saying yes.
 
-**Status: building. The offline half works; nothing has been measured.** The capture,
-clustering, routing and evaluation machinery is built, typed and tested. Nothing has called
-a model, nothing has run against the benchmark, and every results table below is still
-empty. The plan is in [PLAN.md](PLAN.md): a build measured against real open-source issues
+**Status: building. The pipeline is wired; nothing has been measured.** Capture,
+clustering, the four model hops, the rails between them, routing and the evaluation
+machinery are built, typed and tested with scripted models. The gateway has made its first
+live calls (one word each, to check the keys); nothing has run against the benchmark, and
+every results table below is still empty. The plan is in [PLAN.md](PLAN.md): a build measured against real open-source issues
 with hidden tests.
 
 The interesting engineering is the clustering and knowing when not to act, not the model
@@ -54,17 +55,29 @@ Built, tested, and reproducible today with `uv sync && uv run pytest`:
 - **The measurement.** Wilson and bootstrap intervals, the tier table, reviewer value, the
   false-positive taxonomy, and the subset sampler that refuses to be resampled after a run.
 
-Not built yet: the four hops that call models (localise, write the failing test, draft the
-patch, review it), the SWE-bench harness adapter, the labelled clustering sets, and the
-live workflow. Those are in [PLAN.md](PLAN.md) section 5.
+- **The pipeline.** A LangGraph graph of intake, localise, write the failing test, draft
+  the patch, review, route and act, with every move made through the state machine above.
+  The localiser reads paths and identifier mentions on the cheap model; the tester writes
+  one new test file that must fail in its body (not error) on the broken commit, with one
+  retry that is told why; the fixer returns search-and-replace edits, may not touch a test
+  file, and its patch must pass the new test without breaking any existing test that
+  passed before; the reviewer, on another vendor, is told to find what is wrong. Tested
+  end to end with scripted models and a scripted sandbox, including the attempts to get a
+  patch out without a failing test, which never reach the fixer.
+- **The sandbox workspace.** A host copy of the task image's repository for reading, and
+  a fresh no-network container per test run, with the diff and the new test mounted
+  read-only. No code path runs a model's test on the host.
 
-What this is waiting on rather than choosing to skip: the benchmark harness needs Docker,
-which the build laptop does not have; and the chaos-trace clustering set needs project 09's
-chaos runs in a form this can cluster. Those runs exist, but each one kept a summary report
-rather than the traces and logs, so they have to be recorded again with the logs kept, or
-read by an ingester written for them. The ablations no longer wait on anything outside
-this repository: project 03's release gate is built and released, and what they need now
-is the four hops above.
+Not built yet: the SWE-bench harness adapter that scores a run on the hidden tests, the
+labelled clustering sets, and the live workflow. Those are in [PLAN.md](PLAN.md) section 5.
+Until the validation split has run, routing is uncalibrated and nothing auto-proposes: the
+top tier is held at a suggestion.
+
+What this is waiting on rather than choosing to skip: the benchmark needs a running Docker
+daemon, which the build laptop has installed but has not yet run; and the chaos-trace
+clustering set needs project 09's chaos runs recorded again with their logs, traces and
+metrics kept, which 09 is doing. The ablations no longer wait on anything outside this
+repository.
 
 ## What this does not do
 
@@ -110,6 +123,15 @@ that call models need the portfolio gateway as well:
 ```
 uv sync --extra gateway
 uv run mend roles          # resolves the four aliases, checks the vendor split, calls nothing
+uv run mend ping           # one short paid call per role, capped and ledgered
+```
+
+The keys come from the environment or a gitignored `.env`: `ANTHROPIC_API_KEY` for the
+localiser, tester and fixer, `OPENAI_API_KEY` for the reviewer. One benchmark task through
+the whole pipeline, in its sandbox (needs Docker and the task's harness image):
+
+```
+uv run mend fix data/swebench/verified.jsonl --instance django__django-11099
 ```
 
 Clustering a set of captured records, and measuring it against known causes:
