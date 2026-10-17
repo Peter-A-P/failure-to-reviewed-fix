@@ -11,7 +11,7 @@
 <path d="M 244.0 434.0 L 356.0 434.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
 <path d="M 572.0 434.0 L 684.0 434.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
 <path d="M 244.0 546.0 L 356.0 546.0" fill="none" stroke="#14201E" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
-<path d="M 572.0 546.0 L 684.0 546.0" fill="none" stroke="#14201E" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+<path d="M 572.0 546.0 L 684.0 546.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
 <path d="M 900.0 98.0 L 950.0 98.0 Q 956.0 98.0 956.0 104.0 L 956.0 266.0 Q 956.0 272.0 962.0 272.0 L 1012.0 272.0" fill="none" stroke="#14201E" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
 <path d="M 900.0 210.0 L 950.0 210.0 Q 956.0 210.0 956.0 216.0 L 956.0 291.0 Q 956.0 297.0 962.0 297.0 L 1012.0 297.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
 <path d="M 900.0 322.0 L 1012.0 322.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
@@ -39,8 +39,9 @@
 <text x="792.0" y="206.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Confidently-wrong rate;</text>
 <text x="792.0" y="222.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">the trade-off curve</text>
 <rect x="28.0" y="290.0" width="216.0" height="64.0" rx="4" fill="#F2F4F3" stroke="#5C6B67" stroke-width="1.1" stroke-dasharray="5 3"/>
-<text x="136.0" y="318.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Three labelled sets</text>
-<text x="136.0" y="334.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">links, faults, chaos traces</text>
+<text x="136.0" y="311.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Three labelled sets</text>
+<text x="136.0" y="327.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">links, faults, chaos traces</text>
+<text x="136.0" y="344.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">chaos traces wait on 09</text>
 <rect x="356.0" y="290.0" width="216.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/>
 <text x="464.0" y="311.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Clustering metrics</text>
 <text x="464.0" y="327.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">threshold tuned on validation</text>
@@ -61,11 +62,12 @@
 <rect x="684.0" y="402.0" width="5" height="64.0" rx="2" fill="#A64C1C"/>
 <text x="792.0" y="438.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Cost per issue, per tier</text>
 <rect x="28.0" y="514.0" width="216.0" height="64.0" rx="4" fill="#F2F4F3" stroke="#5C6B67" stroke-width="1.1" stroke-dasharray="5 3"/>
-<text x="136.0" y="542.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Ablations</text>
-<text x="136.0" y="558.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">reviewer on, off, same vendor</text>
+<text x="136.0" y="535.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Ablations</text>
+<text x="136.0" y="551.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">reviewer on, off, same vendor</text>
+<text x="136.0" y="568.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">wait on mend&#x27;s model hops</text>
 <rect x="356.0" y="514.0" width="216.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/>
 <text x="464.0" y="542.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">The release gate, project 03</text>
-<text x="464.0" y="558.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">waits for its Part B</text>
+<text x="464.0" y="558.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">paired test; v0.1.0, built</text>
 <rect x="684.0" y="514.0" width="216.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/>
 <text x="792.0" y="550.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Paired deltas with intervals</text>
 <rect x="1012.0" y="247.0" width="216.0" height="150.0" rx="4" fill="#FFFFFF" stroke="#A64C1C" stroke-width="1.6"/>
@@ -86,7 +88,8 @@
 <rect x="608.3" y="424.0" width="39.3" height="20.0" rx="3" fill="#FFFFFF"/>
 <text x="628.0" y="436.0" font-size="12" text-anchor="middle" fill="#14201E">writes</text>
 <text x="1120.0" y="501.2" font-size="11" text-anchor="middle" fill="#5C6B67" font-style="italic">solid: built and testable today;</text>
-<text x="1120.0" y="516.2" font-size="11" text-anchor="middle" fill="#5C6B67" font-style="italic">dashed: waits on Docker, 09 or 03</text>
+<text x="1120.0" y="516.2" font-size="11" text-anchor="middle" fill="#5C6B67" font-style="italic">dashed: waits on Docker, 09&#x27;s</text>
+<text x="1120.0" y="531.2" font-size="11" text-anchor="middle" fill="#5C6B67" font-style="italic">chaos re-runs or mend&#x27;s model hops</text>
 <rect x="28" y="600" width="26" height="16" rx="3" fill="#FFFFFF" stroke="#A64C1C" stroke-width="1.6"/>
 <text x="62" y="612" font-size="11" fill="#5C6B67">a number the build fills</text>
 <path d="M 217.35999999999999 608 L 245.35999999999999 608" stroke="#14201E" stroke-width="1.4" fill="none" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
