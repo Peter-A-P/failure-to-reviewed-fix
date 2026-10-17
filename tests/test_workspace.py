@@ -117,3 +117,34 @@ def test_a_docker_run_is_isolated_and_reads_the_report_from_its_mount(tmp_path: 
     )
     assert r.failed == {"tests/test_x.py::test_bad"}
     assert len(seen) == 1 and seen[0].command[:2] == ("bash", "-c")
+
+
+def test_unpacking_keeps_regular_files_and_drops_links_and_escapes(tmp_path: Path) -> None:
+    """Django's tree holds symlinks Windows cannot create; the host copy is only read, so
+    links are skipped, and nothing may land outside the destination."""
+    import io
+    import tarfile
+
+    from mend.sandbox.workspace import unpack_regular_files
+
+    buffer = io.BytesIO()
+    with tarfile.open(fileobj=buffer, mode="w") as tar:
+        for name, data in (
+            ("./pkg/a.py", b"x = 1\n"),
+            ("./.gitignore", b"*.pyc\n"),
+            ("../evil.py", b"!"),
+        ):
+            info = tarfile.TarInfo(name)
+            info.size = len(data)
+            tar.addfile(info, io.BytesIO(data))
+        link = tarfile.TarInfo("./docs/link.png")
+        link.type = tarfile.SYMTYPE
+        link.linkname = "../../elsewhere.png"
+        tar.addfile(link)
+    buffer.seek(0)
+    dest = tmp_path / "copy"
+    assert unpack_regular_files(buffer, dest) == 2
+    assert (dest / "pkg" / "a.py").read_text() == "x = 1\n"
+    assert (dest / ".gitignore").exists()
+    assert not (dest / "docs" / "link.png").exists()
+    assert not (tmp_path / "evil.py").exists()

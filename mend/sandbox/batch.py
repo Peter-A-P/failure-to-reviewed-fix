@@ -18,8 +18,8 @@ tasks run (mend.data.swebench has the reasons).
 
 from __future__ import annotations
 
+import contextlib
 import json
-import shutil
 import subprocess
 import tempfile
 from collections.abc import Callable, Mapping, Sequence
@@ -29,6 +29,7 @@ from typing import Any
 
 from mend.data.swebench import Task
 from mend.sandbox.harness import evaluate, predictions, verdicts, write_predictions
+from mend.sandbox.workspace import remove_tree
 
 # Outside the OneDrive-synced repository: a task's repository copy is thousands of files,
 # and a synced folder would upload every one of them and then lock them during cleanup.
@@ -95,7 +96,8 @@ def score_one(run: Mapping[str, Any], paths: RunPaths, *, name: str) -> bool | N
 def remove_task(task: Task, work_root: Path = WORK_ROOT) -> None:
     """The task's image and repository copy. Failures here are not fatal: a leftover image
     costs disk, not correctness, and the next task should still run."""
-    shutil.rmtree(work_root / task.instance_id, ignore_errors=True)
+    with contextlib.suppress(OSError):
+        remove_tree(work_root / task.instance_id)
     if task.image:
         subprocess.run(
             ["docker", "image", "rm", "-f", task.image], capture_output=True, check=False

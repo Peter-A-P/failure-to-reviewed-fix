@@ -14,12 +14,18 @@ every run starts from the broken commit and no run can leave anything behind for
 
 from __future__ import annotations
 
+import os
 import shlex
+import shutil
+import stat
 import subprocess
+import tarfile
 import tempfile
+import time
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath
+from typing import IO
 
 from mend.graph.workspace import TestReport
 from mend.sandbox.runner import RunResult, run
@@ -55,6 +61,67 @@ def sandbox_script(test_command: str, *, has_diff: bool, workdir: str) -> str:
     return "\n".join(lines)
 
 
+def pull(image: str, *, attempts: int = 4, wait_s: float = 15.0) -> None:
+    """Pull an image unless it is already local, retrying a failed download.
+
+    The build laptop's connection drops a TLS session now and then in the middle of a
+    multi-gigabyte pull ("tls: bad record MAC"). A failed download is not a result about
+    the task, so it is retried, and only after every attempt fails does the run stop.
+    """
+    present = subprocess.run(
+        ["docker", "image", "inspect", image], capture_output=True, check=False
+    )
+    if present.returncode == 0:
+        return
+    last = ""
+    for attempt in range(1, attempts + 1):
+        done = subprocess.run(
+            ["docker", "pull", "-q", image],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            check=False,
+        )
+        if done.returncode == 0:
+            return
+        last = done.stderr.strip()[-500:]
+        if attempt < attempts:
+            time.sleep(wait_s * attempt)
+    raise SandboxError(f"could not pull {image} after {attempts} attempts: {last}")
+
+
+def unpack_regular_files(archive: IO[bytes], dest: Path) -> int:
+    """Unpack the regular files of a tar stream under dest, and nothing else.
+
+    Links, devices and anything that would land outside dest are skipped; the tarfile
+    "data" filter refuses the last kind as well. Returns the number of files written.
+    """
+    written = 0
+    with tarfile.open(fileobj=archive, mode="r|") as tar:
+        for member in tar:
+            if not member.isfile():
+                continue
+            # docker cp of "dir/." names members "./path"; keep them relative to dest.
+            member.name = member.name.removeprefix("./")
+            if not member.name or member.name.startswith(("/", "..")):
+                continue
+            tar.extract(member, dest, filter="data")
+            written += 1
+    return written
+
+
+def remove_tree(path: Path) -> None:
+    """Remove a repository copy, including read-only files git leaves behind."""
+
+    def clear_and_retry(func: Callable[..., object], target: str, _exc: object) -> None:
+        os.chmod(target, stat.S_IWRITE)
+        func(target)
+
+    if path.exists():
+        shutil.rmtree(path, onexc=clear_and_retry)
+
+
 @dataclass
 class DockerWorkspace:
     image: str
@@ -72,6 +139,7 @@ class DockerWorkspace:
     ) -> DockerWorkspace:
         """Copy the image's repository to dest on the host, once, without starting it."""
         dest.mkdir(parents=True, exist_ok=True)
+        pull(image)
         try:
             created = subprocess.run(
                 ["docker", "create", image], capture_output=True, text=True, check=True
@@ -82,14 +150,21 @@ class DockerWorkspace:
             raise SandboxError(f"could not create a container from {image}: {exc.stderr}") from exc
         container = created.stdout.strip()
         try:
-            subprocess.run(
-                ["docker", "cp", f"{container}:{workdir}/.", str(dest)],
-                capture_output=True,
-                text=True,
-                check=True,
-            )
-        except subprocess.CalledProcessError as exc:
-            raise SandboxError(f"could not copy {workdir} out of {image}: {exc.stderr}") from exc
+            # As a tar stream rather than docker cp into a folder: Django's tree holds
+            # symlinks, and Windows refuses to create one without an elevated privilege.
+            # The host copy is only read, so links are not needed and are not unpacked.
+            with tempfile.TemporaryFile() as archive:
+                copied = subprocess.run(
+                    ["docker", "cp", f"{container}:{workdir}/.", "-"],
+                    stdout=archive,
+                    stderr=subprocess.PIPE,
+                    check=False,
+                )
+                if copied.returncode != 0:
+                    message = copied.stderr.decode("utf-8", errors="replace")
+                    raise SandboxError(f"could not copy {workdir} out of {image}: {message}")
+                archive.seek(0)
+                unpack_regular_files(archive, dest)
         finally:
             subprocess.run(["docker", "rm", container], capture_output=True, check=False)
         return cls(image=image, checkout=dest, workdir=workdir, tests=tests)

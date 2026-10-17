@@ -49,16 +49,24 @@ def docker_available() -> bool:
     """
     if shutil.which("docker") is None:
         return False
-    try:
-        done = subprocess.run(
-            ["docker", "info", "--format", "{{.ServerVersion}}"],
-            capture_output=True,
-            timeout=30,
-            check=False,
-        )
-    except (OSError, subprocess.SubprocessError):
-        return False
-    return done.returncode == 0
+    # Three tries a few seconds apart: Docker Desktop busy unpacking a multi-gigabyte image
+    # can miss one 30-second deadline and answer the next, and a validation run stopped at
+    # task 8 of 30 on exactly that (2026-10-17).
+    for attempt in range(3):
+        try:
+            done = subprocess.run(
+                ["docker", "info", "--format", "{{.ServerVersion}}"],
+                capture_output=True,
+                timeout=30,
+                check=False,
+            )
+        except (OSError, subprocess.SubprocessError):
+            done = None
+        if done is not None and done.returncode == 0:
+            return True
+        if attempt < 2:
+            time.sleep(10)
+    return False
 
 
 def run(spec: RunSpec, *, allow_network: bool = False) -> RunResult:
