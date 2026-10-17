@@ -325,13 +325,23 @@ second private repository beside it. Repricing stays a new dated file in both pl
 
 ### What is blocked, and on what
 
+Updated 2026-10-17. The 2026-09-13 version of this list had projects 03 and 09 where they
+stood that day; both have moved since.
+
 - The SWE-bench harness and everything measured through it need Docker, which the build
   laptop does not have. The sandbox specification and the runner's refusals are tested
   without it; the one test that needs a real daemon is marked `docker` and runs in CI.
-- The chaos-trace clustering set needs project 09, which is at week three of nine and has
-  produced no chaos runs.
-- The ablations run through project 03's release gate, whose Part B is built December 2026
-  to January 2027. The ablation definitions can be written; they cannot be run through the
-  gate yet.
+  Project 09's chaos runs were made on a machine with Docker; whether that machine can run
+  the benchmark harness has not been tried.
+- The chaos-trace clustering set needs project 09's chaos runs in a form this can cluster.
+  09 is live and ran its chaos faults on 2026-09-22 (`verdict chaos run`: broker pause,
+  throttle, scorer stall), with every failure mode in its plan written up. Each run kept a
+  summary report (counts, lag, catch-up time), not the traces and logs section 2.2 assumes,
+  and 09 exports Prometheus metrics rather than OpenTelemetry. Two ways forward, not yet
+  chosen: record the runs again with the scorer's logs kept per scenario, or write an
+  ingester for what 09 does emit.
+- The ablations are no longer blocked from outside. Project 03's release gate, Part B
+  included, was built from 2026-09-19 and released as v0.1.0 on 2026-10-06. What the
+  ablations wait on now is this repository's own hops that call models.
 - Nothing has called a model, so no spend has occurred against the US$1.00 per-issue cap or
   the US$130 monthly cap now configured in `config/mend.caps.yaml`.

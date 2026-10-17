@@ -30,7 +30,7 @@ recorded as such rather than claimed as original.
 | Wilson score intervals; the percentile bootstrap; purity, completeness and the adjusted Rand index | Standard statistics, textbook definitions | Implemented in this repository from the published definitions, with the worked examples in `tests/test_cluster_metrics.py` as the check |
 | Portfolio project 04, the Compliant AI Gateway | Peter's own, same portfolio | Every model call, the cost ledger, the spend caps, the route aliases |
 | Portfolio project 03, the AI Release Gate | Peter's own, same portfolio | The evaluation discipline: graders are tests rather than judges, and every comparison carries an interval |
-| Portfolio project 09, the Real-Time Risk Platform | Peter's own, same portfolio | Recorded chaos-run traces, to be used as a labelled capture set once that project produces them |
+| Portfolio project 09, the Real-Time Risk Platform | Peter's own, same portfolio | Recorded chaos runs, to be used as a labelled capture set once they are recorded with their traces and logs kept |
 
 ## Where this design deliberately differs
 
@@ -58,7 +58,7 @@ test rather than by intention:
 | SWE-bench Verified | MIT-licensed dataset; the underlying repositories keep their own open licences | The sampled subset ids, the seed and the sampling date. No dataset rows, no repository contents, no images |
 | Public issue trackers | GitHub API terms | Issue ids and the duplicate labels derived from them. Issue text is cached locally for reproducibility and is not redistributed |
 | Injected faults on two open-source test suites | The repositories' own open licences | The mutation definitions. The faults are local and are never proposed upstream |
-| Project 09 chaos traces | Peter's own | Nothing yet; that project has not produced them |
+| Project 09 chaos traces | Peter's own | Nothing yet; its chaos runs so far kept a summary report each, not the traces and logs |
 
 Nothing raw is committed. `.gitignore` keeps `data/raw/`, `data/swebench/`, `data/issues/`
 and the sandbox working directories out of the repository.

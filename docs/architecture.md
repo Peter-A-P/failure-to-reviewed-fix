@@ -53,6 +53,8 @@ outcomes (`mend.eval.confident_wrong`), and the calibration picks the lowest thr
 meets the false-positive target without hitting it by proposing almost nothing. Clustering
 quality is purity, completeness and the adjusted Rand index with bootstrap intervals
 (`mend.cluster.metrics`, `mend.cluster.tune`) against three labelled sets, one of which waits
-for project 09's chaos traces. Cost per attempted and per resolved issue comes from the gateway
-ledger. The ablations run through project 03's release gate, whose Part B is not yet built.
+for project 09's chaos runs to be recorded with their traces and logs kept (the runs so far
+kept a summary report each). Cost per attempted and per resolved issue comes from the gateway
+ledger. The ablations run through project 03's release gate, which is built and released; they
+wait only on the hops that call models.
 Wilson and bootstrap intervals (`mend.eval.stats`) go on every number the README will carry.

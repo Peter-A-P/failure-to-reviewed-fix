@@ -112,8 +112,11 @@ appear in the README.
 
 The real measurement needs the three labelled sets in PLAN.md section 2.2: maintainer
 duplicate links from three large public repositories, injected faults on two open-source
-test suites, and project 09's chaos traces. None of those exist yet. Project 09 is at week
-three of nine and has produced no chaos runs.
+test suites, and project 09's chaos traces. None of those exist yet. Project 09 has run its
+chaos faults (2026-09-22) and is live, but each run kept a summary report (counts, lag,
+catch-up time) rather than the traces and logs this would cluster, and 09 exports Prometheus
+metrics rather than OpenTelemetry. The set needs those runs recorded again with the logs
+kept, or an ingester written for what 09 does emit. (Updated 2026-10-17.)
 
 ## Reproducing the table above
 

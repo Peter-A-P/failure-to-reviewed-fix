@@ -58,10 +58,13 @@ Not built yet: the four hops that call models (localise, write the failing test,
 patch, review it), the SWE-bench harness adapter, the labelled clustering sets, and the
 live workflow. Those are in [PLAN.md](PLAN.md) section 5.
 
-Three things this is waiting on rather than choosing to skip: the benchmark harness needs
-Docker, which the build laptop does not have; the chaos-trace clustering set needs project
-09, which has not got there yet; and the ablations run through project 03's release
-gate, whose Part B is not built.
+What this is waiting on rather than choosing to skip: the benchmark harness needs Docker,
+which the build laptop does not have; and the chaos-trace clustering set needs project 09's
+chaos runs in a form this can cluster. Those runs exist, but each one kept a summary report
+rather than the traces and logs, so they have to be recorded again with the logs kept, or
+read by an ingester written for them. The ablations no longer wait on anything outside
+this repository: project 03's release gate is built and released, and what they need now
+is the four hops above.
 
 ## What this does not do
 
