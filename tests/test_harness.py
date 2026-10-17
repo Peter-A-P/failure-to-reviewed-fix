@@ -119,5 +119,5 @@ def test_the_harness_runs_in_linux_beside_the_host_docker(tmp_path: Path) -> Non
     command = harness_command("gold", run_id="r1", instance_ids=["a__b-1"], workdir=tmp_path)
     assert command[:3] == ["docker", "run", "--rm"]
     assert "/var/run/docker.sock:/var/run/docker.sock" in command
-    assert HARNESS_IMAGE in command and HARNESS_IMAGE.endswith(HARNESS_VERSION)
+    assert HARNESS_IMAGE in command and f"swebench-{HARNESS_VERSION}-" in HARNESS_IMAGE
     assert command[command.index("--predictions_path") + 1] == "gold"
