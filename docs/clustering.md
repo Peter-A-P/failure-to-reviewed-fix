@@ -118,8 +118,21 @@ catch-up time) rather than the traces and logs this would cluster. On 2026-10-17
 recording them again: eight scenarios at five repeats each plus two fault-free controls, each
 run keeping its JSON-lines logs and a full Prometheus range dump, with the injected scenario
 in a manifest kept apart from the signals. 09 has no OpenTelemetry, so there are no traces,
-and it logs little, so most of what distinguishes one fault from another will be in the
-metrics; the ingesters for both are the next piece of work here. (Updated 2026-10-17.)
+and it logs little, so most of what distinguishes one fault from another is in the metrics.
+(Updated 2026-10-17.)
+
+`mend.data.chaos09` (`mend capture chaos09`) turns a campaign into records. A log record at
+WARNING or above is a symptom, kept up to three times per message shape per run with the
+count noted, so that the one fault that logs 441 late events does not outweigh the rest by
+volume. A metric is a symptom when it leaves its own steady level by more than six robust
+scales for at least three seconds. The steady level is seconds 1 to 7 of traffic, and the
+start of traffic is the broker's first accepted record, read off the metrics. The search
+stops when sending stops, at 90 seconds, so the end of the stream is never a symptom.
+Counters are judged by their rate, and so is a gauge that only climbs, such as a committed
+offset. Prometheus's own scrape timings are left out, because they follow the shared
+capture machine's load rather than 09's. From each manifest it reads the run id and the
+scenario, and nothing else: the injection times would let a detector find the fault by
+knowing when to look.
 
 ## Reproducing the table above
 

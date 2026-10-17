@@ -95,6 +95,27 @@ def capture_otel(
     typer.echo(f"{len(records)} records -> {out}")
 
 
+@capture_app.command("chaos09")
+def capture_chaos09(
+    campaign: Annotated[Path, typer.Argument(help="A 09 chaos-capture campaign directory.")],
+    out: Annotated[Path, typer.Option("--out", help="Where to write the records.")],
+) -> None:
+    """Ingest project 09's chaos captures: log errors and metric departures, labelled by
+    the injected scenario. Reads only run_id and scenario from each manifest."""
+    from collections import Counter
+
+    from mend.data.chaos09 import captures, ingest_capture
+
+    runs = captures(campaign)
+    records = [r for capture in runs for r in ingest_capture(capture)]
+    _write_records(records, out)
+    per = Counter(c.scenario for c in runs)
+    typer.echo(f"{len(records)} records from {len(runs)} runs -> {out}")
+    for scenario, n in sorted(per.items()):
+        symptoms = sum(1 for r in records if r.true_cause == scenario)
+        typer.echo(f"  {scenario}: {n} runs, {symptoms} symptoms")
+
+
 @capture_app.command("issues")
 def capture_issues(
     issues: Annotated[Path, typer.Argument(help="Cached issue JSON.")],

@@ -379,6 +379,14 @@ pull requests.
 runs through its own runner. The harness adapter, not yet built, is where a repository's test
 command will come from.
 
+**2026-10-17, later.** `data/chaos09.py`, the reader for 09's re-recorded chaos runs, as
+section 4 names it. Section 2.2 expected traces and logs; 09 has no traces and logs little,
+so most symptoms are metric departures, each judged against the run's own first seconds of
+traffic. Checked against the first eleven runs, the symptoms are the ones each fault should
+produce: dead letters for poison, broker request and I/O rates for pause and throttle, the
+committed-offset rate for a scorer stall, late-event errors for out-of-order. No clustering
+number is reported from a partial campaign; the set is measured once all 42 runs are in.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops
@@ -397,7 +405,8 @@ were built.
   and 09 exports Prometheus metrics rather than OpenTelemetry. Chosen 2026-10-17: 09 is
   recording the runs again (eight scenarios, five repeats each, two controls) with its logs
   and a full Prometheus dump kept per run and the label in a separate manifest, and this
-  repository writes ingesters for those logs and metrics. There are no traces to read.
+  repository reads those logs and metrics (`mend capture chaos09`, built the same day).
+  There are no traces to read. The set is measured once the campaign finishes.
 - The ablations are no longer blocked from outside. Project 03's release gate, Part B
   included, was built from 2026-09-19 and released as v0.1.0 on 2026-10-06. What the
   ablations wait on now is the harness adapter and a running Docker daemon.

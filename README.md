@@ -64,6 +64,10 @@ Built, tested, and reproducible today with `uv sync && uv run pytest`:
   passed before; the reviewer, on another vendor, is told to find what is wrong. Tested
   end to end with scripted models and a scripted sandbox, including the attempts to get a
   patch out without a failing test, which never reach the fixer.
+- **09's chaos captures as a labelled set.** Log errors and metric departures from each
+  of project 09's chaos runs become records, labelled by the injected fault. The reader
+  finds each run's steady state from the metrics and never reads when the fault was
+  injected. See [docs/clustering.md](docs/clustering.md).
 - **The sandbox workspace.** A host copy of the task image's repository for reading, and
   a fresh no-network container per test run, with the diff and the new test mounted
   read-only. No code path runs a model's test on the host.

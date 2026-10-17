@@ -60,7 +60,7 @@ test rather than by intention:
 | SWE-bench Verified | MIT-licensed dataset; the underlying repositories keep their own open licences | The sampled subset ids, the seed and the sampling date. No dataset rows, no repository contents, no images |
 | Public issue trackers | GitHub API terms | Issue ids and the duplicate labels derived from them. Issue text is cached locally for reproducibility and is not redistributed |
 | Injected faults on two open-source test suites | The repositories' own open licences | The mutation definitions. The faults are local and are never proposed upstream |
-| Project 09 chaos runs | Peter's own | Nothing yet; the runs are being recorded again with logs and metrics kept (2026-10-17), and stay in 09's working tree |
+| Project 09 chaos runs | Peter's own | Nothing raw. The captures stay in 09's working tree; the records `mend capture chaos09` derives from them go to `runs/`, which is not committed |
 
 Nothing raw is committed. `.gitignore` keeps `data/raw/`, `data/swebench/`, `data/issues/`
 and the sandbox working directories out of the repository.
