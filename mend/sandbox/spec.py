@@ -34,6 +34,17 @@ class SandboxError(Exception):
     """The sandbox could not run, or was asked to run something it will not."""
 
 
+# Deadlines for the docker commands that are not a test run (a test run has its own,
+# RunSpec.timeout_s). Each is generous for its job; their point is that a command that will
+# never return is turned into an error. On 2026-10-17 a docker pull waited ten hours on a
+# Docker Desktop engine that had stopped answering, and the run waited with it.
+QUICK_S = 120  # inspect, rm, create
+PULL_S = 1800  # one attempt at a multi-gigabyte image
+COPY_S = 900  # a repository out of an image
+BUILD_S = 1800  # the harness image, once
+HARNESS_S = 5400  # one harness run, image work and tests included
+
+
 class DockerUnavailable(SandboxError):
     """No usable Docker daemon. Distinguished from a failed run on purpose.
 

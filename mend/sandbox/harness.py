@@ -32,7 +32,7 @@ from typing import Any
 from mend.eval.results import IssueOutcome
 from mend.graph.route import Tier
 from mend.sandbox.runner import docker_available
-from mend.sandbox.spec import DockerUnavailable, SandboxError
+from mend.sandbox.spec import BUILD_S, HARNESS_S, QUICK_S, DockerUnavailable, SandboxError
 
 MODEL_NAME = "mend"
 DATASET = "SWE-bench/SWE-bench_Verified"
@@ -120,7 +120,10 @@ def ensure_harness_image() -> None:
     """Build the harness image once. Building needs the network; nothing in it is model-
     written, and the task containers it starts are the harness's, with the harness's rules."""
     present = subprocess.run(
-        ["docker", "image", "inspect", HARNESS_IMAGE], capture_output=True, check=False
+        ["docker", "image", "inspect", HARNESS_IMAGE],
+        capture_output=True,
+        check=False,
+        timeout=QUICK_S,
     )
     if present.returncode == 0:
         return
@@ -132,6 +135,7 @@ def ensure_harness_image() -> None:
         errors="replace",
         capture_output=True,
         check=False,
+        timeout=BUILD_S,
     )
     if built.returncode != 0:
         raise SandboxError(f"could not build {HARNESS_IMAGE}: {built.stderr[-2000:]}")
@@ -211,7 +215,10 @@ def evaluate(
         max_workers=max_workers,
         timeout_s=timeout_s,
     )
-    done = subprocess.run(command, check=False)
+    try:
+        done = subprocess.run(command, check=False, timeout=HARNESS_S)
+    except subprocess.TimeoutExpired as exc:
+        raise SandboxError(f"the harness did not finish within {HARNESS_S} s") from exc
     model = "gold" if predictions_name == "gold" else MODEL_NAME
     report = workdir / f"{model}.{run_id}.json"
     if done.returncode != 0 or not report.is_file():

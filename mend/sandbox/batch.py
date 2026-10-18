@@ -29,6 +29,7 @@ from typing import Any
 
 from mend.data.swebench import Task
 from mend.sandbox.harness import evaluate, predictions, verdicts, write_predictions
+from mend.sandbox.spec import QUICK_S
 from mend.sandbox.workspace import remove_tree
 
 # Outside the OneDrive-synced repository: a task's repository copy is thousands of files,
@@ -99,9 +100,13 @@ def remove_task(task: Task, work_root: Path = WORK_ROOT) -> None:
     with contextlib.suppress(OSError):
         remove_tree(work_root / task.instance_id)
     if task.image:
-        subprocess.run(
-            ["docker", "image", "rm", "-f", task.image], capture_output=True, check=False
-        )
+        with contextlib.suppress(subprocess.TimeoutExpired):
+            subprocess.run(
+                ["docker", "image", "rm", "-f", task.image],
+                capture_output=True,
+                check=False,
+                timeout=QUICK_S,
+            )
 
 
 def run_subset(

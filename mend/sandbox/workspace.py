@@ -30,7 +30,14 @@ from typing import IO
 from mend.graph.workspace import TestReport
 from mend.sandbox.runner import RunResult, run
 from mend.sandbox.runners import PYTEST, TestRunner
-from mend.sandbox.spec import DockerUnavailable, RunSpec, SandboxError
+from mend.sandbox.spec import (
+    COPY_S,
+    PULL_S,
+    QUICK_S,
+    DockerUnavailable,
+    RunSpec,
+    SandboxError,
+)
 
 _IN = "/mend/in"
 _OUT = "/mend/out"
@@ -69,23 +76,28 @@ def pull(image: str, *, attempts: int = 4, wait_s: float = 15.0) -> None:
     the task, so it is retried, and only after every attempt fails does the run stop.
     """
     present = subprocess.run(
-        ["docker", "image", "inspect", image], capture_output=True, check=False
+        ["docker", "image", "inspect", image], capture_output=True, check=False, timeout=QUICK_S
     )
     if present.returncode == 0:
         return
     last = ""
     for attempt in range(1, attempts + 1):
-        done = subprocess.run(
-            ["docker", "pull", "-q", image],
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            check=False,
-        )
-        if done.returncode == 0:
-            return
-        last = done.stderr.strip()[-500:]
+        try:
+            done = subprocess.run(
+                ["docker", "pull", "-q", image],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                check=False,
+                timeout=PULL_S,
+            )
+        except subprocess.TimeoutExpired:
+            last = f"no answer within {PULL_S} s"
+        else:
+            if done.returncode == 0:
+                return
+            last = done.stderr.strip()[-500:]
         if attempt < attempts:
             time.sleep(wait_s * attempt)
     raise SandboxError(f"could not pull {image} after {attempts} attempts: {last}")
@@ -142,7 +154,11 @@ class DockerWorkspace:
         pull(image)
         try:
             created = subprocess.run(
-                ["docker", "create", image], capture_output=True, text=True, check=True
+                ["docker", "create", image],
+                capture_output=True,
+                text=True,
+                check=True,
+                timeout=QUICK_S,
             )
         except FileNotFoundError as exc:
             raise DockerUnavailable("no docker client on PATH") from exc
@@ -159,6 +175,7 @@ class DockerWorkspace:
                     stdout=archive,
                     stderr=subprocess.PIPE,
                     check=False,
+                    timeout=COPY_S,
                 )
                 if copied.returncode != 0:
                     message = copied.stderr.decode("utf-8", errors="replace")
@@ -166,7 +183,9 @@ class DockerWorkspace:
                 archive.seek(0)
                 unpack_regular_files(archive, dest)
         finally:
-            subprocess.run(["docker", "rm", container], capture_output=True, check=False)
+            subprocess.run(
+                ["docker", "rm", "-f", container], capture_output=True, check=False, timeout=QUICK_S
+            )
         return cls(image=image, checkout=dest, workdir=workdir, tests=tests)
 
     @property
