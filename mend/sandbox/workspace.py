@@ -158,7 +158,10 @@ class DockerWorkspace:
                 capture_output=True,
                 text=True,
                 check=True,
-                timeout=QUICK_S,
+                # Creating a container from a 4 GB image right after Docker Desktop starts
+                # took longer than two minutes once (2026-10-19), so it gets the copy's
+                # deadline rather than the quick one.
+                timeout=COPY_S,
             )
         except FileNotFoundError as exc:
             raise DockerUnavailable("no docker client on PATH") from exc

@@ -1,0 +1,10 @@
+auto_propose: 0.0
+suggest: 0.0
+target_confidently_wrong: 0.03
+calibrated_on: validation
+provenance:
+  run: runs/validation
+  tasks: 30
+  auto_proposed_on_validation: 15
+  confidently_wrong_on_validation: 0.0% (0.0% to 20.4%, n = 15)
+  calibrated_at: '2026-10-19'

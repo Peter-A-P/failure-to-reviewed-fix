@@ -201,12 +201,18 @@ class Outcome:
     resolved comes from the benchmark's hidden tests and from nowhere else. It is never
     available to any part of the pipeline that runs before this point, which is what makes
     the hit rate honest (PLAN.md section 2.1).
+
+    eligible is whether route() could propose the patch at all: its failing test passes and
+    the suite stayed green. The curve counts only eligible patches, because a curve that
+    counted patches the router would refuse whatever their score would describe a router
+    that does not exist (found 2026-10-19, on the first validation run).
     """
 
     issue_id: str
     score: float
     reviewer_agrees: bool
     resolved: bool
+    eligible: bool = True
 
 
 @dataclass(frozen=True, slots=True)
@@ -239,7 +245,7 @@ def routing_curve(outcomes: Sequence[Outcome], *, steps: int = 101) -> list[Curv
 
     for i in range(steps):
         threshold = i / (steps - 1)
-        auto = [o for o in outcomes if o.score >= threshold and o.reviewer_agrees]
+        auto = [o for o in outcomes if o.eligible and o.score >= threshold and o.reviewer_agrees]
         resolved = sum(1 for o in auto if o.resolved)
         n_auto = len(auto)
         points.append(

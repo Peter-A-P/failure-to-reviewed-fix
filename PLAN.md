@@ -460,6 +460,30 @@ reports both, in that order, with the reason. This is the clearest Rule C eviden
 (section 9, candidate 3, broadened from fingerprint-only to record-level clustering) and is
 the likely subject of `docs/rejected.md`, pending the ablations.
 
+**2026-10-17 to 19, the validation run.** All 30 tasks of the validation split, through
+the pipeline uncalibrated and scored by the harness, committed in `results/validation/`.
+Resolved on the hidden tests 22 of 30, 73.3% (55.6% to 85.8%); a test that failed first on
+all 30; US$5.62 in all, US$0.17 per attempted task, about two minutes of pipeline time per
+task. The reviewer objected to 9 of 27 patches and was right about 4 of them; when it agreed,
+the fixer was wrong once in 18. This is the calibration split and not a result: it is small,
+Django is half of it, and the thresholds were chosen on it.
+
+Calibrated on it with `mend calibrate` (`docs/routing.md`, `config/mend.thresholds.yaml`):
+auto-propose at 0.00 and suggest at 0.00. Every patch that passed the router's rules (test
+fixed, suite green, reviewer agreeing) scored 0.81 and was resolved, so every threshold from
+0 to 0.81 does the same and the September procedure's "lowest" lands on 0. The score does no
+work on this split and the rules do all of it; that is stated in advance of the main run,
+and the procedure was not changed after seeing it. Building the calibration also found that
+the routing curve counted patches the router would refuse (a red suite, whatever the
+score); it now counts only patches the router could propose, and a test asserts it.
+
+It took four starts to finish, none of them about a task: a dropped TLS session mid-pull,
+Django's symlinks on a Windows host, a missed Docker health check, and Docker Desktop's
+engine failing overnight, after which a pull waited ten hours with no deadline. Each has a
+fix in the sandbox code and a commit saying so. One task (django__django-13590) was cut off
+mid-hop by the health check before any record was written and ran again from the start; its
+first, partial attempt's model calls are in the ledger.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops
@@ -483,5 +507,5 @@ were built.
 - The ablations are no longer blocked from outside. Project 03's release gate, Part B
   included, was built from 2026-09-19 and released as v0.1.0 on 2026-10-06. What the
   ablations wait on now is the harness adapter and a running Docker daemon.
-- Spend so far is US$0.15, almost all of it the smoke run on 2026-10-17 (the ledger's total), against the US$1.00 per-issue
+- Spend so far is US$5.62, almost all of it the validation run (the ledger's total, 2026-10-19), against the US$1.00 per-issue
   cap and the US$130 monthly cap in `config/mend.caps.yaml`.

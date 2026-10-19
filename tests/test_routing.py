@@ -218,3 +218,15 @@ def test_a_threshold_of_one_means_propose_nothing() -> None:
     )
     tier, _ = route(good(), refuse)
     assert tier is Tier.SUGGEST
+
+
+def test_the_curve_never_counts_a_patch_the_router_would_refuse() -> None:
+    """A patch whose suite went red is QUIET at any score; the curve must agree."""
+    from mend.graph.route import Outcome, routing_curve
+
+    outcomes = [
+        Outcome(issue_id="good", score=0.8, reviewer_agrees=True, resolved=True),
+        Outcome(issue_id="red", score=0.9, reviewer_agrees=True, resolved=False, eligible=False),
+    ]
+    point = next(p for p in routing_curve(outcomes) if p.threshold == 0.5)
+    assert point.n_auto == 1 and point.confidently_wrong == 0.0

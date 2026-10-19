@@ -5,12 +5,12 @@ fix, has a second AI review it adversarially, and hands an engineer a ready-to-a
 request. Triage in minutes instead of days, engineers back on new work, and nothing changes
 without a person saying yes.
 
-**Status: building. The pipeline runs end to end; nothing has been measured.** Capture,
+**Status: building. The validation run is done; the main run is next.** Capture,
 clustering, the four model hops, the rails between them, routing, scoring on the
-benchmark's hidden tests and the evaluation machinery are built and tested. One task has
-been through the whole pipeline and the official harness as a smoke test of the plumbing;
-the subset is drawn and committed, nothing has been run against it yet, and every results
-table below is still empty. The plan is in [PLAN.md](PLAN.md): a build measured against real
+benchmark's hidden tests and the evaluation machinery are built and tested. The 30-task
+validation split has run and the routing thresholds were calibrated on it
+([docs/routing.md](docs/routing.md)); it is the calibration split, so its numbers are not
+the results below. The 120-task main run, which fills the tables, has not started. The plan is in [PLAN.md](PLAN.md): a build measured against real
 open-source issues with hidden tests.
 
 The interesting engineering is the clustering and knowing when not to act, not the model

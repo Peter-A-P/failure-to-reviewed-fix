@@ -492,6 +492,52 @@ def score(
 
 
 @app.command()
+def calibrate(
+    run_dir: Annotated[
+        Path, typer.Argument(help="A finished validation run, e.g. runs/validation.")
+    ],
+    target: Annotated[float, typer.Option(help="Confidently-wrong target.")] = 0.03,
+    out: Annotated[Path, typer.Option(help="The thresholds file.")] = Path(
+        "config/mend.thresholds.yaml"
+    ),
+) -> None:
+    """Choose the routing thresholds on a validation run, write them with their provenance,
+    and print the trade-off curve. Refuses to overwrite thresholds already chosen."""
+    from datetime import UTC, datetime
+
+    from mend.eval.calibration import calibration_rows, curve_table, write_thresholds
+    from mend.eval.stats import wilson
+    from mend.graph.route import calibrate as choose
+    from mend.graph.route import routing_curve
+    from mend.sandbox.batch import RunPaths, recorded_runs, recorded_verdicts
+
+    paths = RunPaths(run_dir)
+    rows = calibration_rows(recorded_runs(paths).values(), recorded_verdicts(paths))
+    thresholds = choose(rows, target_confidently_wrong=target, split_name=run_dir.name)
+    chosen = [
+        r for r in rows if r.eligible and r.reviewer_agrees and r.score >= thresholds.auto_propose
+    ]
+    wrong = wilson(sum(1 for r in chosen if not r.resolved), len(chosen))
+    write_thresholds(
+        thresholds,
+        out,
+        {
+            "run": run_dir.as_posix(),
+            "tasks": len(rows),
+            "auto_proposed_on_validation": len(chosen),
+            "confidently_wrong_on_validation": wrong.as_percent(),
+            "calibrated_at": datetime.now(UTC).date().isoformat(),
+        },
+    )
+    typer.echo(
+        f"auto-propose at {thresholds.auto_propose:.2f}, suggest at {thresholds.suggest:.2f}, "
+        f"target {target:.0%}: {len(chosen)} would auto-propose, confidently wrong "
+        f"{wrong.as_percent()} -> {out}"
+    )
+    typer.echo(curve_table(routing_curve(rows)))
+
+
+@app.command()
 def subset(
     tasks: Annotated[Path, typer.Argument(help="SWE-bench Verified, as JSON or JSONL.")],
     seed: Annotated[int, typer.Option(help="The seed. Recorded in both files.")],
@@ -538,12 +584,20 @@ def run_split(
         str | None, typer.Option(help="Run name. Default: the subset file's name.")
     ] = None,
     config: Annotated[Path, typer.Option(help="Gateway configuration.")] = CONFIG_DEFAULT,
+    thresholds_path: Annotated[
+        Path, typer.Option("--thresholds", help="Calibrated thresholds, when they exist.")
+    ] = Path("config/mend.thresholds.yaml"),
 ) -> None:
     """Run a committed subset task by task: fix, score on the hidden tests, remove the
-    image. Resumable: run it again after a crash and it carries on where it stopped."""
+    image. Resumable: run it again after a crash and it carries on where it stopped.
+
+    Routes with the calibrated thresholds when the file exists, and refuses to use them
+    on the split they were calibrated on; with no file, routing is uncalibrated and
+    nothing auto-proposes."""
     from dataclasses import asdict
 
     from mend.data.swebench import load_subset
+    from mend.eval.calibration import load_thresholds
     from mend.eval.results import hit_rate, test_first_rate
     from mend.graph.context import Deps, Issue
     from mend.graph.graph import run_issue
@@ -566,6 +620,19 @@ def run_split(
     by_id = {t.instance_id: t for t in load_tasks_or_exit(tasks)}
     run_name = name or split.stem
     paths = RunPaths(Path("runs") / run_name)
+    thresholds = load_thresholds(thresholds_path) if thresholds_path.is_file() else None
+    if thresholds is not None and thresholds.calibrated_on == run_name:
+        typer.echo(
+            f"the thresholds in {thresholds_path} were calibrated on {run_name}; routing the "
+            "same split with them would report a target met by construction"
+        )
+        raise typer.Exit(code=2)
+    typer.echo(
+        f"routing: auto-propose at {thresholds.auto_propose:.2f}, calibrated on "
+        f"{thresholds.calibrated_on}"
+        if thresholds
+        else "routing: uncalibrated, nothing auto-proposes"
+    )
     if not docker_available():
         typer.echo("no Docker daemon answered; the sandbox and the harness need one")
         raise typer.Exit(code=2)
@@ -578,7 +645,10 @@ def run_split(
         workspace = DockerWorkspace.extract(
             task.image, WORK_ROOT / task.instance_id, tests=runner_for(task.repo)
         )
-        record = run_issue(Issue.from_task(task), Deps(client=client, workspace=workspace))
+        record = run_issue(
+            Issue.from_task(task),
+            Deps(client=client, workspace=workspace, thresholds=thresholds),
+        )
         loaded: dict[str, Any] = json.loads(record.to_json())
         return loaded
 
