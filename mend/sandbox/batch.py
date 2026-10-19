@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import contextlib
 import json
+import shutil
 import subprocess
 import tempfile
 from collections.abc import Callable, Mapping, Sequence
@@ -29,7 +30,7 @@ from typing import Any
 
 from mend.data.swebench import Task
 from mend.sandbox.harness import evaluate, predictions, verdicts, write_predictions
-from mend.sandbox.spec import QUICK_S
+from mend.sandbox.spec import QUICK_S, SandboxError
 from mend.sandbox.workspace import remove_tree
 
 # Outside the OneDrive-synced repository: a task's repository copy is thousands of files,
@@ -107,6 +108,49 @@ def remove_task(task: Task, work_root: Path = WORK_ROOT) -> None:
                 check=False,
                 timeout=QUICK_S,
             )
+        trim_docker_disk()
+
+
+# The run stops before a task when the host disk has less than this free. Docker Desktop's
+# data disk on Windows keeps space a removed image used (2026-10-19: 19 GB allocated while
+# Docker held 3 GB), so removing images bounds what Docker holds but not what the host
+# loses, and a run that filled the laptop's disk would break far more than the run.
+MIN_FREE_BYTES = 10 * 1024**3
+
+
+class DiskLow(SandboxError):
+    """Too little free disk to start another task. Stops the run cleanly; resumable."""
+
+
+def free_bytes(path: Path = WORK_ROOT) -> int:
+    probe = path if path.exists() else path.parent
+    return shutil.disk_usage(probe).free
+
+
+def trim_docker_disk() -> None:
+    """Ask Docker's VM to trim its filesystems, so freed blocks can be handed back or
+    reused. Best effort: a failure here costs disk, not correctness."""
+    with contextlib.suppress(subprocess.TimeoutExpired, OSError):
+        subprocess.run(
+            [
+                "docker",
+                "run",
+                "--rm",
+                "--privileged",
+                "--pid=host",
+                "alpine:3.20",
+                "nsenter",
+                "-t",
+                "1",
+                "-m",
+                "--",
+                "fstrim",
+                "-a",
+            ],
+            capture_output=True,
+            check=False,
+            timeout=QUICK_S,
+        )
 
 
 def run_subset(
@@ -118,6 +162,8 @@ def run_subset(
     score: Callable[[Mapping[str, Any]], bool | None],
     cleanup: Callable[[Task], None],
     echo: Callable[[str], None] = print,
+    disk_free: Callable[[], int] = free_bytes,
+    min_free: int = MIN_FREE_BYTES,
 ) -> None:
     """Every task in order, each fixed, scored and cleaned up before the next.
 
@@ -130,6 +176,13 @@ def run_subset(
     for i, instance_id in enumerate(instance_ids, start=1):
         if judged.get(instance_id) is not None:
             continue
+        free = disk_free()
+        if free < min_free:
+            raise DiskLow(
+                f"{free / 1024**3:.1f} GB free, below the {min_free / 1024**3:.0f} GB floor; "
+                f"stopped before {instance_id}. Free some space or compact Docker's data disk, "
+                "then run the same command again."
+            )
         task = tasks[instance_id]
         try:
             run = runs.get(instance_id)
@@ -146,6 +199,7 @@ def run_subset(
                 + (f" ({state.get('stop_reason')})" if state.get("stop_reason") else "")
                 + (f", tier {state.get('tier')}" if state.get("tier") else "")
                 + f", resolved {verdict}"
+                + f" [{disk_free() / 1024**3:.1f} GB free]"
             )
         finally:
             cleanup(task)

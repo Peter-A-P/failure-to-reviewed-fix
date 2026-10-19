@@ -100,3 +100,24 @@ def test_an_unjudged_task_is_scored_again_on_resume(tmp_path: Path) -> None:
     again = Calls()
     go(paths, again)
     assert again.fixed == [] and again.scored == ["a__a-1", "c__c-3"]
+
+
+def test_the_run_stops_cleanly_before_a_task_when_the_disk_is_low(tmp_path: Path) -> None:
+    from mend.sandbox.batch import DiskLow
+
+    paths, calls = RunPaths(tmp_path), Calls()
+    free = iter([50 * 1024**3, 50 * 1024**3, 5 * 1024**3])
+    with pytest.raises(DiskLow, match="stopped before b__b-2"):
+        run_subset(
+            IDS,
+            TASKS,
+            paths,
+            fix=calls.fix,
+            score=calls.score,
+            cleanup=calls.cleanup,
+            echo=lambda _s: None,
+            disk_free=lambda: next(free),
+            min_free=10 * 1024**3,
+        )
+    assert calls.fixed == ["a__a-1"]  # the second task was never started
+    assert recorded_verdicts(paths) == {"a__a-1": True}
