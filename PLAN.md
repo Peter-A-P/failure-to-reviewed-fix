@@ -484,6 +484,48 @@ fix in the sandbox code and a commit saying so. One task (django__django-13590) 
 mid-hop by the health check before any record was written and ran again from the start; its
 first, partial attempt's model calls are in the ledger.
 
+**2026-10-19 to 20, the main run.** All 120 tasks of `data/subset/main.json`, routed with
+the thresholds calibrated on validation, scored by the harness, committed in
+`results/main/`; the README's tables are written from those files by `mend report`.
+Resolved 81 of 120, 67.5% (58.7% to 75.2%). A test that failed first on 116 of 120.
+US$0.159 per attempted task, US$0.242 per resolved, about a minute of pipeline time per
+task; the ledger's total for the whole project to date is US$25.97.
+
+**The 3% confidently-wrong target was missed.** 51 patches were auto-proposed and 5
+failed the hidden tests, 9.8% (4.3% to 21.0%). The validation split could not have caught
+it: every patch that passed the router's rules there was right, so the score had nothing to
+separate, which `docs/routing.md` said before this run. The five are
+django__django-10999, pytest-dev__pytest-5840, scikit-learn__scikit-learn-14983,
+sphinx-doc__sphinx-7462 and sympy__sympy-18763. Classifying them by cause
+(`eval/confident_wrong.py`) needs the hidden tests or the gold patch, which no model in
+this project may read, so it is Peter's to do; `confident_wrong.hint` gives the shortlist
+from the evidence on each record.
+
+**Restraint was expensive.** 35 tasks went to silence; 14 of them had a patch the hidden
+tests accepted, 12 of those because no related existing test was found, which the router
+reads as "not shown safe". The reviewer objected to 40 patches and was right about 16; when
+it agreed, the patch was wrong 7 times in 64.
+
+**Incidents during the run, none of them about a task.** Three tasks stopped because a
+model reached its output limit before returning any text (the tester twice at 4,096
+tokens, the fixer once at 8,192); left as configured for the whole run rather than
+changed mid-run, and counted as unresolved. Task 71 (psf__requests-5414) printed a
+character the Windows code page could not decode, which crashed the patch hop; the retry
+wrapper then re-ran it from the start ten times before the bug was found, about US$1.50 of
+model calls on attempts that left no record. Fixed (`e259edc`) and the wrapper now stops
+after two attempts with no progress. The run was paused twice at Peter's request and
+resumed without re-running any finished task.
+
+**Definition of done, as it stands.** Done: test-first before every patch, with the rate
+reported; the different-vendor reviewer and its value measured; thresholds calibrated
+against a stated target with the curve published; the hidden-test hit rate overall and per
+tier with intervals; the confidently-wrong rate; stay-quiet precision; cost per attempted
+and per resolved from the ledger; clustering measured on one of the three labelled sets;
+`docs/boundary.md`; the rejected approach in `docs/rejected.md`. Not done: the false-
+positive analysis by cause (needs Peter, above), the duplicate-link and injected-fault
+clustering sets, the ablations through 03's gate, the live workflow, and `v0.1.0` with the
+repository made public.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops
@@ -507,5 +549,5 @@ were built.
 - The ablations are no longer blocked from outside. Project 03's release gate, Part B
   included, was built from 2026-09-19 and released as v0.1.0 on 2026-10-06. What the
   ablations wait on now is the harness adapter and a running Docker daemon.
-- Spend so far is US$5.62, almost all of it the validation run (the ledger's total, 2026-10-19), against the US$1.00 per-issue
+- Spend so far is US$25.97 (the ledger's total, 2026-10-20), about CA$35, against the US$1.00 per-issue
   cap and the US$130 monthly cap in `config/mend.caps.yaml`.

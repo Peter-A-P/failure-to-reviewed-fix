@@ -1,0 +1,674 @@
+[
+ {
+  "held_out": [
+   "clock-skew",
+   "duplicates",
+   "out-of-order"
+  ],
+  "ari": {
+   "record-level": 0.009655466351726098,
+   "fingerprint": 0.00933907243712002,
+   "two-stage": 0.7182603410318015
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "duplicates",
+   "pause"
+  ],
+  "ari": {
+   "record-level": 0.0445346509707311,
+   "fingerprint": 0.03423863858483951,
+   "two-stage": 0.7922282055400184
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "duplicates",
+   "poison"
+  ],
+  "ari": {
+   "record-level": 0.03480804988580474,
+   "fingerprint": 0.013564095912241041,
+   "two-stage": 0.08049568874185847
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "duplicates",
+   "schema-change"
+  ],
+  "ari": {
+   "record-level": 0.05785888861846864,
+   "fingerprint": 0.03148157278300681,
+   "two-stage": 0.3336669929444279
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "duplicates",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.041332992304856875,
+   "fingerprint": 0.032009085061482215,
+   "two-stage": 0.809334298957996
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "duplicates",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.03349336857818223,
+   "fingerprint": 0.023727735529513915,
+   "two-stage": 0.654924112969701
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "out-of-order",
+   "pause"
+  ],
+  "ari": {
+   "record-level": 0.03882204754840677,
+   "fingerprint": 0.008526375149427607,
+   "two-stage": 0.5438954583318595
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "out-of-order",
+   "poison"
+  ],
+  "ari": {
+   "record-level": 0.012390878345887224,
+   "fingerprint": 0.007660122060949928,
+   "two-stage": 0.7410295423447208
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "out-of-order",
+   "schema-change"
+  ],
+  "ari": {
+   "record-level": 0.015342068747193275,
+   "fingerprint": 0.008588552499312911,
+   "two-stage": 0.6793165776685013
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "out-of-order",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.022719724659582153,
+   "fingerprint": 0.0064053057966439045,
+   "two-stage": 0.45739746179366675
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "out-of-order",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.013971565215050318,
+   "fingerprint": 0.010131693922886268,
+   "two-stage": 0.8194926618476591
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "pause",
+   "poison"
+  ],
+  "ari": {
+   "record-level": 0.041258343870260616,
+   "fingerprint": 0.030524907607008288,
+   "two-stage": 0.6731248612199172
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "pause",
+   "schema-change"
+  ],
+  "ari": {
+   "record-level": 0.04532386885337756,
+   "fingerprint": 0.03474088339196408,
+   "two-stage": 0.8624567190409989
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "pause",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.015113535895049131,
+   "fingerprint": 0.008401314994748207,
+   "two-stage": 0.3466608868870112
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "pause",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.03390978944575336,
+   "fingerprint": 0.02696449247448193,
+   "two-stage": 0.9411474662696566
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "poison",
+   "schema-change"
+  ],
+  "ari": {
+   "record-level": 0.02611508990133567,
+   "fingerprint": -0.004820137059942269,
+   "two-stage": 0.4599402788967029
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "poison",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.03217841171882716,
+   "fingerprint": 0.022526218660132498,
+   "two-stage": 0.8741174135977519
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "poison",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.03230288043212813,
+   "fingerprint": 0.02215018852739402,
+   "two-stage": 0.2847995418754022
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "schema-change",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.03800840075560546,
+   "fingerprint": 0.02877509845867251,
+   "two-stage": 0.8745878234274637
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "schema-change",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.03619315087694924,
+   "fingerprint": 0.026312557911070924,
+   "two-stage": 0.5727897788956446
+  }
+ },
+ {
+  "held_out": [
+   "clock-skew",
+   "scorer-stall",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.033454119444437054,
+   "fingerprint": 0.02692883278021052,
+   "two-stage": 0.6127829595866465
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "out-of-order",
+   "pause"
+  ],
+  "ari": {
+   "record-level": 0.036731967347211195,
+   "fingerprint": 0.013765296197040738,
+   "two-stage": 0.5497510646432782
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "out-of-order",
+   "poison"
+  ],
+  "ari": {
+   "record-level": 0.0229071586303643,
+   "fingerprint": 0.011697077972683014,
+   "two-stage": 0.7429407802471305
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "out-of-order",
+   "schema-change"
+  ],
+  "ari": {
+   "record-level": 0.03499681011043845,
+   "fingerprint": 0.012462603020760809,
+   "two-stage": 0.6895240511430388
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "out-of-order",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.025729516892189285,
+   "fingerprint": 0.012333180744911139,
+   "two-stage": 0.46471017655487956
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "out-of-order",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.020554979524036426,
+   "fingerprint": 0.014719731489415326,
+   "two-stage": 0.8181065081724009
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "pause",
+   "poison"
+  ],
+  "ari": {
+   "record-level": 0.041724020179048575,
+   "fingerprint": 0.041724020179048575,
+   "two-stage": 0.676831149499745
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "pause",
+   "schema-change"
+  ],
+  "ari": {
+   "record-level": 0.04816164012199255,
+   "fingerprint": 0.04816164012199255,
+   "two-stage": 0.8424851343038753
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "pause",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.021414317711773517,
+   "fingerprint": 0.021414317711773517,
+   "two-stage": 0.3693267737037664
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "pause",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.03689247150187337,
+   "fingerprint": 0.03689247150187337,
+   "two-stage": 0.9290189941083229
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "poison",
+   "schema-change"
+  ],
+  "ari": {
+   "record-level": 0.013392857142857142,
+   "fingerprint": 0.013392857142857142,
+   "two-stage": 0.13501690196858218
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "poison",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.0356568028567681,
+   "fingerprint": 0.0356568028567681,
+   "two-stage": 0.7465884765191255
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "poison",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.03224049427904317,
+   "fingerprint": 0.03224049427904317,
+   "two-stage": 0.17886207062500584
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "schema-change",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.04483784661938904,
+   "fingerprint": 0.04483784661938904,
+   "two-stage": 0.8559958751827944
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "schema-change",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.03790096662009233,
+   "fingerprint": 0.03790096662009233,
+   "two-stage": 0.41373610982903675
+  }
+ },
+ {
+  "held_out": [
+   "duplicates",
+   "scorer-stall",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.06483152405662328,
+   "fingerprint": 0.03767161044348914,
+   "two-stage": 0.7501873552497371
+  }
+ },
+ {
+  "held_out": [
+   "out-of-order",
+   "pause",
+   "poison"
+  ],
+  "ari": {
+   "record-level": 0.03474653360234496,
+   "fingerprint": 0.012062326127292801,
+   "two-stage": 0.5044080857088462
+  }
+ },
+ {
+  "held_out": [
+   "out-of-order",
+   "pause",
+   "schema-change"
+  ],
+  "ari": {
+   "record-level": 0.051059123396243404,
+   "fingerprint": 0.010687608415264232,
+   "two-stage": 0.8152225950658745
+  }
+ },
+ {
+  "held_out": [
+   "out-of-order",
+   "pause",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.022127146963319824,
+   "fingerprint": 0.002519861185576578,
+   "two-stage": 0.3113995722388521
+  }
+ },
+ {
+  "held_out": [
+   "out-of-order",
+   "pause",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.02548318272747222,
+   "fingerprint": 0.014499027610602531,
+   "two-stage": 0.664749499246741
+  }
+ },
+ {
+  "held_out": [
+   "out-of-order",
+   "poison",
+   "schema-change"
+  ],
+  "ari": {
+   "record-level": 0.03964637944684835,
+   "fingerprint": 0.005841501447926746,
+   "two-stage": 0.7065284865024305
+  }
+ },
+ {
+  "held_out": [
+   "out-of-order",
+   "poison",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.027045180712801663,
+   "fingerprint": 0.00855782739925654,
+   "two-stage": 0.4790999822897206
+  }
+ },
+ {
+  "held_out": [
+   "out-of-order",
+   "poison",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.008838650157092846,
+   "fingerprint": 0.014018033692406106,
+   "two-stage": 0.8382736120113988
+  }
+ },
+ {
+  "held_out": [
+   "out-of-order",
+   "schema-change",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.04304339295733977,
+   "fingerprint": 0.007840521674639542,
+   "two-stage": 0.8233150042020241
+  }
+ },
+ {
+  "held_out": [
+   "out-of-order",
+   "schema-change",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.036697614086243814,
+   "fingerprint": 0.014717260491546251,
+   "two-stage": 0.8193364758463576
+  }
+ },
+ {
+  "held_out": [
+   "out-of-order",
+   "scorer-stall",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.03668081938448751,
+   "fingerprint": 0.013715680040480594,
+   "two-stage": 0.5917046953184523
+  }
+ },
+ {
+  "held_out": [
+   "pause",
+   "poison",
+   "schema-change"
+  ],
+  "ari": {
+   "record-level": 0.03242750766906059,
+   "fingerprint": 0.03242750766906059,
+   "two-stage": 0.6895902588272042
+  }
+ },
+ {
+  "held_out": [
+   "pause",
+   "poison",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.014093051548202633,
+   "fingerprint": 0.014093051548202633,
+   "two-stage": 0.2814913970378528
+  }
+ },
+ {
+  "held_out": [
+   "pause",
+   "poison",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.03577962368698805,
+   "fingerprint": 0.03577962368698805,
+   "two-stage": 0.8690205335112697
+  }
+ },
+ {
+  "held_out": [
+   "pause",
+   "schema-change",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.006980642268363819,
+   "fingerprint": 0.006980642268363819,
+   "two-stage": 0.13635076191015694
+  }
+ },
+ {
+  "held_out": [
+   "pause",
+   "schema-change",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.03709699326388093,
+   "fingerprint": 0.03709699326388093,
+   "two-stage": 1.0
+  }
+ },
+ {
+  "held_out": [
+   "pause",
+   "scorer-stall",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.020704232886645777,
+   "fingerprint": 0.020704232886645777,
+   "two-stage": 0.569068113254546
+  }
+ },
+ {
+  "held_out": [
+   "poison",
+   "schema-change",
+   "scorer-stall"
+  ],
+  "ari": {
+   "record-level": 0.021074279202980852,
+   "fingerprint": 0.021074279202980852,
+   "two-stage": 0.9345681467092887
+  }
+ },
+ {
+  "held_out": [
+   "poison",
+   "schema-change",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.02625089021648199,
+   "fingerprint": 0.02625089021648199,
+   "two-stage": 0.2989382777193092
+  }
+ },
+ {
+  "held_out": [
+   "poison",
+   "scorer-stall",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.0330313020302958,
+   "fingerprint": 0.0330313020302958,
+   "two-stage": 0.97623852057167
+  }
+ },
+ {
+  "held_out": [
+   "schema-change",
+   "scorer-stall",
+   "throttle"
+  ],
+  "ari": {
+   "record-level": 0.03712279458254275,
+   "fingerprint": 0.03712279458254275,
+   "two-stage": 1.0
+  }
+ }
+]

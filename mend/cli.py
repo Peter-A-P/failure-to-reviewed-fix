@@ -492,6 +492,41 @@ def score(
 
 
 @app.command()
+def report(
+    outcomes: Annotated[Path, typer.Option(help="The main run's outcomes.")] = Path(
+        "results/main/outcomes.jsonl"
+    ),
+    crossval: Annotated[Path, typer.Option(help="The clustering cross-validation folds.")] = Path(
+        "results/chaos09/crossval.json"
+    ),
+    readme: Annotated[Path, typer.Option(help="The README to fill.")] = Path("README.md"),
+) -> None:
+    """Write the README's result tables from the committed results, between their markers.
+
+    The only way the tables change. Rerun it after any new result and commit the README
+    with the result files it was written from."""
+    from mend.eval.report import (
+        clustering_table,
+        load_folds,
+        load_outcomes,
+        replace_section,
+        resolution_table,
+        review_table,
+    )
+
+    results = load_outcomes(outcomes)
+    folds = load_folds(crossval)
+    text = readme.read_text(encoding="utf-8")
+    text = replace_section(text, "resolution", resolution_table(results))
+    text = replace_section(text, "review", review_table(results))
+    text = replace_section(
+        text, "clustering", clustering_table(folds, label="09 chaos runs (8 faults, 373 symptoms)")
+    )
+    readme.write_text(text, encoding="utf-8", newline="\n")
+    typer.echo(f"{readme}: tables written from {outcomes} and {crossval}")
+
+
+@app.command()
 def calibrate(
     run_dir: Annotated[
         Path, typer.Argument(help="A finished validation run, e.g. runs/validation.")

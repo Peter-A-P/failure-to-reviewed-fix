@@ -5,34 +5,74 @@ fix, has a second AI review it adversarially, and hands an engineer a ready-to-a
 request. Triage in minutes instead of days, engineers back on new work, and nothing changes
 without a person saying yes.
 
-**Status: building. The validation run is done; the main run is next.** Capture,
-clustering, the four model hops, the rails between them, routing, scoring on the
-benchmark's hidden tests and the evaluation machinery are built and tested. The 30-task
-validation split has run and the routing thresholds were calibrated on it
-([docs/routing.md](docs/routing.md)); it is the calibration split, so its numbers are not
-the results below. The 120-task main run, which fills the tables, has not started. The plan is in [PLAN.md](PLAN.md): a build measured against real
-open-source issues with hidden tests.
+**Status: measured.** The 120-task main run on SWE-bench Verified is done and scored on
+the benchmark's hidden tests, the routing was calibrated beforehand on a separate 30-task
+validation split, and the clustering is measured on project 09's recorded chaos runs. The
+tables below are written by `mend report` from the files in [results/](results/), not by
+hand. The plan is in [PLAN.md](PLAN.md).
 
 The interesting engineering is the clustering and knowing when not to act, not the model
-call. The numbers below are reported as they fall.
+call. The numbers below are reported as they fell.
 
 ## Result
 
-Not yet measured. The build fills these tables.
+**Resolution and restraint: 120 tasks from SWE-bench Verified, sampled before any run
+(seed 20261017), judged by the benchmark's hidden tests**
 
-**Resolution and restraint, on a stratified subset of SWE-bench Verified**
-
-| Tier | Issues | Hit rate on hidden tests (95% CI) | Confidently wrong (95% CI) | Cost per attempted | Cost per resolved |
+<!-- report:resolution -->
+| Tier | Issues | Hit rate on hidden tests (95% CI) | Confidently wrong (95% CI) | Cost per attempted (95% CI) | Cost per resolved (95% CI) |
 |---|---|---|---|---|---|
-| Auto-propose (draft PR) | _not yet_ | | | | |
-| Suggest | | | | | |
-| Stay quiet | | | | | |
+| Auto-propose (draft PR) | 51 | 90.2% (79.0% to 95.7%, n = 51) | 9.8% (4.3% to 21.0%, n = 51) | US$0.151 (0.130 to 0.173, n = 51) | US$0.168 (0.141 to 0.198, n = 51) |
+| Suggest | 34 | 61.8% (45.0% to 76.1%, n = 34) |  | US$0.176 (0.151 to 0.202, n = 34) | US$0.285 (0.221 to 0.395, n = 34) |
+| Stay quiet | 35 | 40.0% (25.6% to 56.4%, n = 35) |  | US$0.147 (0.116 to 0.181, n = 19) | US$0.423 (0.269 to 0.754, n = 35) |
+| **All** | 120 | 67.5% (58.7% to 75.2%, n = 120) | 9.8% (4.3% to 21.0%, n = 51) of auto-proposals | US$0.159 (0.144 to 0.175, n = 104) | US$0.242 (0.208 to 0.288, n = 120) |
+<!-- /report:resolution -->
 
-**Clustering and review**
+**Test-first and review, same 120 tasks**
 
-| Labelled set | Symptoms per root cause | Purity / completeness | ARI (95% CI) | Test-first rate | Reviewer disagreement rate | Share of disagreements where the fixer was wrong |
-|---|---|---|---|---|---|---|
-| _not yet_ | | | | | | |
+<!-- report:review -->
+| Test-first rate (95% CI) | Reviewer objected (95% CI) | Patch wrong when the reviewer objected | Patch wrong when it agreed | Stay-quiet precision (95% CI) |
+|---|---|---|---|---|
+| 96.7% (91.7% to 98.7%, n = 120) | 38.5% (29.7% to 48.1%, n = 104) | 40.0% (26.3% to 55.4%, n = 40) | 10.9% (5.4% to 20.9%, n = 64) | 26.3% (11.8% to 48.8%, n = 19) |
+<!-- /report:review -->
+
+**Clustering: project 09's chaos runs, 8 injected faults, 373 symptoms, every way of
+holding 3 faults out**
+
+<!-- report:clustering -->
+| Labelled set | Method | Held-out ARI, mean | Spread across folds (not a CI) |
+|---|---|---|---|
+| 09 chaos runs (8 faults, 373 symptoms) | Record-level (fingerprint, text, locality) | 0.032 | 0.009 to 0.055 |
+| 09 chaos runs (8 faults, 373 symptoms) | Fingerprint only | 0.021 | 0.004 to 0.044 |
+| 09 chaos runs (8 faults, 373 symptoms) | Two-stage (incidents, then signatures) | 0.636 | 0.136 to 0.991 |
+| 09 chaos runs (8 faults, 373 symptoms) | Two-stage minus record-level, paired | 0.604 | 0.125 to 0.956; higher on 56 of 56 folds |
+<!-- /report:clustering -->
+
+### The honest limitation
+
+**The confidently-wrong target was missed.** The plan set at most 3% of auto-proposed
+patches failing the hidden tests. The main run auto-proposed 51 and 5 of them failed, 9.8%
+(4.3% to 21.0%). The thresholds were calibrated on 30 tasks where every patch that passed
+the router's rules was right, so the score had nothing to separate and the calibration
+could not have caught this; [docs/routing.md](docs/routing.md) said so before the main
+run. A 3% rate is not demonstrated here, and on this evidence the system should open
+suggestions, not draft pull requests.
+
+**Restraint costs a lot.** Of the 35 tasks routed to silence, 14 had a patch the hidden
+tests accepted. Most were patches with no related existing test to check against, which
+the router reads, cautiously, as "not shown safe".
+
+**Where it is weak.** Sympy resolved 6 of 18; the fixer often could not make its own
+failing test pass. Django, 55 of the 120, resolved 42.
+
+**What the clustering result does and does not show.** On production-shaped signals,
+comparing symptoms one at a time does not find root causes, and grouping them into
+incidents first does. It is measured on one labelled set of eight faults, so the spread is
+wide, and it says nothing about traceback-shaped failures or overlapping incidents; the
+duplicate-link and injected-fault sets the plan names are not built.
+
+**Rejected:** record-level clustering for production signals, in
+[docs/rejected.md](docs/rejected.md).
 
 ## What is built, and what is not
 
