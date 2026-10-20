@@ -157,6 +157,10 @@ class DockerWorkspace:
                 ["docker", "create", image],
                 capture_output=True,
                 text=True,
+                # UTF-8, never the Windows code page: a test printing a character cp1252
+                # cannot decode left stdout as None and crashed the run (2026-10-20).
+                encoding="utf-8",
+                errors="replace",
                 check=True,
                 # Creating a container from a 4 GB image right after Docker Desktop starts
                 # took longer than two minutes once (2026-10-19), so it gets the copy's
@@ -251,4 +255,6 @@ class DockerWorkspace:
             result = self.execute(spec)
             report = out_dir / "report.xml"
             xml = report.read_text(encoding="utf-8") if report.exists() else ""
-        return self.tests.report(result.stdout + result.stderr, xml, timed_out=result.timed_out)
+        return self.tests.report(
+            (result.stdout or "") + (result.stderr or ""), xml, timed_out=result.timed_out
+        )

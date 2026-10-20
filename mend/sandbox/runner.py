@@ -93,6 +93,10 @@ def run(spec: RunSpec, *, allow_network: bool = False) -> RunResult:
             args,
             capture_output=True,
             text=True,
+            # UTF-8, never the Windows code page: a test printing a character cp1252
+            # cannot decode left stdout as None and crashed the run (2026-10-20).
+            encoding="utf-8",
+            errors="replace",
             timeout=spec.timeout_s,
             check=False,
         )

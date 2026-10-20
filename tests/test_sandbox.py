@@ -118,3 +118,14 @@ def test_a_container_really_has_no_network() -> None:
     )
     result = run(spec)
     assert not result.ok, "a task container reached the network"
+
+
+def test_container_output_is_read_as_utf8_whatever_the_host_code_page() -> None:
+    """A test printing characters the Windows code page cannot decode once left stdout as
+    None and crashed the run; the runner now decodes UTF-8 and replaces what it cannot."""
+    import inspect
+
+    from mend.sandbox import runner
+
+    source = inspect.getsource(runner.run)
+    assert 'encoding="utf-8"' in source and 'errors="replace"' in source
