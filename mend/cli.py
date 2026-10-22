@@ -36,6 +36,10 @@ capture_app = typer.Typer(no_args_is_help=True, help="Turn failures into records
 cluster_app = typer.Typer(no_args_is_help=True, help="Turn records into tickets, and measure it.")
 app.add_typer(capture_app, name="capture")
 app.add_typer(cluster_app, name="cluster")
+ablate_app = typer.Typer(
+    no_args_is_help=True, help="The ablations: take one part out, run the rest, compare."
+)
+app.add_typer(ablate_app, name="ablate")
 
 CONFIG_DEFAULT = Path("config/boundary.yaml")
 
@@ -712,6 +716,233 @@ def run_split(
     typer.echo(f"{run_name}: {len(results)} tasks")
     typer.echo(f"  hit rate on hidden tests  {hit_rate(results).as_percent()}")
     typer.echo(f"  test-first rate           {test_first_rate(results).as_percent()}")
+
+
+MAIN_RUN = Path("results/main/fix.jsonl")
+MAIN_VERDICTS = Path("results/main/verdicts.jsonl")
+ABLATION_SPLIT = Path("data/subset/ablation.json")
+
+
+def _main_records(path: Path) -> dict[str, dict[str, Any]]:
+    from mend.sandbox.harness import read_runs
+
+    return {str(r["issue"]["issue_id"]): r for r in read_runs(path)}
+
+
+def _verdicts(path: Path) -> dict[str, bool]:
+    rows = [json.loads(x) for x in path.read_text(encoding="utf-8").splitlines() if x.strip()]
+    return {str(r["instance_id"]): bool(r["resolved"]) for r in rows}
+
+
+@ablate_app.command("sample")
+def ablate_sample(
+    seed: Annotated[int, typer.Option(help="The seed. Recorded in the file.")],
+    size: Annotated[int, typer.Option(help="Tasks drawn from the main run.")] = 40,
+    main_split: Annotated[Path, typer.Option(help="The main run's subset.")] = Path(
+        "data/subset/main.json"
+    ),
+    tasks: Annotated[Path, typer.Option(help="SWE-bench Verified, as JSON or JSONL.")] = Path(
+        "data/swebench/verified.jsonl"
+    ),
+    out: Annotated[Path, typer.Option(help="Where the ablation subset goes.")] = ABLATION_SPLIT,
+) -> None:
+    """Draw the ablation tasks from the main run's, stratified, once, before any arm runs.
+    Refuses to overwrite a subset already drawn."""
+    from mend.data.swebench import load_subset, sample, write_subset
+
+    main_ids = set(load_subset(main_split).instance_ids)
+    pool = [t for t in load_tasks_or_exit(tasks) if t.instance_id in main_ids]
+    drawn = sample(
+        pool, size=size, seed=seed, source=f"ablation tasks: {size} of the main run's {len(pool)}"
+    )
+    write_subset(drawn, out)
+    typer.echo(f"seed {seed}: {len(drawn)} tasks -> {out}")
+
+
+@ablate_app.command("no-test-first")
+def ablate_no_test_first(
+    split: Annotated[Path, typer.Option(help="The ablation subset.")] = ABLATION_SPLIT,
+    main: Annotated[Path, typer.Option(help="The main run's log.")] = MAIN_RUN,
+    tasks: Annotated[Path, typer.Option(help="SWE-bench Verified, as JSON or JSONL.")] = Path(
+        "data/swebench/verified.jsonl"
+    ),
+    config: Annotated[Path, typer.Option(help="Gateway configuration.")] = CONFIG_DEFAULT,
+    thresholds_path: Annotated[
+        Path, typer.Option("--thresholds", help="The calibrated thresholds.")
+    ] = Path("config/mend.thresholds.yaml"),
+) -> None:
+    """The pipeline without its failing test, on the ablation tasks: fix, score on the
+    hidden tests, remove the image. Resumable, like mend run. Needs Docker."""
+    from dataclasses import asdict
+
+    from mend.ablation import no_test_first
+    from mend.data.swebench import load_subset
+    from mend.eval.calibration import load_thresholds
+    from mend.eval.results import hit_rate
+    from mend.graph.context import Deps
+    from mend.graph.llm import GatewayClient
+    from mend.sandbox.batch import (
+        WORK_ROOT,
+        RunPaths,
+        recorded_runs,
+        recorded_verdicts,
+        remove_task,
+        run_subset,
+        score_one,
+    )
+    from mend.sandbox.harness import outcomes
+    from mend.sandbox.runner import docker_available
+    from mend.sandbox.runners import runner_for
+    from mend.sandbox.workspace import DockerWorkspace
+
+    chosen = load_subset(split)
+    by_id = {t.instance_id: t for t in load_tasks_or_exit(tasks)}
+    main_runs = _main_records(main)
+    thresholds = load_thresholds(thresholds_path)
+    name = f"ablation-{no_test_first.ARM}"
+    paths = RunPaths(Path("runs") / name)
+    if not docker_available():
+        typer.echo("no Docker daemon answered; the sandbox and the harness need one")
+        raise typer.Exit(code=2)
+    client = GatewayClient.open(config)
+
+    def fix_one(task: Any) -> dict[str, Any]:
+        record = main_runs[task.instance_id]
+        if not (record.get("state") or {}).get("suspect_files"):
+            # Stopped at localisation in the main run: stops here too, and needs no image.
+            return no_test_first.run_task(record, None).to_dict()
+        workspace = DockerWorkspace.extract(
+            task.image, WORK_ROOT / task.instance_id, tests=runner_for(task.repo)
+        )
+        deps = Deps(client=client, workspace=workspace, thresholds=thresholds)
+        return no_test_first.run_task(record, deps).to_dict()
+
+    try:
+        run_subset(
+            chosen.instance_ids,
+            by_id,
+            paths,
+            fix=fix_one,
+            score=lambda run: score_one(run, paths, name=name),
+            cleanup=remove_task,
+            echo=typer.echo,
+        )
+    finally:
+        client.close()
+    results = outcomes(list(recorded_runs(paths).values()), recorded_verdicts(paths))
+    with (paths.root / "outcomes.jsonl").open("w", encoding="utf-8") as handle:
+        for outcome in results:
+            handle.write(json.dumps(asdict(outcome)) + "\n")
+    typer.echo(f"{name}: {len(results)} tasks, hit rate {hit_rate(results).as_percent()}")
+
+
+@ablate_app.command("self-review")
+def ablate_self_review(
+    main: Annotated[Path, typer.Option(help="The main run's log.")] = MAIN_RUN,
+    config: Annotated[Path, typer.Option(help="Gateway configuration.")] = CONFIG_DEFAULT,
+    thresholds_path: Annotated[
+        Path, typer.Option("--thresholds", help="The calibrated thresholds.")
+    ] = Path("config/mend.thresholds.yaml"),
+    out_dir: Annotated[Path, typer.Option(help="Where the two arms' logs go.")] = Path(
+        "runs/ablation-self-review"
+    ),
+) -> None:
+    """Every patch the main run reviewed, reviewed again by the fixer's own model and by the
+    different-vendor reviewer, on the same input. Needs no Docker. Resumable: a task with a
+    record in an arm is not asked again in that arm."""
+    from mend.ablation import self_review
+    from mend.eval.calibration import load_thresholds
+    from mend.graph.llm import GatewayClient
+    from mend.sandbox.harness import read_runs
+
+    thresholds = load_thresholds(thresholds_path)
+    main_runs = [r for r in _main_records(main).values() if self_review.reviewed(r)]
+    out_dir.mkdir(parents=True, exist_ok=True)
+    client = GatewayClient.open(config)
+    try:
+        for arm in self_review.ARMS:
+            log = out_dir / f"{arm}.jsonl"
+            done = {str(r["issue"]["issue_id"]) for r in read_runs(log)} if log.is_file() else set()
+            for i, record in enumerate(main_runs, start=1):
+                issue_id = str(record["issue"]["issue_id"])
+                if issue_id in done:
+                    continue
+                row = self_review.review_task(record, arm, client, thresholds).to_dict()
+                with log.open("a", encoding="utf-8", newline="\n") as handle:
+                    handle.write(json.dumps(row, sort_keys=True) + "\n")
+                review = row["state"]["review"]
+                typer.echo(
+                    f"[{arm} {i}/{len(main_runs)}] {issue_id}: "
+                    + (f"agrees {review['agrees']}" if review else row["state"]["stop_reason"])
+                )
+    finally:
+        client.close()
+
+
+@ablate_app.command("export")
+def ablate_export(
+    ablation: Annotated[str, typer.Argument(help="no-test-first or self-review.")],
+    out_root: Annotated[Path, typer.Option(help="Where the gate's inputs go.")] = Path("gate-runs"),
+    main: Annotated[Path, typer.Option(help="The main run's log.")] = MAIN_RUN,
+    main_verdicts: Annotated[Path, typer.Option(help="The main run's verdicts.")] = MAIN_VERDICTS,
+    results_root: Annotated[Path, typer.Option(help="Committed ablation results.")] = Path(
+        "results"
+    ),
+) -> None:
+    """Write the release gate's inputs for one ablation, spec.yaml, baseline.json and
+    candidate.json, from the committed results. Project 03's `gate compare` decides."""
+    from mend.ablation import self_review
+    from mend.data.swebench import load_subset
+    from mend.eval import gate
+    from mend.sandbox.harness import read_runs
+
+    target = out_root / ablation
+    passed = _verdicts(main_verdicts)
+    if ablation == "no-test-first":
+        ids = set(load_subset(ABLATION_SPLIT).instance_ids)
+        main_runs = [r for i, r in sorted(_main_records(main).items()) if i in ids]
+        arm_dir = results_root / "ablation-no-test-first"
+        arm_runs = read_runs(arm_dir / "fix.jsonl")
+        base = gate.side(
+            ablation,
+            "main run, failing test first",
+            main_runs,
+            passed,
+            source={"run": main.as_posix(), "tasks": str(len(main_runs))},
+        )
+        cand = gate.side(
+            ablation,
+            "no failing test first",
+            arm_runs,
+            _verdicts(arm_dir / "verdicts.jsonl"),
+            source={"run": (arm_dir / "fix.jsonl").as_posix(), "tasks": str(len(arm_runs))},
+        )
+    elif ablation == "self-review":
+        arm_dir = results_root / "ablation-self-review"
+        other = arm_dir / f"{self_review.OTHER_VENDOR}.jsonl"
+        same = arm_dir / f"{self_review.SAME_VENDOR}.jsonl"
+        base = gate.side(
+            ablation,
+            "different-vendor reviewer",
+            read_runs(other),
+            passed,
+            source={"run": other.as_posix()},
+        )
+        cand = gate.side(
+            ablation,
+            "the fixer's own model reviewing",
+            read_runs(same),
+            passed,
+            source={"run": same.as_posix()},
+        )
+    else:
+        raise typer.BadParameter("no-test-first or self-review")
+    gate.write_spec(ablation, target)
+    for side_name, payload in (("baseline", base), ("candidate", cand)):
+        (target / f"{side_name}.json").write_text(
+            json.dumps(payload, indent=1, sort_keys=True) + "\n", encoding="utf-8"
+        )
+    typer.echo(f"{target}: spec.yaml, baseline.json, candidate.json")
 
 
 if __name__ == "__main__":  # pragma: no cover

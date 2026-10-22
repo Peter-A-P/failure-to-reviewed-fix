@@ -63,6 +63,20 @@ def test_the_reviewer_is_a_different_vendor_than_the_fixer(routes: dict[str, Any
     )
 
 
+def test_the_self_reviewer_is_the_fixer_and_only_the_ablation_calls_it(
+    routes: dict[str, Any],
+) -> None:
+    """The same-vendor ablation needs the fixer's own model, and the pipeline must never
+    reach it: a graph that could ask it would have a same-vendor review one edit away."""
+    from pathlib import Path
+
+    assert routes["mend-self-reviewer"] == routes["mend-fixer"]
+    graph = Path(__file__).resolve().parent.parent / "mend" / "graph"
+    for path in graph.glob("*.py"):
+        text = path.read_text(encoding="utf-8")
+        assert "SELF_REVIEWER" not in text and "mend-self-reviewer" not in text, path.name
+
+
 def test_the_reviewer_is_a_different_model_too(routes: dict[str, Any]) -> None:
     """Weaker than the vendor rule and worth asserting separately, so a failure says which."""
     assert routes["mend-fixer"]["model"] != routes["mend-reviewer"]["model"]

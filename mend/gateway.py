@@ -48,6 +48,10 @@ class Role(StrEnum):
     TESTER = "mend-tester"
     FIXER = "mend-fixer"
     REVIEWER = "mend-reviewer"
+    # The Rule C ablation (PLAN.md section 9.2): the fixer's own vendor and model, asked to
+    # review. Called only from mend.ablation.self_review; nothing in mend.graph names it,
+    # and tests/test_roles.py asserts both.
+    SELF_REVIEWER = "mend-self-reviewer"
 
 
 @dataclass(frozen=True, slots=True)

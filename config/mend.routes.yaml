@@ -40,3 +40,12 @@ routes:
   mend-reviewer:
     provider: openai
     model: gpt-6.1-sol
+
+  # Not a pipeline role. The same-vendor review ablation (PLAN.md section 9.2) asks the
+  # fixer's own model to review the main run's patches, beside a fresh review by
+  # mend-reviewer on the same input. Pointed at the fixer's exact provider and model on
+  # purpose: that is the ablation. tests/test_roles.py asserts it matches the fixer and
+  # that no module under mend/graph names it.
+  mend-self-reviewer:
+    provider: anthropic
+    model: claude-sonnet-5-5

@@ -28,7 +28,7 @@ from mend.graph.parse import MalformedReply, one_tag
 
 # Reasoning models count their thinking against this limit, and a review that thinks
 # for 4,000 tokens and then has none left to answer in is a wasted call.
-_REVIEW_MAX_TOKENS = 16_000
+REVIEW_MAX_TOKENS = 16_000
 
 
 def parse_verdict(text: str) -> tuple[bool, str]:
@@ -68,7 +68,7 @@ def review(issue: Issue, state: IssueState, scratch: Scratch, deps: Deps) -> Hop
                 system=prompts.REVIEWER_SYSTEM,
                 prompt=prompt
                 + (f"\n\nYour previous reply could not be read: {problem}" if problem else ""),
-                max_tokens=_REVIEW_MAX_TOKENS,
+                max_tokens=REVIEW_MAX_TOKENS,
             )
         except HopFailed as exc:
             return HopOutput(stop(state, f"review: {exc}"), scratch, tuple(hops))

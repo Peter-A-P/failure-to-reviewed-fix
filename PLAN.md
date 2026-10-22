@@ -526,6 +526,25 @@ positive analysis by cause (needs Peter, above), the duplicate-link and injected
 clustering sets, the ablations through 03's gate, the live workflow, and `v0.1.0` with the
 repository made public.
 
+**2026-10-21, the ablations built and their tasks drawn.** `mend/ablation/` holds them,
+outside the graph, so the graph has no switch that turns a rail off (`docs/ablations.md`).
+They depart from section 5 in three ways, each decided before any arm ran:
+
+- **No failing test first** runs on 40 tasks drawn from the main run's 120
+  (`data/subset/ablation.json`, seed 20261021, committed before the run). It reuses each
+  task's localisation from the main run, as section 6 budgeted.
+- **Same-vendor review** reviews all 104 patches the main run reviewed rather than 40,
+  because it needs no sandbox. It runs two arms on identical input: the fixer's own model
+  through a new alias, `mend-self-reviewer`, and the different-vendor reviewer asked again.
+  The new alias is pinned to the fixer by a test, and a second test checks that nothing
+  under `mend/graph` names it.
+- **Fingerprint-only clustering** is not put through the gate. The gate decides on items
+  that are each right or wrong, and a clustering is right or wrong only as a whole
+  partition. It is measured by the clustering cross-validation instead, paired by fold, on
+  each labelled set.
+
+The gate margin is ten points, because at 40 tasks a three-point margin can only warn.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops

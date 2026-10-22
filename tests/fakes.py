@@ -20,6 +20,7 @@ PROVIDERS = {
     Role.TESTER: "anthropic",
     Role.FIXER: "anthropic",
     Role.REVIEWER: "openai",
+    Role.SELF_REVIEWER: "anthropic",
 }
 
 
