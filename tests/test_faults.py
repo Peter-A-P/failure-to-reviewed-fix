@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import ast
+import os
 from pathlib import Path
 
 import pytest
@@ -53,16 +54,18 @@ def test_apply_refuses_a_site_that_moved() -> None:
         apply(SOURCE, stale)
 
 
-def test_scrub_takes_the_checkout_and_the_user_out() -> None:
-    home = Path("C:/Users/someone")
-    checkout = Path("C:/Users/someone/tmp/faults/click")
+def test_scrub_takes_the_checkout_and_the_user_out(tmp_path: Path) -> None:
+    home = tmp_path / "someone"
+    checkout = home / "tmp" / "faults" / "click"
+    checkout.mkdir(parents=True)
+    sep = os.sep
     text = (
-        'File "C:\\Users\\someone\\tmp\\faults\\click\\src\\click\\core.py", line 3\n'
-        'File "C:\\Users\\someone\\tmp\\faults\\click-venv\\Lib\\site-packages\\x.py"\n'
+        f'File "{checkout.resolve()}{sep}src{sep}click{sep}core.py", line 3\n'
+        f'File "{home}{sep}tmp{sep}faults{sep}click-venv{sep}Lib{sep}site-packages{sep}x.py"\n'
     )
     out = scrub(text, checkout, home=home)
-    assert 'File "src\\click\\core.py"' in out
-    assert "someone" not in out and "click-venv" in out
+    assert f'File "src{sep}click{sep}core.py"' in out
+    assert str(home) not in out and "click-venv" in out
 
 
 def test_build_keeps_faults_by_the_rules_and_hides_the_label(tmp_path: Path) -> None:
