@@ -128,5 +128,6 @@ def side(
 def write_spec(ablation: str, out: Path) -> Path:
     out.mkdir(parents=True, exist_ok=True)
     path = out / "spec.yaml"
-    path.write_text(yaml.safe_dump(spec(ablation), sort_keys=False), encoding="utf-8")
+    path.write_text(yaml.safe_dump(spec(ablation), sort_keys=False), encoding="utf-8", newline="
+")
     return path
