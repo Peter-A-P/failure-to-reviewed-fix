@@ -545,6 +545,31 @@ They depart from section 5 in three ways, each decided before any arm ran:
 
 The gate margin is ten points, because at 40 tasks a three-point margin can only warn.
 
+**2026-10-21, the other two clustering sets, measured.** Both sets follow the plan:
+
+- **Injected faults:** 40 faults, 20 each in click 8.1.7 and marshmallow 3.21.3, from
+  classic mutation operators at seeded sites, giving 404 symptoms.
+- **Duplicate links:** 639 groups and 1,378 issues from pandas, matplotlib and numpy, out
+  of 1,711 labelled duplicates.
+
+Both are measured by five folds over causes rather than leave-three-out, because the
+combinations of 40 or 639 causes number in the thousands (`mend.cluster.kfold`).
+
+The intervals are a delete-one-cause jackknife. The first attempt used a bootstrap over
+causes, and on the duplicate set it put purity's whole interval above its own estimate,
+because thinning the causes thins the chances that two of them share a ticket.
+
+Results:
+
+- **Injected faults:** record-level ARI 0.568 (0.352 to 0.784) against the fingerprint
+  alone at 0.522 (0.291 to 0.753). The paired difference is 0.046 (-0.004 to 0.096).
+- **Duplicate links:** 0.086 (0.059 to 0.112) against 0.017. Neither method recognises two
+  human reports of one bug as one. The text channel is a hashed n-gram embedding, and the
+  trained sentence encoder behind the `st` extra is the next thing to measure.
+
+Section 2.2's three channels carry none of the three sets. Time carries 09's chaos runs,
+the traceback alone carries the injected faults, and nothing yet carries the duplicates.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops

@@ -11,8 +11,9 @@ from __future__ import annotations
 
 import json
 import re
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from pathlib import Path
+from typing import Any
 
 from mend.cluster.crossval import Fold, paired, summarise
 from mend.eval.results import (
@@ -110,6 +111,49 @@ def clustering_table(folds: Sequence[Fold], *, label: str) -> str:
         f"| {label} | Two-stage minus record-level, paired | {difference.mean:.3f} "
         f"| {difference.low:.3f} to {difference.high:.3f}; higher on {wins} of {len(folds)} folds |"
     )
+    return "\n".join(lines)
+
+
+def load_kfold(path: Path) -> dict[str, Any]:
+    payload: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
+    return payload
+
+
+def _ci(values: Sequence[float], *, percent: bool = False, places: int = 3) -> str:
+    est, low, high = values
+    if percent:
+        return f"{est * 100:.1f}% ({low * 100:.1f}% to {high * 100:.1f}%)"
+    return f"{est:.{places}f} ({low:.{places}f} to {high:.{places}f})"
+
+
+def kfold_table(sets: Sequence[tuple[str, Mapping[str, Any]]]) -> str:
+    """The labelled sets measured by k-fold over causes: one row per method, then the
+    paired difference. Intervals are a delete-one-cause jackknife (mend.cluster.metrics)."""
+    lines = [
+        "| Labelled set | Method | ARI (95% CI) | Purity (95% CI) | Completeness (95% CI) "
+        "| Symptoms per ticket (95% CI) |",
+        "|---|---|---|---|---|---|",
+    ]
+    names = {
+        "record-level": "Record-level (fingerprint, text, locality)",
+        "fingerprint": "Fingerprint only",
+    }
+    for label, payload in sets:
+        pooled = payload["pooled"]
+        for key, name in names.items():
+            m = pooled[key]
+            lines.append(
+                f"| {label} | {name} | {_ci(m['ari'])} | {_ci(m['purity'], percent=True)} "
+                f"| {_ci(m['completeness'], percent=True)} "
+                f"| {_ci(m['symptoms_per_ticket'], places=2)} |"
+            )
+        folds = payload["folds"]
+        wins = sum(1 for f in folds if f["ari"]["record-level"] > f["ari"]["fingerprint"])
+        lines.append(
+            f"| {label} | Record-level minus fingerprint, paired "
+            f"| {_ci(payload['record_level_minus_fingerprint_ari'])} "
+            f"| higher on {wins} of {len(folds)} folds | | |"
+        )
     return "\n".join(lines)
 
 

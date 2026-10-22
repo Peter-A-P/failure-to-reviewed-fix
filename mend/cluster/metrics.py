@@ -22,7 +22,7 @@ against hand-worked fixtures in tests/test_cluster_metrics.py.
 from __future__ import annotations
 
 import math
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 
 from mend.eval.stats import Interval, bootstrap
@@ -127,6 +127,98 @@ def symptoms_per_cause(labels: Labels, truth: Truth) -> float:
     """Records divided by clusters. The headline ratio in PLAN.md section 1."""
     del truth
     return len(labels) / len(set(labels)) if labels else float("nan")
+
+
+LabelStatistic = Callable[[Labels, Truth], float]
+
+
+def jackknife_by_cause(
+    labels: Sequence[Labels], truth: Truth, statistic: Callable[..., float]
+) -> tuple[float, float]:
+    """(estimate, standard error) of statistic(*labels, truth) by deleting one cause at a time.
+
+    Why a jackknife over causes and not a bootstrap. The records of one cause are not
+    independent: they are one bug seen several times, so they must be resampled together.
+    And a bootstrap over causes leaves out about a third of them in every draw, which
+    changes the very thing being measured: two causes can only share a ticket when both are
+    present, so every thinned draw looks purer than the whole. On the duplicate-link set
+    (2026-10-21) that put the whole bootstrap interval for purity above its own point
+    estimate. Deleting one cause at a time keeps all but one, and the grouped jackknife's
+    standard error is the textbook remedy for a statistic of clustered data.
+    """
+    members: dict[str, list[int]] = {}
+    for i, cause in enumerate(truth):
+        members.setdefault(cause, []).append(i)
+    point = statistic(*labels, truth)
+    causes = sorted(members)
+    g = len(causes)
+    if g < 3:
+        return point, float("nan")
+    values = []
+    for cause in causes:
+        keep = [i for c in causes if c != cause for i in members[c]]
+        values.append(
+            statistic(*[[lab[i] for i in keep] for lab in labels], [truth[i] for i in keep])
+        )
+    finite = [v for v in values if math.isfinite(v)]
+    if len(finite) < g:
+        return point, float("nan")
+    mean = sum(finite) / g
+    return point, math.sqrt((g - 1) / g * sum((v - mean) ** 2 for v in finite))
+
+
+def normal_interval(
+    point: float, se: float, n: int, *, low: float = -math.inf, high: float = math.inf
+) -> Interval:
+    """point plus or minus 1.96 standard errors, clipped to the statistic's range."""
+    if not math.isfinite(se):
+        return Interval(point, float("-inf"), float("inf"), n, "jackknife-undefined")
+    z = 1.959963984540054
+    return Interval(
+        point, max(low, point - z * se), min(high, point + z * se), n, "cause-jackknife"
+    )
+
+
+def evaluate_by_cause(labels: Labels, truth: Truth) -> ClusterMetrics:
+    """Every metric with a 95% interval from a delete-one-cause jackknife.
+
+    The interval describes how much the measurement of this labelling depends on which
+    causes happened to be in the set. It holds the clustering fixed; the spread from
+    re-tuning on other folds is reported beside it, per fold.
+    """
+    if len(labels) != len(truth):
+        raise ValueError("labels and truth must be the same length")
+    n = len(set(truth))
+    bounds = {
+        "ari": (-1.0, 1.0),
+        "purity": (0.0, 1.0),
+        "completeness": (0.0, 1.0),
+        "ratio": (1.0, math.inf),
+    }
+    functions: dict[str, LabelStatistic] = {
+        "ari": adjusted_rand_index,
+        "purity": purity,
+        "completeness": completeness,
+        "ratio": symptoms_per_cause,
+    }
+    out: dict[str, Interval] = {}
+    for name, function in functions.items():
+        point, se = jackknife_by_cause([labels], truth, function)
+        lo, hi = bounds[name]
+        out[name] = normal_interval(point, se, n, low=lo, high=hi)
+    return ClusterMetrics(
+        n_records=len(labels),
+        n_clusters=len(set(labels)),
+        n_true_causes=n,
+        purity=out["purity"].estimate,
+        completeness=out["completeness"].estimate,
+        ari=out["ari"].estimate,
+        symptoms_per_cause=out["ratio"].estimate,
+        ari_interval=out["ari"],
+        purity_interval=out["purity"],
+        completeness_interval=out["completeness"],
+        ratio_interval=out["ratio"],
+    )
 
 
 def evaluate(

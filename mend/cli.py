@@ -132,6 +132,86 @@ def capture_issues(
     typer.echo(f"{len(records)} records -> {out}")
 
 
+@capture_app.command("faults")
+def capture_faults(
+    seed: Annotated[int, typer.Option(help="Orders the candidate sites. Recorded.")],
+    suite: Annotated[
+        list[str] | None, typer.Option(help="Which suites; default all of them.")
+    ] = None,
+    faults: Annotated[int, typer.Option(help="Faults to keep per suite.")] = 20,
+    out: Annotated[Path, typer.Option(help="Where the labelled records go.")] = Path(
+        "results/faults/records.jsonl"
+    ),
+    manifest: Annotated[Path, typer.Option(help="What was injected, and where.")] = Path(
+        "results/faults/manifest.json"
+    ),
+) -> None:
+    """Build the injected-fault set: check each suite out at its pinned commit, mutate its
+    source one site at a time, run its tests, and keep each fault's failing tests as
+    symptoms labelled with the fault. Runs the libraries' own tests on this machine."""
+    from mend.data import faults as fault_set
+    from mend.sandbox.batch import WORK_ROOT
+
+    chosen = {n: fault_set.SUITES[n] for n in (suite or sorted(fault_set.SUITES))}
+    root = WORK_ROOT / "faults"
+    kept: list[Any] = []
+    records: list[FailureRecord] = []
+    for name, spec in chosen.items():
+        typer.echo(f"{name} {spec.tag} ({spec.commit[:10]})")
+        checkout, python = fault_set.prepare(spec, root)
+        found, symptoms = fault_set.build(
+            spec,
+            checkout,
+            fault_set.pytest_runner(python),
+            faults=faults,
+            seed=seed,
+            work=root / f"{name}-reports",
+            echo=typer.echo,
+        )
+        kept.extend(found)
+        records.extend(symptoms)
+        typer.echo(f"{name}: {len(found)} faults, {len(symptoms)} symptoms")
+    _write_records(records, out)
+    fault_set.write_manifest(manifest, chosen, kept, seed)
+    typer.echo(f"{len(records)} records -> {out}; manifest -> {manifest}")
+
+
+@capture_app.command("duplicates")
+def capture_duplicates(
+    links: Annotated[Path, typer.Option(help="The committed links file.")] = Path(
+        "data/duplicates/links.json"
+    ),
+    cache: Annotated[Path, typer.Option(help="Fetched issue text; never committed.")] = Path(
+        "data/issues"
+    ),
+    out: Annotated[Path, typer.Option(help="Labelled records; contain issue text.")] = Path(
+        "runs/duplicates/records.jsonl"
+    ),
+    refresh: Annotated[bool, typer.Option(help="Fetch again even if cached.")] = False,
+) -> None:
+    """Build the duplicate-link set from three public issue trackers through the GitHub CLI.
+    Writes the links (committed) and the records (issue text, kept local)."""
+    from mend.data import duplicates
+
+    mined = []
+    for tracker in duplicates.TRACKERS:
+        cached = cache / (tracker.repo.replace("/", "__") + ".json")
+        if cached.is_file() and not refresh:
+            result = duplicates.load_cache(cached)
+        else:
+            typer.echo(f"{tracker.repo}: fetching")
+            result = duplicates.mine(tracker)
+            duplicates.save_cache(cached, result)
+        mined.append(result)
+        typer.echo(
+            f"{tracker.repo}: {result.labelled} labelled, {len(result.links)} linked, "
+            f"{len(result.groups)} groups of {sum(len(g) for g in result.groups.values())} issues"
+        )
+    duplicates.write_links(links, mined)
+    _write_records([r for m in mined for r in duplicates.records(m)], out)
+    typer.echo(f"links -> {links}; records -> {out}")
+
+
 @cluster_app.command("run")
 def cluster_run(
     records_path: Annotated[Path, typer.Argument(help="Records written by mend capture.")],
@@ -269,6 +349,36 @@ def cluster_crossval(
             json.dumps([{"held_out": f.held_out, "ari": f.ari} for f in folds], indent=1),
             encoding="utf-8",
         )
+
+
+@cluster_app.command("kfold")
+def cluster_kfold(
+    records_path: Annotated[Path, typer.Argument(help="Labelled records, JSON lines.")],
+    seed: Annotated[int, typer.Option(help="Deals the causes into folds. Recorded.")],
+    k: Annotated[int, typer.Option(help="Folds.")] = 5,
+    out: Annotated[Path | None, typer.Option(help="Write the folds and pooled metrics.")] = None,
+) -> None:
+    """K-fold by cause within each repository: record-level clustering tuned on the other
+    folds, the fingerprint baseline beside it, and both measured once on the pooled held-out
+    labelling with bootstrap intervals."""
+    from mend.cluster.kfold import kfold
+
+    result = kfold(_read_records(records_path), k=k, seed=seed)
+    for name, m in result.pooled.items():
+        typer.echo(
+            f"{name:13} ARI {m.ari_interval.as_value(3)}  purity "
+            f"{m.purity_interval.as_percent()}  completeness {m.completeness_interval.as_percent()}"
+            f"  symptoms per ticket {m.ratio_interval.as_value()}"
+        )
+    wins = sum(1 for f in result.folds if f.ari["record-level"] > f.ari["fingerprint"])
+    typer.echo(
+        f"record-level minus fingerprint {result.difference.as_value(3)}; "
+        f"record-level higher on {wins} of {len(result.folds)} folds"
+    )
+    if out is not None:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        payload = {"records": records_path.as_posix(), "k": k, "seed": seed, **result.to_json()}
+        out.write_text(json.dumps(payload, indent=1) + "\n", encoding="utf-8")
 
 
 @cluster_app.command("weights")
@@ -504,6 +614,12 @@ def report(
         "results/chaos09/crossval.json"
     ),
     readme: Annotated[Path, typer.Option(help="The README to fill.")] = Path("README.md"),
+    faults: Annotated[Path, typer.Option(help="The injected-fault set's k-fold.")] = Path(
+        "results/faults/kfold.json"
+    ),
+    duplicates: Annotated[Path, typer.Option(help="The duplicate-link set's k-fold.")] = Path(
+        "results/duplicates/kfold.json"
+    ),
 ) -> None:
     """Write the README's result tables from the committed results, between their markers.
 
@@ -511,7 +627,9 @@ def report(
     with the result files it was written from."""
     from mend.eval.report import (
         clustering_table,
+        kfold_table,
         load_folds,
+        load_kfold,
         load_outcomes,
         replace_section,
         resolution_table,
@@ -526,6 +644,16 @@ def report(
     text = replace_section(
         text, "clustering", clustering_table(folds, label="09 chaos runs (8 faults, 373 symptoms)")
     )
+    sets = []
+    for path, name in ((faults, "Injected faults"), (duplicates, "Duplicate links")):
+        if path.is_file():
+            payload = load_kfold(path)
+            m = payload["pooled"]["record-level"]
+            sets.append(
+                (f"{name} ({m['n_true_causes']} causes, {m['n_records']} symptoms)", payload)
+            )
+    if sets:
+        text = replace_section(text, "clustering-sets", kfold_table(sets))
     readme.write_text(text, encoding="utf-8", newline="\n")
     typer.echo(f"{readme}: tables written from {outcomes} and {crossval}")
 

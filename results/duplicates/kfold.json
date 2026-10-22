@@ -1,0 +1,114 @@
+{
+ "records": "runs/duplicates/records.jsonl",
+ "k": 5,
+ "seed": 20261021,
+ "folds": [
+  {
+   "fold": 0,
+   "held_out_causes": 128,
+   "held_out_records": 271,
+   "threshold": 0.6,
+   "ari": {
+    "record-level": 0.0798978041472503,
+    "fingerprint": 0.012424711210006358
+   }
+  },
+  {
+   "fold": 1,
+   "held_out_causes": 128,
+   "held_out_records": 281,
+   "threshold": 0.6,
+   "ari": {
+    "record-level": 0.12905786075779724,
+    "fingerprint": 0.008103343900554732
+   }
+  },
+  {
+   "fold": 2,
+   "held_out_causes": 128,
+   "held_out_records": 279,
+   "threshold": 0.6,
+   "ari": {
+    "record-level": 0.08494575954975478,
+    "fingerprint": 0.009571189162862424
+   }
+  },
+  {
+   "fold": 3,
+   "held_out_causes": 128,
+   "held_out_records": 283,
+   "threshold": 0.6,
+   "ari": {
+    "record-level": 0.06947390750954603,
+    "fingerprint": 0.010376434037918419
+   }
+  },
+  {
+   "fold": 4,
+   "held_out_causes": 127,
+   "held_out_records": 264,
+   "threshold": 0.6,
+   "ari": {
+    "record-level": 0.05698570194929977,
+    "fingerprint": 0.009720630634017902
+   }
+  }
+ ],
+ "pooled": {
+  "record-level": {
+   "n_records": 1378,
+   "n_clusters": 1295,
+   "n_true_causes": 639,
+   "purity": [
+    0.9687953555878084,
+    0.9566985478293998,
+    0.980892163346217
+   ],
+   "completeness": [
+    0.4934687953555878,
+    0.4815885687269611,
+    0.5053490219842145
+   ],
+   "ari": [
+    0.08568617120518933,
+    0.059070769715543314,
+    0.11230157269483534
+   ],
+   "symptoms_per_ticket": [
+    1.064092664092664,
+    1.0460384306711372,
+    1.0821468975141908
+   ]
+  },
+  "fingerprint": {
+   "n_records": 1378,
+   "n_clusters": 124,
+   "n_true_causes": 639,
+   "purity": [
+    0.1320754716981132,
+    0.11308706598640618,
+    0.15106387740982025
+   ],
+   "completeness": [
+    0.9361393323657474,
+    0.922708662552953,
+    0.9495700021785418
+   ],
+   "ari": [
+    0.01711531269592756,
+    0.015617573851377048,
+    0.01861305154047807
+   ],
+   "symptoms_per_ticket": [
+    11.112903225806452,
+    9.185268020691067,
+    13.040538430921837
+   ]
+  }
+ },
+ "record_level_minus_fingerprint_ari": [
+  0.06857085850926177,
+  0.04221424656385805,
+  0.09492747045466549
+ ]
+}

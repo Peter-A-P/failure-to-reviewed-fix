@@ -7,7 +7,8 @@ without a person saying yes.
 
 **Status: measured.** The 120-task main run on SWE-bench Verified is done and scored on
 the benchmark's hidden tests, the routing was calibrated beforehand on a separate 30-task
-validation split, and the clustering is measured on project 09's recorded chaos runs. The
+validation split, and the clustering is measured on all three labelled sets the plan names:
+project 09's recorded chaos runs, injected faults, and maintainers' duplicate links. The
 tables below are written by `mend report` from the files in [results/](results/), not by
 hand. The plan is in [PLAN.md](PLAN.md).
 
@@ -48,6 +49,21 @@ holding 3 faults out**
 | 09 chaos runs (8 faults, 373 symptoms) | Two-stage minus record-level, paired | 0.604 | 0.125 to 0.956; higher on 56 of 56 folds |
 <!-- /report:clustering -->
 
+**Clustering: injected faults in two libraries' test suites, and issues maintainers closed
+as duplicates in three trackers; five folds by cause, 95% intervals from a delete-one-cause
+jackknife ([docs/clustering.md](docs/clustering.md))**
+
+<!-- report:clustering-sets -->
+| Labelled set | Method | ARI (95% CI) | Purity (95% CI) | Completeness (95% CI) | Symptoms per ticket (95% CI) |
+|---|---|---|---|---|---|
+| Injected faults (40 causes, 404 symptoms) | Record-level (fingerprint, text, locality) | 0.568 (0.352 to 0.784) | 96.8% (93.2% to 100.0%) | 51.7% (36.9% to 66.5%) | 2.07 (1.42 to 2.73) |
+| Injected faults (40 causes, 404 symptoms) | Fingerprint only | 0.522 (0.291 to 0.753) | 99.3% (97.8% to 100.0%) | 45.0% (30.0% to 60.1%) | 1.65 (1.23 to 2.07) |
+| Injected faults (40 causes, 404 symptoms) | Record-level minus fingerprint, paired | 0.046 (-0.004 to 0.096) | higher on 5 of 5 folds | | |
+| Duplicate links (639 causes, 1378 symptoms) | Record-level (fingerprint, text, locality) | 0.086 (0.059 to 0.112) | 96.9% (95.7% to 98.1%) | 49.3% (48.2% to 50.5%) | 1.06 (1.05 to 1.08) |
+| Duplicate links (639 causes, 1378 symptoms) | Fingerprint only | 0.017 (0.016 to 0.019) | 13.2% (11.3% to 15.1%) | 93.6% (92.3% to 95.0%) | 11.11 (9.19 to 13.04) |
+| Duplicate links (639 causes, 1378 symptoms) | Record-level minus fingerprint, paired | 0.069 (0.042 to 0.095) | higher on 5 of 5 folds | | |
+<!-- /report:clustering-sets -->
+
 ### The honest limitation
 
 **The confidently-wrong target was missed.** The plan set at most 3% of auto-proposed
@@ -65,11 +81,18 @@ the router reads, cautiously, as "not shown safe".
 **Where it is weak.** Sympy resolved 6 of 18; the fixer often could not make its own
 failing test pass. Django, 55 of the 120, resolved 42.
 
-**What the clustering result does and does not show.** On production-shaped signals,
-comparing symptoms one at a time does not find root causes, and grouping them into
-incidents first does. It is measured on one labelled set of eight faults, so the spread is
-wide, and it says nothing about traceback-shaped failures or overlapping incidents; the
-duplicate-link and injected-fault sets the plan names are not built.
+**What the clustering results do and do not show.**
+
+- **Production signals (09's chaos runs).** Comparing symptoms one at a time does not find
+  root causes, and grouping them into incidents first does. That set has eight faults, so
+  the spread is wide.
+- **Tracebacks from injected faults.** The full method finds about half of each fault, and
+  the fingerprint alone does nearly as well.
+- **Human reports of one bug.** Neither method recognises them as one. Only 8% of those
+  reports hold a traceback, and a hashed text embedding cannot match two different
+  wordings. A trained sentence encoder is built but not yet measured.
+
+None of the sets has incidents that overlap in time.
 
 **Rejected:** record-level clustering for production signals, in
 [docs/rejected.md](docs/rejected.md).
@@ -126,14 +149,16 @@ Built, tested, and reproducible today with `uv sync && uv run pytest`:
   not run their tests with pytest; the sandbox uses each project's documented runner and
   reads its output with the harness's own parsers.
 
-Not built yet: the duplicate-link and injected-fault clustering sets, and the live
-workflow. Those are in [PLAN.md](PLAN.md) section 5.
-Until the validation split has run, routing is uncalibrated and nothing auto-proposes: the
-top tier is held at a suggestion.
+- **The other two labelled sets.** Injected faults: two libraries checked out at pinned
+  commits, one mutation at a time, and every test it breaks kept as a symptom of that
+  fault. Duplicate links: issues the pandas, matplotlib and numpy maintainers closed as
+  duplicates, linked to their originals. Only the ids and links are committed; the issue
+  text stays local.
+- **The ablations.** No failing test first, and the fixer's own model as the reviewer, both
+  run outside the graph so the graph keeps no switch that turns a rail off, and both handed
+  to project 03's release gate. See [docs/ablations.md](docs/ablations.md).
 
-Nothing here waits on anything outside this repository now. The chaos-trace clustering
-set is recorded and read, and needs the two-stage clustering described in
-[docs/clustering.md](docs/clustering.md), which is the next piece of work.
+Not built yet: the live workflow, in [PLAN.md](PLAN.md) section 5.
 
 ## What this does not do
 

@@ -1,0 +1,114 @@
+{
+ "records": "results/faults/records.jsonl",
+ "k": 5,
+ "seed": 20261021,
+ "folds": [
+  {
+   "fold": 0,
+   "held_out_causes": 8,
+   "held_out_records": 56,
+   "threshold": 0.3,
+   "ari": {
+    "record-level": 0.45651795050540256,
+    "fingerprint": 0.4136644093303235
+   }
+  },
+  {
+   "fold": 1,
+   "held_out_causes": 8,
+   "held_out_records": 72,
+   "threshold": 0.4,
+   "ari": {
+    "record-level": 0.06520545684755669,
+    "fingerprint": 0.05314803641016599
+   }
+  },
+  {
+   "fold": 2,
+   "held_out_causes": 8,
+   "held_out_records": 91,
+   "threshold": 0.6,
+   "ari": {
+    "record-level": 0.8452807317207559,
+    "fingerprint": 0.7670380084693287
+   }
+  },
+  {
+   "fold": 3,
+   "held_out_causes": 8,
+   "held_out_records": 106,
+   "threshold": 0.275,
+   "ari": {
+    "record-level": 0.28235840507904797,
+    "fingerprint": 0.2815571950338391
+   }
+  },
+  {
+   "fold": 4,
+   "held_out_causes": 8,
+   "held_out_records": 79,
+   "threshold": 0.6,
+   "ari": {
+    "record-level": 0.6513666616170384,
+    "fingerprint": 0.5908759976372653
+   }
+  }
+ ],
+ "pooled": {
+  "record-level": {
+   "n_records": 404,
+   "n_clusters": 195,
+   "n_true_causes": 40,
+   "purity": [
+    0.9678217821782178,
+    0.9315841218639834,
+    1.0
+   ],
+   "completeness": [
+    0.5173267326732673,
+    0.3692925176667547,
+    0.6653609476797799
+   ],
+   "ari": [
+    0.5680918081915507,
+    0.35247879399871307,
+    0.7837048223843883
+   ],
+   "symptoms_per_ticket": [
+    2.071794871794872,
+    1.4154712102386262,
+    2.7281185333511178
+   ]
+  },
+  "fingerprint": {
+   "n_records": 404,
+   "n_clusters": 245,
+   "n_true_causes": 40,
+   "purity": [
+    0.9925742574257426,
+    0.9778320401800729,
+    1.0
+   ],
+   "completeness": [
+    0.4504950495049505,
+    0.3001367432751654,
+    0.6008533557347356
+   ],
+   "ari": [
+    0.5219622765602613,
+    0.2913210378324309,
+    0.7526035152880917
+   ],
+   "symptoms_per_ticket": [
+    1.6489795918367347,
+    1.2275400477057175,
+    2.070419135967752
+   ]
+  }
+ },
+ "record_level_minus_fingerprint_ari": [
+  0.04612953163128941,
+  -0.0038253774429519855,
+  0.09608444070553081
+ ]
+}

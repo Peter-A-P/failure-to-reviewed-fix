@@ -41,8 +41,10 @@ place, and that assumption does not survive contact with metrics.
 
 ## What this does not show
 
-That record-level clustering is wrong for tracebacks. It was not measured there: the
-duplicate-link and injected-fault sets in the plan are not built. And that two-stage
+That record-level clustering is wrong for tracebacks. Measured there since (2026-10-21,
+`docs/clustering.md`): on 40 injected faults it reaches an ARI of 0.568 (0.352 to 0.784),
+a little above the fingerprint alone, so it is not rejected for the case it was designed
+for. It is not much better than the fingerprint either. And that two-stage
 clustering is right in general: it was measured on one set of eight faults whose incidents
 never overlapped in time, which is the case it handles best. The spread across folds is
 wide because eight faults is few.

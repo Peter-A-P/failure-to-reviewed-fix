@@ -1,9 +1,11 @@
 # Clustering: how many symptoms become one ticket
 
-**Status as of 2026-09-13: the mechanism is built and tested; nothing is calibrated.** The
-channel weights and the agglomeration threshold in the code are a starting point, not a
-result. They are tuned on a validation split of the labelled sets, and those sets do not
-exist yet. Every number on this page that came from the nine-record fixture says so.
+**Status as of 2026-10-21: measured on all three labelled sets the plan names.** Project
+09's chaos runs (below, from 2026-10-17), and the injected-fault and duplicate-link sets
+(the last section, 2026-10-21). The channel weights are still the starting values. Only
+the threshold is tuned, always on causes held out from the ones it is scored on. The
+sections in between are kept as they were written: they record the mechanism and the
+nine-record fixture it was first checked on.
 
 ## The three channels
 
@@ -214,6 +216,111 @@ about overlapping incidents, which this campaign never produced.
 
 Reproduce with `mend cluster crossval runs/chaos09-2026-10-17.jsonl --k 3` after
 `mend capture chaos09` on the campaign (about 25 minutes).
+
+## The injected-fault and duplicate-link sets (2026-10-21)
+
+These are the two sets that test what the record-level method was designed for:
+
+- tracebacks from one bug;
+- human reports of one bug.
+
+Both are measured the same way, by k-fold over causes (`mend.cluster.kfold`).
+
+1. The causes are dealt into five folds with seed 20261021.
+2. The threshold is tuned on four folds, then the fifth is clustered with it.
+3. Records cluster only within their own library or repository.
+4. Every record is held out exactly once, so the held-out labellings join into one
+   labelling of the whole set.
+5. That labelling is measured once.
+
+The intervals come from a delete-one-cause jackknife. A first attempt used a bootstrap over
+causes, and it put the whole interval for duplicate-set purity above its own estimate.
+Each bootstrap draw leaves out about a third of the causes, and fewer causes means fewer
+chances for two of them to share a ticket, so every draw looked purer than the whole set.
+The jackknife leaves out one cause at a time and has no such bias. The interval holds the
+clustering fixed. The per-fold rows show how much re-tuning moves it.
+
+**Injected faults** (`mend capture faults`, `results/faults/`). The source is two libraries
+at pinned commits: click 8.1.7 and marshmallow 3.21.3.
+
+- **Sites.** Every mutation site in each library's source was found, then tried in seeded
+  order. The operators are classic mutation testing: a comparison flipped, a condition
+  negated, a boolean or 0/1 constant changed, a return value replaced with None, `and`
+  swapped with `or`, `+` swapped with `-`.
+- **Keeping a fault.** A fault was kept when 2 to 400 tests failed that passed on the clean
+  checkout, with nothing broken at import.
+- **Size.** 20 faults per library, 40 in all. They failed between 2 and 330 tests each, and
+  at most 25 symptoms per fault were kept, 404 in all.
+- **Fingerprints.** The median fault produced 4 distinct fingerprints, and the most diverse
+  produced 25. Most symptoms are an `AssertionError` raised in the test itself, so the
+  innermost project frame is the test, not the bug.
+- **No label leaks.** Nothing about a record says which run it came from: every record has
+  the same capture time and an id that does not contain the fault.
+
+| Method | ARI | Purity | Completeness | Symptoms per ticket |
+|---|---|---|---|---|
+| Record-level (fingerprint, text, locality) | 0.568 (0.352 to 0.784) | 96.8% (93.2% to 100.0%) | 51.7% (36.9% to 66.5%) | 2.07 (1.42 to 2.73) |
+| Fingerprint only | 0.522 (0.291 to 0.753) | 99.3% (97.8% to 100.0%) | 45.0% (30.0% to 60.1%) | 1.65 (1.23 to 2.07) |
+| Record-level minus fingerprint, paired | 0.046 (-0.004 to 0.096) | | | |
+
+40 causes, 404 symptoms; the five folds' held-out ARI for the record-level method ran
+0.065, 0.282, 0.457, 0.651, 0.845. On tracebacks the fingerprint does about as well as
+the full method. This is the plan's expected shape for the fingerprint baseline (section
+9.3): almost perfectly pure, and splitting each fault into about two tickets. The other two
+channels buy a little completeness at a little purity, and the paired interval reaches
+zero. Neither method gets one ticket per fault. A fault that fails tests through different
+code paths with different exceptions stays several tickets under both methods.
+
+**Duplicate links** (`mend capture duplicates`, `data/duplicates/links.json`). The source is
+the issue trackers of pandas, matplotlib and numpy:
+
+- issues carrying each tracker's duplicate label;
+- each linked to its original by a maintainer's or a commenter's "duplicate of #N" naming
+  exactly one issue. GitHub's own duplicate event was never present.
+
+Of 1,711 labelled issues, 739 could be linked. With their originals and chains followed to
+the root, that makes 639 groups and 1,378 issues, almost all of them pairs. The links and
+groups are committed. The issue text is cached locally and is not redistributed.
+
+| Method | ARI | Purity | Completeness | Symptoms per ticket |
+|---|---|---|---|---|
+| Record-level (fingerprint, text, locality) | 0.086 (0.059 to 0.112) | 96.9% (95.7% to 98.1%) | 49.3% (48.2% to 50.5%) | 1.06 (1.05 to 1.08) |
+| Fingerprint only | 0.017 (0.016 to 0.019) | 13.2% (11.3% to 15.1%) | 93.6% (92.3% to 95.0%) | 11.11 (9.19 to 13.04) |
+| Record-level minus fingerprint, paired | 0.069 (0.042 to 0.095) | | | |
+
+**Human reports of one bug are almost never recognised as one.** Only 106 of the 1,378
+issues hold a traceback at all.
+
+- **Fingerprint only** puts every report without one into a single ticket.
+- **Record-level** leaves nearly every report in a ticket of its own: 1.06 symptoms per
+  ticket, against a truth of 2.16.
+
+The text channel is a hashed character n-gram embedding. It cannot see that two
+differently worded reports describe one bug, and on this set that is the only evidence
+there is. A trained sentence encoder is already built behind the `st` extra and has not
+been measured. It is the next thing to try, and the obvious reason this number could
+improve.
+
+### What the three sets say together
+
+- **Production signals (09):** the record-level method finds nothing. Grouping symptoms by
+  when they started, then comparing those incidents, does.
+- **Tracebacks:** the record-level method finds about half of each fault, no better than
+  the fingerprint alone.
+- **Human reports:** neither finds much.
+
+The plan's design, three channels compared one record at a time, is not what carries any
+of these results. Time carries the production signals, the traceback carries the injected
+faults, and nothing carries the human reports yet.
+
+Reproduce with:
+
+```
+mend capture faults --seed 20261021
+mend cluster kfold results/faults/records.jsonl --seed 20261021
+mend capture duplicates
+mend cluster kfold runs/duplicates/records.jsonl --seed 20261021
+```
 
 ## Reproducing the table above
 

@@ -1,0 +1,9700 @@
+{
+ "source": "GitHub issue trackers, duplicate labels; see mend/data/duplicates.py",
+ "trackers": [
+  {
+   "repo": "pandas-dev/pandas",
+   "label": "Duplicate Report",
+   "package": "pandas",
+   "since": 2011,
+   "labelled": 1134,
+   "linked": 477,
+   "groups": 406,
+   "issues_in_groups": 883,
+   "rules": {
+    "event": 0,
+    "maintainer-comment": 270,
+    "comment": 207
+   }
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "label": "status: duplicate",
+   "package": "matplotlib",
+   "since": 2011,
+   "labelled": 446,
+   "linked": 194,
+   "groups": 173,
+   "issues_in_groups": 367,
+   "rules": {
+    "event": 0,
+    "maintainer-comment": 152,
+    "comment": 42
+   }
+  },
+  {
+   "repo": "numpy/numpy",
+   "label": "50 - Duplicate",
+   "package": "numpy",
+   "since": 2011,
+   "labelled": 131,
+   "linked": 68,
+   "groups": 60,
+   "issues_in_groups": 128,
+   "rules": {
+    "event": 0,
+    "maintainer-comment": 66,
+    "comment": 2
+   }
+  }
+ ],
+ "groups": [
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 413,
+   "members": [
+    413,
+    3295
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 667,
+   "members": [
+    667,
+    2873
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 1918,
+   "members": [
+    1918,
+    5774
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 1960,
+   "members": [
+    1960,
+    2325
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 2193,
+   "members": [
+    2193,
+    10134,
+    21783
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 2600,
+   "members": [
+    2600,
+    4287
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 2936,
+   "members": [
+    2936,
+    25450
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 2953,
+   "members": [
+    2953,
+    14425
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 3132,
+   "members": [
+    3132,
+    14285
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 3612,
+   "members": [
+    3612,
+    4225
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 3729,
+   "members": [
+    3729,
+    21419,
+    29691
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 3794,
+   "members": [
+    3794,
+    6303
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 3849,
+   "members": [
+    3849,
+    3870
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 3942,
+   "members": [
+    3942,
+    24403
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 4094,
+   "members": [
+    4094,
+    42891
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 4160,
+   "members": [
+    4160,
+    26498
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 4464,
+   "members": [
+    4464,
+    14655,
+    25294
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 4668,
+   "members": [
+    4668,
+    16840
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 4793,
+   "members": [
+    4793,
+    13497
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 4889,
+   "members": [
+    4889,
+    14825
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 4907,
+   "members": [
+    4907,
+    26006
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 5023,
+   "members": [
+    5023,
+    16257
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 5071,
+   "members": [
+    5071,
+    20068
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 5167,
+   "members": [
+    3345,
+    5167,
+    13540
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 5216,
+   "members": [
+    5216,
+    5683
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 5218,
+   "members": [
+    5218,
+    14560
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 5314,
+   "members": [
+    5314,
+    6565
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 5355,
+   "members": [
+    3637,
+    5355
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 5924,
+   "members": [
+    5924,
+    17392
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 6415,
+   "members": [
+    6415,
+    15760
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 6491,
+   "members": [
+    6491,
+    41388
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 6673,
+   "members": [
+    6673,
+    15886
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 6878,
+   "members": [
+    6878,
+    41947
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 6936,
+   "members": [
+    6936,
+    17425,
+    27041
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 6942,
+   "members": [
+    6942,
+    15526,
+    18027,
+    20070
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 6963,
+   "members": [
+    6963,
+    17552,
+    30772
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 7001,
+   "members": [
+    7001,
+    24469
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 7117,
+   "members": [
+    7117,
+    15962
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 7612,
+   "members": [
+    7612,
+    15912
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 7757,
+   "members": [
+    7757,
+    17082
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 7877,
+   "members": [
+    7877,
+    8533,
+    10104
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 7996,
+   "members": [
+    7996,
+    16831
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 8000,
+   "members": [
+    8000,
+    15356
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 8222,
+   "members": [
+    8222,
+    13779
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 8319,
+   "members": [
+    8319,
+    19997
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 8344,
+   "members": [
+    8344,
+    10961
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 8427,
+   "members": [
+    8427,
+    20657
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 8435,
+   "members": [
+    8435,
+    33194
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 8559,
+   "members": [
+    8559,
+    17032
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 8640,
+   "members": [
+    8640,
+    14819
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 9042,
+   "members": [
+    9042,
+    21424
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 9119,
+   "members": [
+    9119,
+    22619
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 9145,
+   "members": [
+    9145,
+    11985
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 9220,
+   "members": [
+    9220,
+    20642,
+    24445
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 9244,
+   "members": [
+    9244,
+    10786
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 9259,
+   "members": [
+    9259,
+    19916
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 9304,
+   "members": [
+    9304,
+    17762
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 9309,
+   "members": [
+    9309,
+    27134
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 9422,
+   "members": [
+    9422,
+    15542
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 9435,
+   "members": [
+    9435,
+    21555,
+    25067,
+    32930,
+    35431
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 9477,
+   "members": [
+    9477,
+    9505
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 9817,
+   "members": [
+    9817,
+    10256
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 10118,
+   "members": [
+    10118,
+    16540
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 10128,
+   "members": [
+    10128,
+    11452
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 10349,
+   "members": [
+    10349,
+    21953
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 10355,
+   "members": [
+    10355,
+    16799
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 10409,
+   "members": [
+    10409,
+    13404
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 10440,
+   "members": [
+    10440,
+    16379,
+    18223,
+    25582
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 10459,
+   "members": [
+    10459,
+    16127
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 10474,
+   "members": [
+    10474,
+    13531
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 10552,
+   "members": [
+    10552,
+    47596
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 10710,
+   "members": [
+    10710,
+    16038
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 10816,
+   "members": [
+    10816,
+    56917
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 10882,
+   "members": [
+    10882,
+    15799
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11123,
+   "members": [
+    11123,
+    15837
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11250,
+   "members": [
+    11250,
+    16868
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11312,
+   "members": [
+    11312,
+    11701
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11365,
+   "members": [
+    11365,
+    14148
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11430,
+   "members": [
+    11430,
+    16074
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11446,
+   "members": [
+    11446,
+    40043
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11471,
+   "members": [
+    11471,
+    17938
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11499,
+   "members": [
+    11499,
+    21099
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11665,
+   "members": [
+    11665,
+    16914
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11733,
+   "members": [
+    11733,
+    15180,
+    15660
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11758,
+   "members": [
+    11758,
+    13030
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11847,
+   "members": [
+    9913,
+    11847
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 11915,
+   "members": [
+    11915,
+    12510
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12136,
+   "members": [
+    12136,
+    16791,
+    23716
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12210,
+   "members": [
+    12210,
+    18711
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12236,
+   "members": [
+    12236,
+    14692
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12344,
+   "members": [
+    12344,
+    13423
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12396,
+   "members": [
+    12396,
+    18560
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12398,
+   "members": [
+    12398,
+    36768
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12437,
+   "members": [
+    12437,
+    18784
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12585,
+   "members": [
+    12585,
+    26304,
+    34546,
+    35402,
+    36190,
+    37895
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12640,
+   "members": [
+    12640,
+    15241
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12653,
+   "members": [
+    9945,
+    12653,
+    35137
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12669,
+   "members": [
+    12669,
+    12765
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12679,
+   "members": [
+    12679,
+    15833,
+    27670
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12693,
+   "members": [
+    12693,
+    25965
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12859,
+   "members": [
+    12859,
+    16508
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12863,
+   "members": [
+    12863,
+    38962
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12869,
+   "members": [
+    12869,
+    40257
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 12905,
+   "members": [
+    12905,
+    14394
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13016,
+   "members": [
+    13016,
+    25834
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13032,
+   "members": [
+    13032,
+    21095
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13049,
+   "members": [
+    13049,
+    62013
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13090,
+   "members": [
+    13090,
+    34820
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13092,
+   "members": [
+    13092,
+    13199
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13111,
+   "members": [
+    13111,
+    20817
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13208,
+   "members": [
+    13208,
+    17726,
+    19271,
+    19376
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13217,
+   "members": [
+    13217,
+    22542,
+    25011
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13258,
+   "members": [
+    13258,
+    14216,
+    16048
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13262,
+   "members": [
+    13262,
+    19383
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13287,
+   "members": [
+    13287,
+    17539,
+    19198
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13302,
+   "members": [
+    13302,
+    15144
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13431,
+   "members": [
+    9212,
+    13431
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13473,
+   "members": [
+    13473,
+    23043,
+    24136,
+    24311
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13475,
+   "members": [
+    13475,
+    21629,
+    22495,
+    27053,
+    27230
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13591,
+   "members": [
+    13591,
+    13945
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13595,
+   "members": [
+    13595,
+    14589
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13696,
+   "members": [
+    13696,
+    15147
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13721,
+   "members": [
+    13721,
+    16898
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13741,
+   "members": [
+    13741,
+    14258
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13774,
+   "members": [
+    13774,
+    20598
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13842,
+   "members": [
+    13842,
+    16143
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 13905,
+   "members": [
+    13905,
+    14524
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 14013,
+   "members": [
+    14013,
+    14420,
+    15350
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 14156,
+   "members": [
+    14156,
+    17221,
+    19680
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 14183,
+   "members": [
+    14183,
+    14288
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 14310,
+   "members": [
+    14310,
+    17408
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 14336,
+   "members": [
+    14336,
+    15794
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 14381,
+   "members": [
+    14381,
+    14414
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 14423,
+   "members": [
+    14423,
+    15112,
+    15670
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 14440,
+   "members": [
+    14440,
+    14572
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 14487,
+   "members": [
+    14487,
+    19844
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 14927,
+   "members": [
+    14927,
+    30533,
+    31612
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 14973,
+   "members": [
+    14973,
+    15565
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15086,
+   "members": [
+    15086,
+    16602,
+    17188,
+    21828
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15095,
+   "members": [
+    15095,
+    19885,
+    20919
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15105,
+   "members": [
+    15105,
+    34112,
+    35343
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15122,
+   "members": [
+    15122,
+    22677
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15217,
+   "members": [
+    15217,
+    19622
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15273,
+   "members": [
+    15273,
+    15288
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15305,
+   "members": [
+    15305,
+    17049,
+    17311
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15354,
+   "members": [
+    15354,
+    22976
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15599,
+   "members": [
+    15599,
+    24224
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15613,
+   "members": [
+    15613,
+    20326
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15628,
+   "members": [
+    15628,
+    18573
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15630,
+   "members": [
+    15630,
+    18296
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15669,
+   "members": [
+    15669,
+    19644
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15675,
+   "members": [
+    15675,
+    32696,
+    35616,
+    37976
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15697,
+   "members": [
+    15697,
+    18816
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15822,
+   "members": [
+    12938,
+    15822
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15836,
+   "members": [
+    15836,
+    25740
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15853,
+   "members": [
+    15853,
+    19185
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15884,
+   "members": [
+    15884,
+    19995
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15928,
+   "members": [
+    15928,
+    25137
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 15986,
+   "members": [
+    15986,
+    16885
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 16230,
+   "members": [
+    16230,
+    16684
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 16276,
+   "members": [
+    16276,
+    17047
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 16286,
+   "members": [
+    16286,
+    17989
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 16328,
+   "members": [
+    16328,
+    47156
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 16363,
+   "members": [
+    16363,
+    19697,
+    20367
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 16538,
+   "members": [
+    16538,
+    23470
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 16632,
+   "members": [
+    16632,
+    21089
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 16724,
+   "members": [
+    16724,
+    17072,
+    29917
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 16765,
+   "members": [
+    16765,
+    17786
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 16822,
+   "members": [
+    16822,
+    17240
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 16874,
+   "members": [
+    16874,
+    18594
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 16953,
+   "members": [
+    9154,
+    16953
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 17101,
+   "members": [
+    17101,
+    26325
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 17382,
+   "members": [
+    17382,
+    26938
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 17440,
+   "members": [
+    17440,
+    35069
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 17558,
+   "members": [
+    17558,
+    18947
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 17594,
+   "members": [
+    17594,
+    17631
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 17775,
+   "members": [
+    7287,
+    17775
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 17839,
+   "members": [
+    17839,
+    18282
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 17931,
+   "members": [
+    17931,
+    19771
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 17965,
+   "members": [
+    17965,
+    17995
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 18031,
+   "members": [
+    18031,
+    20620
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 18250,
+   "members": [
+    18250,
+    21726
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 18502,
+   "members": [
+    18502,
+    19416
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 18686,
+   "members": [
+    18686,
+    19313
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 18752,
+   "members": [
+    18752,
+    42703
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 18776,
+   "members": [
+    18776,
+    21443
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 18799,
+   "members": [
+    18799,
+    19210
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 18930,
+   "members": [
+    18930,
+    42899
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 19254,
+   "members": [
+    11562,
+    19254
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 19437,
+   "members": [
+    5758,
+    9970,
+    10671,
+    19437
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 19474,
+   "members": [
+    19474,
+    19590
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 19501,
+   "members": [
+    19501,
+    22778
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 19560,
+   "members": [
+    19560,
+    21554
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 19602,
+   "members": [
+    19602,
+    23842
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 19998,
+   "members": [
+    19998,
+    26050,
+    33298
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 20421,
+   "members": [
+    20421,
+    38069
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 20589,
+   "members": [
+    20589,
+    26664
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 20608,
+   "members": [
+    20608,
+    24249,
+    33766,
+    40992
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 20635,
+   "members": [
+    20635,
+    20754
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 20773,
+   "members": [
+    20773,
+    27601
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 20775,
+   "members": [
+    20771,
+    20775
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 20852,
+   "members": [
+    20852,
+    21777
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 21075,
+   "members": [
+    21075,
+    21732
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 21103,
+   "members": [
+    21103,
+    21288
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 21108,
+   "members": [
+    21108,
+    29966
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 21131,
+   "members": [
+    21131,
+    23056
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 21180,
+   "members": [
+    21180,
+    21327
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 21298,
+   "members": [
+    21298,
+    21464
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 21768,
+   "members": [
+    21768,
+    33037
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 21892,
+   "members": [
+    21892,
+    40063
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 22088,
+   "members": [
+    22088,
+    25606
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 22392,
+   "members": [
+    22391,
+    22392
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 22450,
+   "members": [
+    22450,
+    22498
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 22527,
+   "members": [
+    22527,
+    29162
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 22613,
+   "members": [
+    22613,
+    32049
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 22668,
+   "members": [
+    22668,
+    28174
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 22773,
+   "members": [
+    22773,
+    25398
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 22848,
+   "members": [
+    22848,
+    26805
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 22861,
+   "members": [
+    22861,
+    29426
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 22994,
+   "members": [
+    22994,
+    29569
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 23002,
+   "members": [
+    23002,
+    48652
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 24019,
+   "members": [
+    24019,
+    29264
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 24071,
+   "members": [
+    24071,
+    26232
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 24357,
+   "members": [
+    24357,
+    27364
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 24435,
+   "members": [
+    24435,
+    38842
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 24589,
+   "members": [
+    24589,
+    24824,
+    26971
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 24800,
+   "members": [
+    24800,
+    47173
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 24804,
+   "members": [
+    24804,
+    30015
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 24859,
+   "members": [
+    24859,
+    26072,
+    26587
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 24940,
+   "members": [
+    24940,
+    25078
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 24990,
+   "members": [
+    24990,
+    27835
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 25006,
+   "members": [
+    25006,
+    28461
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 25193,
+   "members": [
+    25193,
+    25207
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 25259,
+   "members": [
+    25259,
+    25530
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 25353,
+   "members": [
+    25353,
+    28186
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 25383,
+   "members": [
+    25383,
+    33952
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 25460,
+   "members": [
+    25460,
+    34597,
+    35326
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 25760,
+   "members": [
+    25760,
+    28956
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 25815,
+   "members": [
+    23184,
+    25815
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 25887,
+   "members": [
+    25887,
+    28188
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 25996,
+   "members": [
+    25996,
+    30352
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 26237,
+   "members": [
+    26237,
+    29790
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 26314,
+   "members": [
+    26314,
+    33694
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 26411,
+   "members": [
+    26411,
+    40626
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 26614,
+   "members": [
+    26614,
+    26618
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 26714,
+   "members": [
+    26582,
+    26673,
+    26714
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 26837,
+   "members": [
+    26837,
+    43020
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 26838,
+   "members": [
+    26838,
+    27643
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 27241,
+   "members": [
+    27241,
+    40432
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 27407,
+   "members": [
+    27407,
+    35538
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 27469,
+   "members": [
+    27469,
+    45704
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 27516,
+   "members": [
+    27516,
+    27695
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 27519,
+   "members": [
+    27519,
+    27914
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 27554,
+   "members": [
+    27554,
+    36798
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 27692,
+   "members": [
+    27692,
+    29588
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 27748,
+   "members": [
+    27748,
+    28046,
+    28280
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 27794,
+   "members": [
+    27794,
+    28468,
+    28768
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 27927,
+   "members": [
+    27927,
+    35422
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 28139,
+   "members": [
+    28139,
+    28366
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 28204,
+   "members": [
+    28204,
+    28240
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 28243,
+   "members": [
+    28243,
+    43096
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 28283,
+   "members": [
+    28283,
+    47238
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 28302,
+   "members": [
+    28302,
+    29161
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 28663,
+   "members": [
+    28663,
+    30483
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 28882,
+   "members": [
+    28194,
+    28882
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 28900,
+   "members": [
+    28900,
+    34521
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 28984,
+   "members": [
+    28984,
+    42997
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 29095,
+   "members": [
+    29095,
+    32741
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 29413,
+   "members": [
+    29413,
+    29465
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 29773,
+   "members": [
+    25422,
+    29773
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 30188,
+   "members": [
+    30188,
+    39847
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 30741,
+   "members": [
+    30741,
+    37526
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 31063,
+   "members": [
+    31063,
+    35782
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 31204,
+   "members": [
+    31204,
+    31839
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 31531,
+   "members": [
+    31531,
+    31533
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 31775,
+   "members": [
+    31775,
+    33777
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 31821,
+   "members": [
+    31821,
+    43621
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 31902,
+   "members": [
+    31902,
+    36392
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 31990,
+   "members": [
+    31990,
+    42545
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 32295,
+   "members": [
+    32295,
+    33648
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 32346,
+   "members": [
+    32346,
+    47214
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 32526,
+   "members": [
+    32526,
+    41319
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 32593,
+   "members": [
+    32593,
+    43310
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 32709,
+   "members": [
+    32709,
+    37399
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 32857,
+   "members": [
+    32857,
+    33305
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 32861,
+   "members": [
+    32861,
+    34172
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 33113,
+   "members": [
+    33113,
+    35457
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 33239,
+   "members": [
+    33239,
+    35618
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 33548,
+   "members": [
+    33548,
+    35173,
+    35642
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 33554,
+   "members": [
+    33554,
+    48021
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 33662,
+   "members": [
+    33662,
+    58366,
+    60049
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 33912,
+   "members": [
+    33912,
+    46797
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 34213,
+   "members": [
+    34213,
+    36420,
+    36421
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 34290,
+   "members": [
+    34290,
+    35158
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 34373,
+   "members": [
+    34373,
+    46618
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 34455,
+   "members": [
+    34455,
+    34675
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 34465,
+   "members": [
+    34465,
+    40514
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 34551,
+   "members": [
+    34551,
+    46764
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 34671,
+   "members": [
+    34671,
+    34957,
+    35512
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 35429,
+   "members": [
+    35429,
+    35560
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 35462,
+   "members": [
+    35462,
+    35483,
+    35526,
+    35634
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 35466,
+   "members": [
+    35466,
+    58815
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 35493,
+   "members": [
+    35493,
+    35648
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 35509,
+   "members": [
+    35509,
+    35819
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 35518,
+   "members": [
+    35518,
+    36042
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 35520,
+   "members": [
+    35520,
+    40447
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 35606,
+   "members": [
+    35606,
+    35657
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 35847,
+   "members": [
+    35847,
+    37464
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 36047,
+   "members": [
+    36047,
+    36526
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 36060,
+   "members": [
+    36060,
+    36479
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 36271,
+   "members": [
+    36271,
+    43594
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 36327,
+   "members": [
+    36327,
+    48492
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 36467,
+   "members": [
+    36467,
+    37766
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 36579,
+   "members": [
+    36579,
+    36662
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 36688,
+   "members": [
+    36688,
+    36807
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 36909,
+   "members": [
+    36909,
+    41537
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 36984,
+   "members": [
+    36984,
+    38510
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 37245,
+   "members": [
+    37245,
+    37408
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 37328,
+   "members": [
+    37328,
+    37338
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 37600,
+   "members": [
+    37600,
+    42152
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 37795,
+   "members": [
+    37795,
+    37831
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 38424,
+   "members": [
+    38424,
+    38498
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 38523,
+   "members": [
+    38523,
+    38655
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 38534,
+   "members": [
+    38534,
+    41368
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 38714,
+   "members": [
+    38714,
+    39190
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 38760,
+   "members": [
+    38760,
+    46112
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 38823,
+   "members": [
+    38822,
+    38823
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 38947,
+   "members": [
+    38947,
+    39126
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 39143,
+   "members": [
+    39143,
+    40055
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 39169,
+   "members": [
+    33242,
+    39169,
+    47092
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 39520,
+   "members": [
+    39520,
+    39542
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 39537,
+   "members": [
+    39537,
+    47056
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 39771,
+   "members": [
+    39771,
+    40395
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 39926,
+   "members": [
+    39926,
+    46677
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 40073,
+   "members": [
+    40073,
+    42388
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 40080,
+   "members": [
+    40080,
+    45317
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 40112,
+   "members": [
+    40112,
+    47543
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 40307,
+   "members": [
+    40307,
+    43141
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 40660,
+   "members": [
+    40660,
+    40788
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 40810,
+   "members": [
+    40810,
+    45676
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 41335,
+   "members": [
+    41335,
+    60422
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 41681,
+   "members": [
+    41681,
+    42652
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 41935,
+   "members": [
+    41935,
+    46948
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 42016,
+   "members": [
+    42016,
+    45226
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 42102,
+   "members": [
+    42102,
+    58142,
+    70005
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 42395,
+   "members": [
+    42395,
+    43380
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 42423,
+   "members": [
+    42423,
+    42888
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 42452,
+   "members": [
+    42452,
+    43175
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 42626,
+   "members": [
+    42626,
+    42642
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 42651,
+   "members": [
+    42651,
+    43067
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 42731,
+   "members": [
+    42731,
+    42966
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 42749,
+   "members": [
+    42749,
+    45187,
+    54723,
+    56562
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 42840,
+   "members": [
+    42840,
+    43477
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 42878,
+   "members": [
+    42878,
+    47370
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 43038,
+   "members": [
+    43038,
+    43993
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 43476,
+   "members": [
+    43476,
+    45821
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 43563,
+   "members": [
+    43563,
+    44157
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 43875,
+   "members": [
+    43875,
+    45813
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 43892,
+   "members": [
+    43892,
+    44560
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 44933,
+   "members": [
+    44933,
+    52231
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 45315,
+   "members": [
+    45315,
+    46893
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 45637,
+   "members": [
+    45637,
+    46922
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 46046,
+   "members": [
+    22231,
+    46046
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 46178,
+   "members": [
+    46178,
+    46799
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 46218,
+   "members": [
+    46218,
+    47171
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 46267,
+   "members": [
+    46267,
+    47392
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 46560,
+   "members": [
+    46560,
+    47166
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 46726,
+   "members": [
+    46726,
+    47814
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 46904,
+   "members": [
+    46904,
+    46995
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 46987,
+   "members": [
+    46987,
+    47013
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 47554,
+   "members": [
+    47554,
+    66133
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 48488,
+   "members": [
+    48488,
+    58827
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 48644,
+   "members": [
+    48644,
+    48777,
+    49800
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 49103,
+   "members": [
+    49103,
+    49173
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 49878,
+   "members": [
+    49878,
+    58061
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 50127,
+   "members": [
+    50127,
+    57925
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 51267,
+   "members": [
+    51267,
+    62370
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 51532,
+   "members": [
+    51532,
+    57209
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 51751,
+   "members": [
+    51751,
+    57690,
+    58444
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 52343,
+   "members": [
+    52343,
+    60322
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 52407,
+   "members": [
+    52407,
+    53289
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 52465,
+   "members": [
+    52465,
+    52697
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 52593,
+   "members": [
+    52593,
+    55717
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 52619,
+   "members": [
+    52619,
+    53192
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 52798,
+   "members": [
+    52798,
+    58049
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 53449,
+   "members": [
+    53449,
+    54307
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 53521,
+   "members": [
+    53521,
+    61469
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 53640,
+   "members": [
+    53640,
+    55880
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 53887,
+   "members": [
+    53887,
+    56451,
+    60564
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 54466,
+   "members": [
+    54466,
+    57251
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 54992,
+   "members": [
+    54992,
+    55070
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 55075,
+   "members": [
+    55075,
+    55195
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 56460,
+   "members": [
+    56460,
+    59378
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 56678,
+   "members": [
+    56678,
+    57313
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 57666,
+   "members": [
+    57666,
+    60431
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 58328,
+   "members": [
+    58328,
+    62084
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 58933,
+   "members": [
+    58933,
+    62938
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 60024,
+   "members": [
+    60024,
+    61377
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 60088,
+   "members": [
+    60088,
+    62382
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 60108,
+   "members": [
+    60108,
+    62047
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 60729,
+   "members": [
+    60729,
+    60794
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 61707,
+   "members": [
+    61707,
+    70748
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 61838,
+   "members": [
+    61838,
+    61978
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 63876,
+   "members": [
+    63876,
+    64129
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 63879,
+   "members": [
+    63879,
+    65518,
+    65804
+   ]
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "original": 63993,
+   "members": [
+    63993,
+    64047
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 110,
+   "members": [
+    110,
+    16829
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 209,
+   "members": [
+    209,
+    15248
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 784,
+   "members": [
+    784,
+    27543
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 1188,
+   "members": [
+    1188,
+    23691
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 1313,
+   "members": [
+    1313,
+    4489
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 2025,
+   "members": [
+    2025,
+    5143,
+    5837
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 2885,
+   "members": [
+    2885,
+    3693
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 2935,
+   "members": [
+    2935,
+    9015
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 3400,
+   "members": [
+    3400,
+    8284
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 4059,
+   "members": [
+    4059,
+    12106
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 4067,
+   "members": [
+    4067,
+    7495
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 4341,
+   "members": [
+    2277,
+    4179,
+    4341
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 4822,
+   "members": [
+    4822,
+    22798
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 4853,
+   "members": [
+    4853,
+    7431
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 5210,
+   "members": [
+    5210,
+    18740,
+    29886
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 5862,
+   "members": [
+    5862,
+    6160
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 5960,
+   "members": [
+    5960,
+    5969
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 5963,
+   "members": [
+    5963,
+    7787
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 6025,
+   "members": [
+    6025,
+    6034
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 6048,
+   "members": [
+    6048,
+    7902
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 6214,
+   "members": [
+    6214,
+    6802
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 6413,
+   "members": [
+    6368,
+    6413
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 6483,
+   "members": [
+    6483,
+    8105
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 6664,
+   "members": [
+    6664,
+    7163
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 6724,
+   "members": [
+    6724,
+    28921
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 6739,
+   "members": [
+    6739,
+    9140
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 6827,
+   "members": [
+    6827,
+    12711,
+    17103,
+    20434
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 6853,
+   "members": [
+    6853,
+    6858
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 6859,
+   "members": [
+    6859,
+    6981
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 6976,
+   "members": [
+    6617,
+    6976
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 7122,
+   "members": [
+    7122,
+    8779
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 7124,
+   "members": [
+    7124,
+    7125
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 7233,
+   "members": [
+    7233,
+    8533,
+    8746
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 7293,
+   "members": [
+    7293,
+    7542
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 7334,
+   "members": [
+    5363,
+    7334
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 7576,
+   "members": [
+    7576,
+    7579
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 7619,
+   "members": [
+    7619,
+    17321
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 7751,
+   "members": [
+    7751,
+    19157
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 7954,
+   "members": [
+    7954,
+    8327
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8017,
+   "members": [
+    8017,
+    8198
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8062,
+   "members": [
+    8062,
+    8202
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8387,
+   "members": [
+    8387,
+    8500
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8570,
+   "members": [
+    8570,
+    8592
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8631,
+   "members": [
+    8631,
+    8723,
+    8964
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8636,
+   "members": [
+    8636,
+    8778
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8682,
+   "members": [
+    8682,
+    8842
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8694,
+   "members": [
+    8341,
+    8694
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8715,
+   "members": [
+    8715,
+    10836
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8736,
+   "members": [
+    8736,
+    8805
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8765,
+   "members": [
+    8765,
+    10583,
+    15597
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8798,
+   "members": [
+    8798,
+    10821
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8802,
+   "members": [
+    8802,
+    11270
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8902,
+   "members": [
+    8902,
+    22918
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8903,
+   "members": [
+    8903,
+    8995
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 8926,
+   "members": [
+    8926,
+    23671
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 9156,
+   "members": [
+    9156,
+    9159
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 9332,
+   "members": [
+    9332,
+    9466
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 9608,
+   "members": [
+    9608,
+    20592
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 9829,
+   "members": [
+    9829,
+    16719
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 10034,
+   "members": [
+    10034,
+    22862
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 11059,
+   "members": [
+    11059,
+    21970
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 11178,
+   "members": [
+    11178,
+    15707
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 11415,
+   "members": [
+    11415,
+    17950
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 11460,
+   "members": [
+    11460,
+    17364,
+    27516
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 11518,
+   "members": [
+    11518,
+    22225
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 11575,
+   "members": [
+    11575,
+    13305
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 11759,
+   "members": [
+    11759,
+    20240
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 12025,
+   "members": [
+    4133,
+    12025
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 12071,
+   "members": [
+    12071,
+    17410
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 12074,
+   "members": [
+    12074,
+    15133,
+    15147
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 12173,
+   "members": [
+    12173,
+    12439,
+    13284
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 12197,
+   "members": [
+    12197,
+    15779
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 12308,
+   "members": [
+    12308,
+    12352
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 12934,
+   "members": [
+    12934,
+    13606
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 12967,
+   "members": [
+    12967,
+    26839
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 12985,
+   "members": [
+    12985,
+    20236
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 13360,
+   "members": [
+    13360,
+    15052
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 13414,
+   "members": [
+    13414,
+    13615
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 13728,
+   "members": [
+    13728,
+    25333
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 14265,
+   "members": [
+    14265,
+    15077
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 14357,
+   "members": [
+    14357,
+    28547
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 14527,
+   "members": [
+    14527,
+    27156
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 14675,
+   "members": [
+    14675,
+    14955,
+    15733
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 15160,
+   "members": [
+    15160,
+    15708
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 15313,
+   "members": [
+    15313,
+    18899
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 15399,
+   "members": [
+    15399,
+    15637
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 16400,
+   "members": [
+    16400,
+    20141
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 16552,
+   "members": [
+    16552,
+    18630
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 16895,
+   "members": [
+    16895,
+    18130
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 17093,
+   "members": [
+    17093,
+    17608
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 17172,
+   "members": [
+    16089,
+    17172
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 17423,
+   "members": [
+    17423,
+    17431
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 17576,
+   "members": [
+    17576,
+    19447
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 17722,
+   "members": [
+    17722,
+    17732
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 17962,
+   "members": [
+    17962,
+    18180,
+    18256
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18020,
+   "members": [
+    18020,
+    18242
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18052,
+   "members": [
+    18052,
+    23216
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18132,
+   "members": [
+    18132,
+    18218,
+    18238
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18157,
+   "members": [
+    18157,
+    18559
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18254,
+   "members": [
+    18254,
+    18291,
+    18319,
+    18390
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18287,
+   "members": [
+    18287,
+    18336
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18292,
+   "members": [
+    18292,
+    18338
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18314,
+   "members": [
+    18314,
+    18315
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18317,
+   "members": [
+    18317,
+    18489
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18477,
+   "members": [
+    18477,
+    19067
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18572,
+   "members": [
+    18572,
+    24569
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18638,
+   "members": [
+    18638,
+    18741
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18711,
+   "members": [
+    18711,
+    18774,
+    18810
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 18879,
+   "members": [
+    18879,
+    25466
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 19209,
+   "members": [
+    19209,
+    19745
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 19226,
+   "members": [
+    19226,
+    19254
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 19574,
+   "members": [
+    19574,
+    23608
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 19576,
+   "members": [
+    19576,
+    19610
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 19748,
+   "members": [
+    19748,
+    20411
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 20224,
+   "members": [
+    20223,
+    20224
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 20312,
+   "members": [
+    20312,
+    20402
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 20372,
+   "members": [
+    20372,
+    20640
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 20548,
+   "members": [
+    20548,
+    21309
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 20781,
+   "members": [
+    20780,
+    20781
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 20854,
+   "members": [
+    20854,
+    21694
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 21463,
+   "members": [
+    21463,
+    21465,
+    21473
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 21538,
+   "members": [
+    21538,
+    22679
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 21660,
+   "members": [
+    21660,
+    21718
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 21915,
+   "members": [
+    21915,
+    23098
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 21917,
+   "members": [
+    21917,
+    22253
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 21930,
+   "members": [
+    21930,
+    25069
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 22052,
+   "members": [
+    22052,
+    22632
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 22105,
+   "members": [
+    22105,
+    23136
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 22143,
+   "members": [
+    22143,
+    22302
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 22197,
+   "members": [
+    22197,
+    23589
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 22207,
+   "members": [
+    8762,
+    22207
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 22708,
+   "members": [
+    22708,
+    22853
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 22760,
+   "members": [
+    22760,
+    22763
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 23007,
+   "members": [
+    23007,
+    24361
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 23040,
+   "members": [
+    23040,
+    26471
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 23290,
+   "members": [
+    23290,
+    25403
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 23378,
+   "members": [
+    23378,
+    29162
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 23382,
+   "members": [
+    23382,
+    23521
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 23399,
+   "members": [
+    23399,
+    25116
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 23776,
+   "members": [
+    23776,
+    24477
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 23816,
+   "members": [
+    23816,
+    27524
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 23921,
+   "members": [
+    23921,
+    23962
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 24106,
+   "members": [
+    24106,
+    25009
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 24155,
+   "members": [
+    24155,
+    24315
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 24168,
+   "members": [
+    24168,
+    25051
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 24479,
+   "members": [
+    24479,
+    27233
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 24663,
+   "members": [
+    18602,
+    24663
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 24704,
+   "members": [
+    24704,
+    25002
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 24753,
+   "members": [
+    24753,
+    24754
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 24818,
+   "members": [
+    24818,
+    25549
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 24910,
+   "members": [
+    24910,
+    25514
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 24951,
+   "members": [
+    24951,
+    28901
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 25090,
+   "members": [
+    25090,
+    27002
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 25139,
+   "members": [
+    25139,
+    25540
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 25511,
+   "members": [
+    25511,
+    25513
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 26092,
+   "members": [
+    24333,
+    26092
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 26287,
+   "members": [
+    26287,
+    26319
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 26368,
+   "members": [
+    26368,
+    26751,
+    28137
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 27389,
+   "members": [
+    27389,
+    27775
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 27437,
+   "members": [
+    27437,
+    27693
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 27555,
+   "members": [
+    27555,
+    32178
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 27652,
+   "members": [
+    27652,
+    27832
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 27746,
+   "members": [
+    27746,
+    27782
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 27837,
+   "members": [
+    27837,
+    28044
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 28117,
+   "members": [
+    28117,
+    28515,
+    28931
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 28198,
+   "members": [
+    28198,
+    29487
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 28581,
+   "members": [
+    28581,
+    28979
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 29025,
+   "members": [
+    29025,
+    29063
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 29157,
+   "members": [
+    29157,
+    29185,
+    29785
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 29229,
+   "members": [
+    29229,
+    29293
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 29337,
+   "members": [
+    29337,
+    29654
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 29373,
+   "members": [
+    29373,
+    30524
+   ]
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "original": 29806,
+   "members": [
+    29806,
+    30557
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 641,
+   "members": [
+    641,
+    5145,
+    15199
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 1362,
+   "members": [
+    1362,
+    24654
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 1683,
+   "members": [
+    1683,
+    5241,
+    8273
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 2524,
+   "members": [
+    2523,
+    2524
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 3258,
+   "members": [
+    3258,
+    10015
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 3295,
+   "members": [
+    3295,
+    8387
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 4352,
+   "members": [
+    4352,
+    12897
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 5645,
+   "members": [
+    5645,
+    13752
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 5657,
+   "members": [
+    5657,
+    9463
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 5745,
+   "members": [
+    5745,
+    7126
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 5835,
+   "members": [
+    5835,
+    17086
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 5856,
+   "members": [
+    5856,
+    8559
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 5922,
+   "members": [
+    5922,
+    11156
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 6495,
+   "members": [
+    6495,
+    6566
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 6555,
+   "members": [
+    5756,
+    6555
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 6682,
+   "members": [
+    6682,
+    8260
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 7453,
+   "members": [
+    7453,
+    8330
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 7569,
+   "members": [
+    7569,
+    8957
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 7897,
+   "members": [
+    6255,
+    7897
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 7901,
+   "members": [
+    7901,
+    8259
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 7914,
+   "members": [
+    6589,
+    7914
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 8325,
+   "members": [
+    8325,
+    13917
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 8757,
+   "members": [
+    8757,
+    20574,
+    22020
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 8916,
+   "members": [
+    8916,
+    9243
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 8969,
+   "members": [
+    8969,
+    11681
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 8987,
+   "members": [
+    593,
+    8987,
+    10782,
+    13783
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 9028,
+   "members": [
+    9028,
+    10876
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 9098,
+   "members": [
+    9098,
+    13576
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 9137,
+   "members": [
+    9137,
+    9405,
+    9918
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 9224,
+   "members": [
+    9224,
+    9486
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 9631,
+   "members": [
+    9631,
+    17261
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 9758,
+   "members": [
+    9758,
+    10070,
+    10918
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 9799,
+   "members": [
+    9799,
+    10028
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 9818,
+   "members": [
+    9818,
+    11884
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 10004,
+   "members": [
+    5664,
+    10004
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 10374,
+   "members": [
+    10374,
+    17021
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 11279,
+   "members": [
+    11279,
+    11301
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 11588,
+   "members": [
+    11588,
+    16963
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 12957,
+   "members": [
+    12957,
+    13006
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 13114,
+   "members": [
+    13114,
+    21561
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 13229,
+   "members": [
+    13229,
+    17810
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 13878,
+   "members": [
+    13878,
+    14427
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 14228,
+   "members": [
+    14228,
+    15998
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 15581,
+   "members": [
+    15581,
+    19088,
+    28097
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 15981,
+   "members": [
+    15981,
+    19168
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 16287,
+   "members": [
+    16030,
+    16287
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 16676,
+   "members": [
+    16676,
+    22415
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 17532,
+   "members": [
+    17532,
+    19127
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 18105,
+   "members": [
+    18105,
+    18106
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 18246,
+   "members": [
+    18246,
+    20688
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 19145,
+   "members": [
+    19145,
+    24650
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 20488,
+   "members": [
+    20488,
+    20562
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 21443,
+   "members": [
+    13476,
+    21443
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 21892,
+   "members": [
+    21892,
+    21893
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 21906,
+   "members": [
+    21906,
+    23663
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 23296,
+   "members": [
+    23296,
+    23297
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 24081,
+   "members": [
+    24081,
+    25826
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 24195,
+   "members": [
+    24195,
+    24401
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 24330,
+   "members": [
+    24330,
+    24377
+   ]
+  },
+  {
+   "repo": "numpy/numpy",
+   "original": 28687,
+   "members": [
+    28687,
+    28967
+   ]
+  }
+ ],
+ "links": [
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 2325,
+   "original": 1960,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 5774,
+   "original": 1918,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 5758,
+   "original": 19437,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 5683,
+   "original": 5216,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 4287,
+   "original": 2600,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 4225,
+   "original": 3612,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 3870,
+   "original": 3849,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 3637,
+   "original": 5355,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 3345,
+   "original": 5167,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 3295,
+   "original": 413,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 2873,
+   "original": 667,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 9154,
+   "original": 16953,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 8533,
+   "original": 7877,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 7287,
+   "original": 17775,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 6565,
+   "original": 5314,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 6303,
+   "original": 3794,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 11701,
+   "original": 11312,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 11562,
+   "original": 19254,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 11452,
+   "original": 10128,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 10961,
+   "original": 8344,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 10786,
+   "original": 9244,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 10671,
+   "original": 19437,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 10256,
+   "original": 9817,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 10134,
+   "original": 2193,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 10104,
+   "original": 7877,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 9970,
+   "original": 19437,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 9945,
+   "original": 12653,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 9913,
+   "original": 11847,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 9505,
+   "original": 9477,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 9212,
+   "original": 13431,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14825,
+   "original": 4889,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14819,
+   "original": 8640,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14692,
+   "original": 12236,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14655,
+   "original": 4464,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14589,
+   "original": 13595,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14572,
+   "original": 14440,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14560,
+   "original": 5218,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14524,
+   "original": 13905,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14425,
+   "original": 2953,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14420,
+   "original": 14013,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14414,
+   "original": 14381,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14394,
+   "original": 12905,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14288,
+   "original": 14183,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14285,
+   "original": 3132,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14258,
+   "original": 13741,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14216,
+   "original": 13258,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 14148,
+   "original": 11365,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 13945,
+   "original": 13591,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 13779,
+   "original": 8222,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 13540,
+   "original": 5167,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 13531,
+   "original": 10474,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 13497,
+   "original": 4793,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 13423,
+   "original": 12344,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 13404,
+   "original": 10409,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 13199,
+   "original": 13092,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 13030,
+   "original": 11758,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 12938,
+   "original": 15822,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 12765,
+   "original": 12669,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 12510,
+   "original": 11915,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 11985,
+   "original": 9145,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 18947,
+   "original": 17558,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 18816,
+   "original": 15697,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 18784,
+   "original": 12437,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 18711,
+   "original": 12210,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 18594,
+   "original": 16874,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 18573,
+   "original": 15628,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 18560,
+   "original": 12396,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 18296,
+   "original": 15630,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 18282,
+   "original": 17839,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 18223,
+   "original": 10440,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 18027,
+   "original": 6942,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17995,
+   "original": 17965,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17989,
+   "original": 16286,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17938,
+   "original": 11471,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17786,
+   "original": 16765,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17762,
+   "original": 9304,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17726,
+   "original": 13208,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17631,
+   "original": 17594,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17552,
+   "original": 6963,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17539,
+   "original": 13287,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17425,
+   "original": 6936,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17408,
+   "original": 14310,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17392,
+   "original": 5924,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17311,
+   "original": 15305,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17240,
+   "original": 16822,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17221,
+   "original": 14156,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17188,
+   "original": 15086,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17082,
+   "original": 7757,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17072,
+   "original": 16724,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17049,
+   "original": 15305,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17047,
+   "original": 16276,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 17032,
+   "original": 8559,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16914,
+   "original": 11665,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16898,
+   "original": 13721,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16885,
+   "original": 15986,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16868,
+   "original": 11250,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16840,
+   "original": 4668,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16831,
+   "original": 7996,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16799,
+   "original": 10355,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16791,
+   "original": 12136,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16684,
+   "original": 16230,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16602,
+   "original": 15086,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16540,
+   "original": 10118,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16508,
+   "original": 12859,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16379,
+   "original": 10440,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16257,
+   "original": 5023,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16143,
+   "original": 13842,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16127,
+   "original": 10459,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16074,
+   "original": 11430,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16048,
+   "original": 13258,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 16038,
+   "original": 10710,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15962,
+   "original": 7117,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15912,
+   "original": 7612,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15886,
+   "original": 6673,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15837,
+   "original": 11123,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15833,
+   "original": 12679,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15799,
+   "original": 10882,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15794,
+   "original": 14336,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15760,
+   "original": 6415,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15670,
+   "original": 14423,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15660,
+   "original": 11733,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15565,
+   "original": 14973,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15542,
+   "original": 9422,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15526,
+   "original": 6942,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15356,
+   "original": 8000,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15350,
+   "original": 14013,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15288,
+   "original": 15273,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15241,
+   "original": 12640,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15180,
+   "original": 11733,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15147,
+   "original": 13696,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15144,
+   "original": 13302,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 15112,
+   "original": 14423,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 24469,
+   "original": 7001,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 24445,
+   "original": 9220,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 24403,
+   "original": 3942,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 24311,
+   "original": 13473,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 24249,
+   "original": 20608,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 24224,
+   "original": 15599,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 24136,
+   "original": 13473,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 23842,
+   "original": 19602,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 23716,
+   "original": 12136,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 23470,
+   "original": 16538,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 23184,
+   "original": 25815,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 23056,
+   "original": 21131,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 23043,
+   "original": 13473,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 22976,
+   "original": 15354,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 22778,
+   "original": 19501,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 22677,
+   "original": 15122,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 22619,
+   "original": 9119,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 22542,
+   "original": 13217,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 22498,
+   "original": 22450,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 22495,
+   "original": 21629,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 22391,
+   "original": 22392,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 22231,
+   "original": 46046,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21953,
+   "original": 10349,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21828,
+   "original": 15086,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21783,
+   "original": 2193,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21777,
+   "original": 20852,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21732,
+   "original": 21075,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21726,
+   "original": 18250,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21629,
+   "original": 13475,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21555,
+   "original": 9435,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21554,
+   "original": 19560,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21464,
+   "original": 21298,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21443,
+   "original": 18776,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21424,
+   "original": 9042,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21419,
+   "original": 3729,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21327,
+   "original": 21180,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21288,
+   "original": 21103,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21099,
+   "original": 11499,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21095,
+   "original": 13032,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 21089,
+   "original": 16632,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 20919,
+   "original": 15095,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 20817,
+   "original": 13111,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 20771,
+   "original": 20775,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 20754,
+   "original": 20635,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 20657,
+   "original": 8427,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 20642,
+   "original": 9220,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 20620,
+   "original": 18031,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 20598,
+   "original": 13774,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 20367,
+   "original": 16363,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 20326,
+   "original": 15613,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 20070,
+   "original": 6942,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 20068,
+   "original": 5071,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19997,
+   "original": 8319,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19995,
+   "original": 15884,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19916,
+   "original": 9259,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19885,
+   "original": 15095,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19844,
+   "original": 14487,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19771,
+   "original": 17931,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19697,
+   "original": 16363,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19680,
+   "original": 14156,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19644,
+   "original": 15669,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19622,
+   "original": 15217,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19590,
+   "original": 19474,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19416,
+   "original": 18502,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19383,
+   "original": 13262,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19376,
+   "original": 13208,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19313,
+   "original": 18686,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19271,
+   "original": 13208,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19210,
+   "original": 18799,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19198,
+   "original": 13287,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 19185,
+   "original": 15853,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 30533,
+   "original": 14927,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 30483,
+   "original": 28663,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 30352,
+   "original": 25996,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 30015,
+   "original": 24804,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 29966,
+   "original": 21108,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 29917,
+   "original": 16724,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 29790,
+   "original": 26237,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 29691,
+   "original": 3729,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 29588,
+   "original": 27692,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 29569,
+   "original": 22994,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 29465,
+   "original": 29413,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 29426,
+   "original": 22861,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 29264,
+   "original": 24019,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 29162,
+   "original": 22527,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 29161,
+   "original": 28302,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 28956,
+   "original": 25760,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 28768,
+   "original": 27794,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 28468,
+   "original": 27794,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 28461,
+   "original": 25006,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 28366,
+   "original": 28139,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 28280,
+   "original": 27748,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 28240,
+   "original": 28204,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 28194,
+   "original": 28882,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 28188,
+   "original": 25887,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 28186,
+   "original": 25353,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 28174,
+   "original": 22668,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 28046,
+   "original": 27748,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 27914,
+   "original": 27519,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 27835,
+   "original": 24990,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 27695,
+   "original": 27516,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 27670,
+   "original": 12679,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 27643,
+   "original": 26838,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 27601,
+   "original": 20773,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 27364,
+   "original": 24357,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 27230,
+   "original": 21629,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 27134,
+   "original": 9309,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 27053,
+   "original": 21629,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 27041,
+   "original": 6936,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26971,
+   "original": 24589,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26938,
+   "original": 17382,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26805,
+   "original": 22848,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26673,
+   "original": 26714,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26664,
+   "original": 20589,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26618,
+   "original": 26614,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26587,
+   "original": 24859,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26582,
+   "original": 26714,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26498,
+   "original": 4160,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26325,
+   "original": 17101,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26304,
+   "original": 12585,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26232,
+   "original": 24071,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26072,
+   "original": 24859,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26050,
+   "original": 19998,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 26006,
+   "original": 4907,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25965,
+   "original": 12693,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25834,
+   "original": 13016,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25740,
+   "original": 15836,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25606,
+   "original": 22088,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25582,
+   "original": 10440,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25530,
+   "original": 25259,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25450,
+   "original": 2936,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25422,
+   "original": 29773,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25398,
+   "original": 22773,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25294,
+   "original": 4464,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25207,
+   "original": 25193,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25137,
+   "original": 15928,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25078,
+   "original": 24940,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25067,
+   "original": 9435,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 25011,
+   "original": 13217,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 24824,
+   "original": 24589,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 38842,
+   "original": 24435,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 38822,
+   "original": 38823,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 38655,
+   "original": 38523,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 38510,
+   "original": 36984,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 38498,
+   "original": 38424,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 38069,
+   "original": 20421,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 37976,
+   "original": 15675,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 37895,
+   "original": 12585,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 37831,
+   "original": 37795,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 37766,
+   "original": 36467,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 37526,
+   "original": 30741,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 37464,
+   "original": 35847,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 37408,
+   "original": 37245,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 37399,
+   "original": 32709,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 37338,
+   "original": 37328,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 36807,
+   "original": 36688,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 36798,
+   "original": 27554,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 36768,
+   "original": 12398,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 36662,
+   "original": 36579,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 36526,
+   "original": 36047,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 36479,
+   "original": 36060,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 36421,
+   "original": 34213,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 36420,
+   "original": 34213,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 36392,
+   "original": 31902,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 36190,
+   "original": 12585,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 36042,
+   "original": 35518,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35819,
+   "original": 35509,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35782,
+   "original": 31063,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35657,
+   "original": 35606,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35648,
+   "original": 35493,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35642,
+   "original": 33548,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35634,
+   "original": 35462,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35618,
+   "original": 33239,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35616,
+   "original": 15675,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35560,
+   "original": 35429,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35538,
+   "original": 27407,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35526,
+   "original": 35462,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35512,
+   "original": 34671,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35483,
+   "original": 35462,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35457,
+   "original": 33113,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35431,
+   "original": 32930,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35422,
+   "original": 27927,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35402,
+   "original": 12585,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35343,
+   "original": 15105,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35326,
+   "original": 25460,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35173,
+   "original": 33548,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35158,
+   "original": 34290,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35137,
+   "original": 12653,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 35069,
+   "original": 17440,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 34957,
+   "original": 34671,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 34820,
+   "original": 13090,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 34675,
+   "original": 34455,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 34597,
+   "original": 25460,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 34546,
+   "original": 12585,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 34521,
+   "original": 28900,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 34172,
+   "original": 32861,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 34112,
+   "original": 15105,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 33952,
+   "original": 25383,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 33777,
+   "original": 31775,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 33766,
+   "original": 20608,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 33694,
+   "original": 26314,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 33648,
+   "original": 32295,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 33305,
+   "original": 32857,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 33298,
+   "original": 19998,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 33242,
+   "original": 39169,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 33194,
+   "original": 8435,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 33037,
+   "original": 21768,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 32930,
+   "original": 9435,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 32741,
+   "original": 29095,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 32696,
+   "original": 15675,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 32049,
+   "original": 22613,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 31839,
+   "original": 31204,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 31612,
+   "original": 14927,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 31533,
+   "original": 31531,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 30772,
+   "original": 6963,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 44560,
+   "original": 43892,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 44157,
+   "original": 43563,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 43993,
+   "original": 43038,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 43621,
+   "original": 31821,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 43594,
+   "original": 36271,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 43477,
+   "original": 42840,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 43380,
+   "original": 42395,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 43310,
+   "original": 32593,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 43175,
+   "original": 42452,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 43141,
+   "original": 40307,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 43096,
+   "original": 28243,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 43067,
+   "original": 42651,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 43020,
+   "original": 26837,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 42997,
+   "original": 28984,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 42966,
+   "original": 42731,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 42899,
+   "original": 18930,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 42891,
+   "original": 4094,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 42888,
+   "original": 42423,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 42703,
+   "original": 18752,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 42652,
+   "original": 41681,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 42642,
+   "original": 42626,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 42545,
+   "original": 31990,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 42388,
+   "original": 40073,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 42152,
+   "original": 37600,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 41947,
+   "original": 6878,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 41537,
+   "original": 36909,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 41388,
+   "original": 6491,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 41368,
+   "original": 38534,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 41319,
+   "original": 32526,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 40992,
+   "original": 20608,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 40788,
+   "original": 40660,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 40626,
+   "original": 26411,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 40514,
+   "original": 34465,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 40447,
+   "original": 35520,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 40432,
+   "original": 27241,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 40395,
+   "original": 39771,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 40257,
+   "original": 12869,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 40063,
+   "original": 21892,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 40055,
+   "original": 39143,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 40043,
+   "original": 11446,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 39847,
+   "original": 30188,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 39542,
+   "original": 39520,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 39190,
+   "original": 38714,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 39126,
+   "original": 38947,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 38962,
+   "original": 12863,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 49800,
+   "original": 48644,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 49173,
+   "original": 49103,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 48777,
+   "original": 48644,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 48652,
+   "original": 23002,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 48492,
+   "original": 36327,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 48021,
+   "original": 33554,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47814,
+   "original": 46726,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47596,
+   "original": 10552,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47543,
+   "original": 40112,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47392,
+   "original": 46267,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47370,
+   "original": 42878,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47238,
+   "original": 28283,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47214,
+   "original": 32346,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47173,
+   "original": 24800,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47171,
+   "original": 46218,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47166,
+   "original": 46560,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47156,
+   "original": 16328,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47092,
+   "original": 39169,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47056,
+   "original": 39537,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 47013,
+   "original": 46987,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 46995,
+   "original": 46904,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 46948,
+   "original": 41935,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 46922,
+   "original": 45637,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 46893,
+   "original": 45315,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 46799,
+   "original": 46178,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 46797,
+   "original": 33912,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 46764,
+   "original": 34551,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 46677,
+   "original": 39926,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 46618,
+   "original": 34373,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 46112,
+   "original": 38760,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 45821,
+   "original": 43476,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 45813,
+   "original": 43875,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 45704,
+   "original": 27469,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 45676,
+   "original": 40810,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 45317,
+   "original": 40080,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 45226,
+   "original": 42016,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 45187,
+   "original": 42749,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 56562,
+   "original": 42749,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 56451,
+   "original": 53887,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 55880,
+   "original": 53640,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 55717,
+   "original": 52593,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 55195,
+   "original": 55075,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 55070,
+   "original": 54992,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 54723,
+   "original": 42749,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 54307,
+   "original": 53449,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 53289,
+   "original": 52407,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 53192,
+   "original": 52619,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 52697,
+   "original": 52465,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 52231,
+   "original": 44933,
+   "rule": "comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 60564,
+   "original": 53887,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 60431,
+   "original": 57666,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 60422,
+   "original": 41335,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 60322,
+   "original": 52343,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 60049,
+   "original": 33662,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 59378,
+   "original": 56460,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 58827,
+   "original": 48488,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 58815,
+   "original": 35466,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 58444,
+   "original": 51751,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 58366,
+   "original": 33662,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 58142,
+   "original": 42102,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 58061,
+   "original": 49878,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 58049,
+   "original": 52798,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 57925,
+   "original": 50127,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 57690,
+   "original": 51751,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 57313,
+   "original": 56678,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 57251,
+   "original": 54466,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 57209,
+   "original": 51532,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 56917,
+   "original": 10816,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 62938,
+   "original": 58933,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 62382,
+   "original": 60088,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 62370,
+   "original": 51267,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 62084,
+   "original": 58328,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 62047,
+   "original": 60108,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 62013,
+   "original": 13049,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 61978,
+   "original": 61838,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 61469,
+   "original": 53521,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 61377,
+   "original": 60024,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 60794,
+   "original": 60729,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 70748,
+   "original": 61707,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 70005,
+   "original": 42102,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 66133,
+   "original": 47554,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 65804,
+   "original": 63879,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 65518,
+   "original": 63879,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 64129,
+   "original": 63876,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "pandas-dev/pandas",
+   "issue": 64047,
+   "original": 63993,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 2277,
+   "original": 4341,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 3693,
+   "original": 2885,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 5363,
+   "original": 7334,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 5143,
+   "original": 2025,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 4489,
+   "original": 1313,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 4179,
+   "original": 4341,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 4133,
+   "original": 12025,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 7579,
+   "original": 7576,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 7542,
+   "original": 7293,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 7495,
+   "original": 4067,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 7431,
+   "original": 4853,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 7163,
+   "original": 6664,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 7125,
+   "original": 7124,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 6981,
+   "original": 6859,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 6858,
+   "original": 6853,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 6802,
+   "original": 6214,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 6617,
+   "original": 6976,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 6368,
+   "original": 6413,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 6160,
+   "original": 5862,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 6034,
+   "original": 6025,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 5969,
+   "original": 5960,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 5837,
+   "original": 2025,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 9466,
+   "original": 9332,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 9159,
+   "original": 9156,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 9140,
+   "original": 6739,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 9015,
+   "original": 2935,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8995,
+   "original": 8903,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8964,
+   "original": 8631,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8842,
+   "original": 8682,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8805,
+   "original": 8736,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8779,
+   "original": 7122,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8778,
+   "original": 8636,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8762,
+   "original": 22207,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8746,
+   "original": 7233,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8723,
+   "original": 8631,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8592,
+   "original": 8570,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8533,
+   "original": 7233,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8500,
+   "original": 8387,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8341,
+   "original": 8694,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8327,
+   "original": 7954,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8284,
+   "original": 3400,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8202,
+   "original": 8062,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8198,
+   "original": 8017,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 8105,
+   "original": 6483,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 7902,
+   "original": 6048,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 7787,
+   "original": 5963,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 12711,
+   "original": 6827,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 12439,
+   "original": 12173,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 12352,
+   "original": 12308,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 12106,
+   "original": 4059,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 11270,
+   "original": 8802,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 10836,
+   "original": 8715,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 10821,
+   "original": 8798,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 10583,
+   "original": 8765,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 15779,
+   "original": 12197,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 15733,
+   "original": 14675,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 15708,
+   "original": 15160,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 15707,
+   "original": 11178,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 15637,
+   "original": 15399,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 15597,
+   "original": 8765,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 15248,
+   "original": 209,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 15147,
+   "original": 12074,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 15133,
+   "original": 12074,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 15077,
+   "original": 14265,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 15052,
+   "original": 13360,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 14955,
+   "original": 14675,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 13615,
+   "original": 13414,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 13606,
+   "original": 12934,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 13305,
+   "original": 11575,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 13284,
+   "original": 12173,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 19157,
+   "original": 7751,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 19067,
+   "original": 18477,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18899,
+   "original": 15313,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18810,
+   "original": 18711,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18774,
+   "original": 18711,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18741,
+   "original": 18638,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18740,
+   "original": 5210,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18630,
+   "original": 16552,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18602,
+   "original": 24663,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18559,
+   "original": 18157,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18489,
+   "original": 18317,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18390,
+   "original": 18254,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18338,
+   "original": 18292,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18336,
+   "original": 18287,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18319,
+   "original": 18254,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18315,
+   "original": 18314,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18291,
+   "original": 18254,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18256,
+   "original": 18180,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18242,
+   "original": 18020,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18238,
+   "original": 18132,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18218,
+   "original": 18132,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18180,
+   "original": 17962,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 18130,
+   "original": 16895,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 17950,
+   "original": 11415,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 17732,
+   "original": 17722,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 17608,
+   "original": 17093,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 17431,
+   "original": 17423,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 17410,
+   "original": 12071,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 17364,
+   "original": 11460,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 17321,
+   "original": 7619,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 17103,
+   "original": 6827,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 16829,
+   "original": 110,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 16719,
+   "original": 9829,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 16089,
+   "original": 17172,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 21970,
+   "original": 11059,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 21718,
+   "original": 21660,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 21694,
+   "original": 20854,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 21473,
+   "original": 21463,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 21465,
+   "original": 21463,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 21309,
+   "original": 20548,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 20780,
+   "original": 20781,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 20640,
+   "original": 20372,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 20592,
+   "original": 9608,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 20434,
+   "original": 6827,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 20411,
+   "original": 19748,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 20402,
+   "original": 20312,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 20240,
+   "original": 11759,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 20236,
+   "original": 12985,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 20223,
+   "original": 20224,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 20141,
+   "original": 16400,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 19745,
+   "original": 19209,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 19610,
+   "original": 19576,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 19447,
+   "original": 17576,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 19254,
+   "original": 19226,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 24754,
+   "original": 24753,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 24569,
+   "original": 18572,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 24477,
+   "original": 23776,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 24361,
+   "original": 23007,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 24333,
+   "original": 26092,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 24315,
+   "original": 24155,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 23962,
+   "original": 23921,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 23691,
+   "original": 1188,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 23671,
+   "original": 8926,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 23608,
+   "original": 19574,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 23589,
+   "original": 22197,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 23521,
+   "original": 23382,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 23216,
+   "original": 18052,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 23136,
+   "original": 22105,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 23098,
+   "original": 21915,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 22918,
+   "original": 8902,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 22862,
+   "original": 10034,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 22853,
+   "original": 22708,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 22798,
+   "original": 4822,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 22763,
+   "original": 22760,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 22679,
+   "original": 21538,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 22632,
+   "original": 22052,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 22302,
+   "original": 22143,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 22253,
+   "original": 21917,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 22225,
+   "original": 11518,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 27543,
+   "original": 784,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 27524,
+   "original": 23816,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 27516,
+   "original": 11460,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 27233,
+   "original": 24479,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 27156,
+   "original": 14527,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 27002,
+   "original": 25090,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 26839,
+   "original": 12967,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 26751,
+   "original": 26368,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 26471,
+   "original": 23040,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 26319,
+   "original": 26287,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 25549,
+   "original": 24818,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 25540,
+   "original": 25139,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 25514,
+   "original": 24910,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 25513,
+   "original": 25511,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 25466,
+   "original": 18879,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 25403,
+   "original": 23290,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 25333,
+   "original": 13728,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 25116,
+   "original": 23399,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 25069,
+   "original": 21930,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 25051,
+   "original": 24168,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 25009,
+   "original": 24106,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 25002,
+   "original": 24704,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 29293,
+   "original": 29229,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 29185,
+   "original": 29157,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 29162,
+   "original": 23378,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 29063,
+   "original": 29025,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 28979,
+   "original": 28581,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 28931,
+   "original": 28117,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 28921,
+   "original": 6724,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 28901,
+   "original": 24951,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 28547,
+   "original": 14357,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 28515,
+   "original": 28117,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 28137,
+   "original": 26368,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 28044,
+   "original": 27837,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 27832,
+   "original": 27652,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 27782,
+   "original": 27746,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 27775,
+   "original": 27389,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 27693,
+   "original": 27437,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 30557,
+   "original": 29806,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 30524,
+   "original": 29373,
+   "rule": "comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 29886,
+   "original": 5210,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 29785,
+   "original": 29157,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 29654,
+   "original": 29337,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 29487,
+   "original": 28198,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "matplotlib/matplotlib",
+   "issue": 32178,
+   "original": 27555,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 2523,
+   "original": 2524,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 593,
+   "original": 8987,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 5241,
+   "original": 1683,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 5145,
+   "original": 641,
+   "rule": "comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 6589,
+   "original": 7914,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 6566,
+   "original": 6495,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 6255,
+   "original": 7897,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 5756,
+   "original": 6555,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 5664,
+   "original": 10004,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 8387,
+   "original": 3295,
+   "rule": "comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 8330,
+   "original": 7453,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 8273,
+   "original": 1683,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 8260,
+   "original": 6682,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 8259,
+   "original": 7901,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 7126,
+   "original": 5745,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 10070,
+   "original": 9758,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 10028,
+   "original": 9799,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 10015,
+   "original": 3258,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 9918,
+   "original": 9137,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 9486,
+   "original": 9224,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 9463,
+   "original": 5657,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 9405,
+   "original": 9137,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 9243,
+   "original": 8916,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 8957,
+   "original": 7569,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 8559,
+   "original": 5856,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 11884,
+   "original": 9818,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 11681,
+   "original": 8969,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 11301,
+   "original": 11279,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 11156,
+   "original": 5922,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 10918,
+   "original": 9758,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 10876,
+   "original": 9028,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 10782,
+   "original": 8987,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 15199,
+   "original": 641,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 14427,
+   "original": 13878,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 13917,
+   "original": 8325,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 13783,
+   "original": 8987,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 13752,
+   "original": 5645,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 13576,
+   "original": 9098,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 13476,
+   "original": 21443,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 13006,
+   "original": 12957,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 12897,
+   "original": 4352,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 17810,
+   "original": 13229,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 17261,
+   "original": 9631,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 17086,
+   "original": 5835,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 17021,
+   "original": 10374,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 16963,
+   "original": 11588,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 16030,
+   "original": 16287,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 15998,
+   "original": 14228,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 20688,
+   "original": 18246,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 20574,
+   "original": 8757,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 20562,
+   "original": 20488,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 19168,
+   "original": 15981,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 19127,
+   "original": 17532,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 19088,
+   "original": 15581,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 18106,
+   "original": 18105,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 22415,
+   "original": 16676,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 22020,
+   "original": 8757,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 21893,
+   "original": 21892,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 21561,
+   "original": 13114,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 24654,
+   "original": 1362,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 24650,
+   "original": 19145,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 24401,
+   "original": 24195,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 24377,
+   "original": 24330,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 23663,
+   "original": 21906,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 23297,
+   "original": 23296,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 25826,
+   "original": 24081,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 28967,
+   "original": 28687,
+   "rule": "maintainer-comment"
+  },
+  {
+   "repo": "numpy/numpy",
+   "issue": 28097,
+   "original": 15581,
+   "rule": "maintainer-comment"
+  }
+ ]
+}
