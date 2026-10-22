@@ -68,6 +68,36 @@ jackknife ([docs/clustering.md](docs/clustering.md))**
 | Duplicate links, sentence encoder (639 causes, 1378 symptoms) | Record-level minus fingerprint, paired | 0.499 (0.453 to 0.545) | higher on 5 of 5 folds | | |
 <!-- /report:clustering-sets -->
 
+**Ablations: one part of the design taken out, everything else unchanged, decided by
+project 03's release gate at a ten-point margin set before the runs
+([docs/ablations.md](docs/ablations.md))**
+
+<!-- report:gate -->
+| Ablation | Suite | Paired tasks | Main design | Ablated | Ablated minus main (95% CI) | Gate verdict at a 10-point margin |
+|---|---|---|---|---|---|---|
+| Same-vendor review | verdict-right | 104 | 67.3% | 76.0% | +8.7 (-1.0 to +18.3) points | pass |
+| Same-vendor review | not-confidently-wrong | 104 | 95.2% | 92.3% | -2.9 (-7.7 to +1.0) points | pass |
+<!-- /report:gate -->
+
+*Same-vendor review: all 104 patches the main run reviewed, reviewed again on identical
+input by each vendor; the patches and their hidden-test verdicts are the main run's*
+
+<!-- report:ablation-review -->
+| Reviewer | Objected | Caught: objected to a patch the hidden tests failed | False alarm: objected to a patch they passed | Verdict matched the hidden tests | Confidently wrong among auto-proposals |
+|---|---|---|---|---|---|
+| Different vendor, main run | 38.5% (29.7% to 48.1%, n = 104) | 69.6% (49.1% to 84.4%, n = 23) | 29.6% (20.8% to 40.3%, n = 81) | 70.2% (60.8% to 78.1%, n = 104) | 9.8% (4.3% to 21.0%, n = 51) |
+| Different vendor, asked again | 41.3% (32.4% to 51.0%, n = 104) | 69.6% (49.1% to 84.4%, n = 23) | 33.3% (24.0% to 44.1%, n = 81) | 67.3% (57.8% to 75.6%, n = 104) | 10.2% (4.4% to 21.8%, n = 49) |
+| Same vendor: the fixer's own model | 26.9% (19.3% to 36.2%, n = 104) | 56.5% (36.8% to 74.4%, n = 23) | 18.5% (11.6% to 28.3%, n = 81) | 76.0% (66.9% to 83.2%, n = 104) | 12.7% (6.6% to 23.1%, n = 63) |
+
+The different-vendor reviewer gave the same verdict when asked again on 93.3% (86.8% to 96.7%, n = 104) of the patches; the two vendors agreed on 77.9% (69.0% to 84.8%, n = 104).
+<!-- /report:ablation-review -->
+
+*No failing test first: 40 of the main run's tasks, drawn before the arm ran (seed
+20261021), localisation reused from the main run, each patch scored on the hidden tests*
+
+<!-- report:ablation-test-first -->
+<!-- /report:ablation-test-first -->
+
 ### The honest limitation
 
 **The confidently-wrong target was missed.** The plan set at most 3% of auto-proposed
@@ -81,6 +111,13 @@ suggestions, not draft pull requests.
 **Restraint costs a lot.** Of the 35 tasks routed to silence, 14 had a patch the hidden
 tests accepted. Most were patches with no related existing test to check against, which
 the router reads, cautiously, as "not shown safe".
+
+**The different-vendor rule is not shown to matter.** All 104 reviewed patches were
+reviewed again by the fixer's own model. Its objections are as good a sign of a wrong
+patch as the other vendor's: 46% of the patches it objected to were wrong, against 37%. It
+objects less often, so it lets three more wrong patches through to auto-propose. The
+release gate could not tell the two reviewers apart at a ten-point margin, so the rule
+stays as a design choice the evidence leans towards, not one it proves.
 
 **Where it is weak.** Sympy resolved 6 of 18; the fixer often could not make its own
 failing test pass. Django, 55 of the 120, resolved 42.

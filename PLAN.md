@@ -572,6 +572,23 @@ Section 2.2's three channels, compared one record at a time, carry only the huma
 and only through a trained text encoder. Time carries 09's chaos runs, and the traceback
 alone carries the injected faults.
 
+**2026-10-21, same-vendor review, measured and through the gate.** All 104 reviewed patches
+were reviewed again in both arms on identical input, for US$2.70 in all.
+
+- **Agreement.** The different vendor matched its own main-run verdict on 93.3%, and the
+  two vendors agreed on 77.9%.
+- **The fixer's own model** objected to 28 patches, 13 of them wrong. The different vendor
+  objected to 43, 16 of them wrong. The fixer's model let 63 patches through to
+  auto-propose, 8 of them wrong, against 49 with 5 wrong.
+- **The gate passed it on both suites at ten points:** verdict-right +8.7 (-1.0 to +18.3),
+  not-confidently-wrong -2.9 (-7.7 to +1.0).
+- **Section 8's test** (do disagreements predict wrong patches) is met by both reviewers:
+  about three times the wrong-patch rate behind an objection as behind an acceptance. So
+  the reviewer stays a gate.
+
+The different-vendor rule is not shown to be what makes it work. The rule stays, and the
+README says the evidence only leans its way (`docs/ablations.md`).
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops

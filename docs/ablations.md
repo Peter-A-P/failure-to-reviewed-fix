@@ -85,4 +85,52 @@ measures is about twelve points either side, so a three-point margin could only 
 
 ## Results
 
-Not yet run.
+### Same-vendor review (2026-10-21)
+
+All 104 reviewed patches were reviewed again in both arms. Every reply was readable, and
+the model calls cost US$1.87 for the fixer's own model and US$0.83 for the different
+vendor.
+
+| | Different vendor (asked again) | Same vendor (the fixer's model) |
+|---|---|---|
+| Objected | 43 of 104 | 28 of 104 |
+| Patches the hidden tests failed, objected to | 16 of 23 | 13 of 23 |
+| Patches the hidden tests passed, objected to | 27 of 81 | 15 of 81 |
+| Wrong when it objected | 16 of 43, 37% | 13 of 28, 46% |
+| Wrong when it accepted | 7 of 61, 11% | 10 of 76, 13% |
+| Auto-proposed, and of those wrong | 49, 5 wrong | 63, 8 wrong |
+
+The gate passed the same-vendor reviewer on both suites at the ten-point margin:
+
+- **verdict-right:** +8.7 points (-1.0 to +18.3);
+- **not-confidently-wrong:** -2.9 points (-7.7 to +1.0).
+
+Read plainly:
+
+- **The fixer's own model objects less.** It catches fewer of the wrong patches (13 of 23
+  against 16) and raises fewer false alarms (15 against 27).
+- **More of its verdicts match the hidden tests.** Most patches are right, so a reviewer
+  that objects less is right more often.
+- **Its objections are no worse a signal.** 46% of the patches it objected to were wrong,
+  against 37% for the other vendor.
+- **The cost lands at the top tier.** It lets 14 more patches through to auto-propose,
+  three more of them wrong.
+- **Both reviewers' objections predict a wrong patch.** About three times the rate behind
+  an acceptance, for either vendor. By section 8's test, the reviewer earns a place in
+  the pipeline.
+
+What this does not support is the different-vendor rule itself. At this sample size and
+this margin, the gate cannot tell the two reviewers apart on either measure. The
+difference that shows is three more confidently wrong auto-proposals in 104 tasks, and its
+interval reaches zero.
+
+The rule stays. It is a configuration, it costs less than the alternative, and the
+direction of the evidence is the plan's: the fixer's own model lets more wrong patches
+through. But the README no longer claims the rule is what makes the review work.
+
+The noise floor: asked twice, the different-vendor reviewer gave the same verdict on 97 of
+104 patches, 93.3% (86.8% to 96.7%). The two vendors agreed on 77.9% (69.0% to 84.8%).
+
+### No failing test first
+
+Running; this section is written when the 40 tasks are scored.

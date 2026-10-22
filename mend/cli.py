@@ -680,8 +680,67 @@ def report(
             )
     if sets:
         text = replace_section(text, "clustering-sets", kfold_table(sets))
+    text = _ablation_sections(text)
     readme.write_text(text, encoding="utf-8", newline="\n")
     typer.echo(f"{readme}: tables written from {outcomes} and {crossval}")
+
+
+def _ablation_sections(text: str) -> str:
+    """The ablation tables, for whichever ablations have committed results."""
+    from mend.ablation import self_review
+    from mend.data.swebench import load_subset
+    from mend.eval import ablation
+    from mend.eval.report import replace_section
+    from mend.sandbox.harness import read_runs
+
+    passed = _verdicts(MAIN_VERDICTS)
+    main = _main_records(MAIN_RUN)
+    review_dir = Path("results/ablation-self-review")
+    if (review_dir / f"{self_review.SAME_VENDOR}.jsonl").is_file():
+        same = read_runs(review_dir / f"{self_review.SAME_VENDOR}.jsonl")
+        again = read_runs(review_dir / f"{self_review.OTHER_VENDOR}.jsonl")
+        reviewed = [r for r in main.values() if self_review.reviewed(r)]
+        table = ablation.review_table(
+            [
+                ("Different vendor, main run", reviewed),
+                ("Different vendor, asked again", again),
+                ("Same vendor: the fixer's own model", same),
+            ],
+            passed,
+        )
+        table += (
+            "\n\nThe different-vendor reviewer gave the same verdict when asked again on "
+            f"{ablation.agreement(reviewed, again)} of the patches; the two vendors agreed on "
+            f"{ablation.agreement(again, same)}."
+        )
+        text = replace_section(text, "ablation-review", table)
+    arm_dir = Path("results/ablation-no-test-first")
+    if (arm_dir / "fix.jsonl").is_file():
+        ids = set(load_subset(ABLATION_SPLIT).instance_ids)
+        text = replace_section(
+            text,
+            "ablation-test-first",
+            ablation.first_test_table(
+                [r for i, r in sorted(main.items()) if i in ids],
+                passed,
+                read_runs(arm_dir / "fix.jsonl"),
+                _verdicts(arm_dir / "verdicts.jsonl"),
+            ),
+        )
+    ledger = Path("gate-runs/ledger.jsonl")
+    if ledger.is_file():
+        text = replace_section(
+            text,
+            "gate",
+            ablation.gate_table(
+                ledger,
+                [
+                    ("mend-no-test-first", "No failing test first"),
+                    ("mend-self-review", "Same-vendor review"),
+                ],
+            ),
+        )
+    return text
 
 
 @app.command()

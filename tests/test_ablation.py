@@ -176,3 +176,25 @@ def test_gate_sides_are_in_the_adapters_shape_and_grade_the_right_way_up() -> No
         "uncosted_calls",
     }
     assert gate.spec("self-review")["suites"][0]["source"]["kind"] == "outcomes_file"
+
+
+def test_the_ablation_tables_count_what_the_arms_did() -> None:
+    from mend.eval.ablation import agreement, first_test_table, review_table
+
+    def run(i: str, agrees: bool | None, tier: str, diff: str = "d") -> dict[str, Any]:
+        review = None if agrees is None else {"agrees": agrees}
+        return {
+            "issue": {"issue_id": i},
+            "state": {"review": review, "tier": tier, "patch": {"diff": diff}},
+            "cost_usd": 0.1,
+        }
+
+    passed = {"a": True, "b": False, "c": False}
+    a = [run("a", True, "auto_propose"), run("b", True, "auto_propose"), run("c", False, "x")]
+    b = [run("a", True, "auto_propose"), run("b", False, "x"), run("c", False, "x")]
+    table = review_table([("one", a), ("two", b)], passed)
+    assert "| one | 33.3% (" in table and "| two | 66.7% (" in table
+    assert "50.0% (" in table  # one of two auto-proposals wrong in arm one
+    assert agreement(a, b).startswith("66.7%")
+    first = first_test_table(a, passed, b, {"a": True, "b": True, "c": False})
+    assert "1 resolved by both, 0 only with the test first, 1 only without it" in first
