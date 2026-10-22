@@ -59,9 +59,13 @@ jackknife ([docs/clustering.md](docs/clustering.md))**
 | Injected faults (40 causes, 404 symptoms) | Record-level (fingerprint, text, locality) | 0.568 (0.352 to 0.784) | 96.8% (93.2% to 100.0%) | 51.7% (36.9% to 66.5%) | 2.07 (1.42 to 2.73) |
 | Injected faults (40 causes, 404 symptoms) | Fingerprint only | 0.522 (0.291 to 0.753) | 99.3% (97.8% to 100.0%) | 45.0% (30.0% to 60.1%) | 1.65 (1.23 to 2.07) |
 | Injected faults (40 causes, 404 symptoms) | Record-level minus fingerprint, paired | 0.046 (-0.004 to 0.096) | higher on 5 of 5 folds | | |
+| Injected faults, sentence encoder (40 causes, 404 symptoms) | Record-level (fingerprint, text, locality) | 0.568 (0.353 to 0.783) | 96.3% (92.7% to 99.8%) | 52.0% (37.1% to 66.9%) | 2.09 (1.41 to 2.78) |
+| Injected faults, sentence encoder (40 causes, 404 symptoms) | Record-level minus fingerprint, paired | 0.046 (-0.003 to 0.096) | higher on 5 of 5 folds | | |
 | Duplicate links (639 causes, 1378 symptoms) | Record-level (fingerprint, text, locality) | 0.086 (0.059 to 0.112) | 96.9% (95.7% to 98.1%) | 49.3% (48.2% to 50.5%) | 1.06 (1.05 to 1.08) |
 | Duplicate links (639 causes, 1378 symptoms) | Fingerprint only | 0.017 (0.016 to 0.019) | 13.2% (11.3% to 15.1%) | 93.6% (92.3% to 95.0%) | 11.11 (9.19 to 13.04) |
 | Duplicate links (639 causes, 1378 symptoms) | Record-level minus fingerprint, paired | 0.069 (0.042 to 0.095) | higher on 5 of 5 folds | | |
+| Duplicate links, sentence encoder (639 causes, 1378 symptoms) | Record-level (fingerprint, text, locality) | 0.516 (0.470 to 0.562) | 92.2% (90.1% to 94.4%) | 71.8% (69.7% to 73.8%) | 1.47 (1.42 to 1.53) |
+| Duplicate links, sentence encoder (639 causes, 1378 symptoms) | Record-level minus fingerprint, paired | 0.499 (0.453 to 0.545) | higher on 5 of 5 folds | | |
 <!-- /report:clustering-sets -->
 
 ### The honest limitation
@@ -88,9 +92,10 @@ failing test pass. Django, 55 of the 120, resolved 42.
   the spread is wide.
 - **Tracebacks from injected faults.** The full method finds about half of each fault, and
   the fingerprint alone does nearly as well.
-- **Human reports of one bug.** Neither method recognises them as one. Only 8% of those
-  reports hold a traceback, and a hashed text embedding cannot match two different
-  wordings. A trained sentence encoder is built but not yet measured.
+- **Human reports of one bug.** Only 8% of these reports hold a traceback, so the text is
+  all there is. The full method finds about half of the duplicate pairs with a trained
+  sentence encoder, ARI 0.516. With the default hashed text embedding it finds almost
+  none, 0.086. The encoder was tried after the hashing result was seen.
 
 None of the sets has incidents that overlap in time.
 

@@ -563,12 +563,14 @@ Results:
 
 - **Injected faults:** record-level ARI 0.568 (0.352 to 0.784) against the fingerprint
   alone at 0.522 (0.291 to 0.753). The paired difference is 0.046 (-0.004 to 0.096).
-- **Duplicate links:** 0.086 (0.059 to 0.112) against 0.017. Neither method recognises two
-  human reports of one bug as one. The text channel is a hashed n-gram embedding, and the
-  trained sentence encoder behind the `st` extra is the next thing to measure.
+- **Duplicate links:** 0.086 (0.059 to 0.112) against 0.017 with the hashed text channel.
+  The trained sentence encoder behind the `st` extra was then tried on both sets, after
+  that had been seen. Duplicates reach 0.516 (0.470 to 0.562) and the faults are unchanged
+  at 0.568.
 
-Section 2.2's three channels carry none of the three sets. Time carries 09's chaos runs,
-the traceback alone carries the injected faults, and nothing yet carries the duplicates.
+Section 2.2's three channels, compared one record at a time, carry only the human reports,
+and only through a trained text encoder. Time carries 09's chaos runs, and the traceback
+alone carries the injected faults.
 
 ### What is blocked, and on what
 

@@ -138,15 +138,22 @@ def kfold_table(sets: Sequence[tuple[str, Mapping[str, Any]]]) -> str:
         "record-level": "Record-level (fingerprint, text, locality)",
         "fingerprint": "Fingerprint only",
     }
+    shown: set[str] = set()
     for label, payload in sets:
         pooled = payload["pooled"]
+        # The fingerprint has no text channel, so a second embedder on the same set gives
+        # it the same row; it is shown once per set.
+        base = label.split(",")[0].split(" (")[0]
         for key, name in names.items():
+            if key == "fingerprint" and base in shown:
+                continue
             m = pooled[key]
             lines.append(
                 f"| {label} | {name} | {_ci(m['ari'])} | {_ci(m['purity'], percent=True)} "
                 f"| {_ci(m['completeness'], percent=True)} "
                 f"| {_ci(m['symptoms_per_ticket'], places=2)} |"
             )
+        shown.add(base)
         folds = payload["folds"]
         wins = sum(1 for f in folds if f["ari"]["record-level"] > f["ari"]["fingerprint"])
         lines.append(

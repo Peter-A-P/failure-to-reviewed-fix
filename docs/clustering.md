@@ -297,9 +297,28 @@ issues hold a traceback at all.
 
 The text channel is a hashed character n-gram embedding. It cannot see that two
 differently worded reports describe one bug, and on this set that is the only evidence
-there is. A trained sentence encoder is already built behind the `st` extra and has not
-been measured. It is the next thing to try, and the obvious reason this number could
-improve.
+there is.
+
+**With a trained sentence encoder.** The same folds, seed and code were run with the text
+channel swapped for all-MiniLM-L6-v2, which runs locally behind the `st` extra. Everything
+else was unchanged, including the channel weights.
+
+| Set | Text channel | Record-level ARI | Purity | Completeness | Symptoms per ticket |
+|---|---|---|---|---|---|
+| Duplicate links | Hashed n-grams | 0.086 (0.059 to 0.112) | 96.9% | 49.3% | 1.06 |
+| Duplicate links | Sentence encoder | 0.516 (0.470 to 0.562) | 92.2% (90.1% to 94.4%) | 71.8% (69.7% to 73.8%) | 1.47 (1.42 to 1.53) |
+| Injected faults | Hashed n-grams | 0.568 (0.352 to 0.784) | 96.8% | 51.7% | 2.07 |
+| Injected faults | Sentence encoder | 0.568 (0.353 to 0.783) | 96.3% | 52.0% | 2.09 |
+
+The encoder changes the duplicate-link result from almost nothing to finding about half of
+the pairs, at a small cost in purity. It changes nothing on the tracebacks, where the
+fingerprint and the frames already carry the evidence. The tuned threshold moved from 0.6
+to 0.7 on the duplicates and stayed between 0.25 and 0.6 on the faults.
+
+Hashing stays the default. It is what CI can afford, and the encoder pulls in torch. Every
+number on this page names the embedder that produced it. The encoder was tried once, on
+both sets, after the hashing results had been seen. Read the comparison with that in
+mind: it is not a choice made before the data.
 
 ### What the three sets say together
 
@@ -307,11 +326,12 @@ improve.
   when they started, then comparing those incidents, does.
 - **Tracebacks:** the record-level method finds about half of each fault, no better than
   the fingerprint alone.
-- **Human reports:** neither finds much.
+- **Human reports:** the full method finds about half of the duplicate pairs, but only with
+  a trained text encoder. With hashed n-grams it finds almost none.
 
-The plan's design, three channels compared one record at a time, is not what carries any
-of these results. Time carries the production signals, the traceback carries the injected
-faults, and nothing carries the human reports yet.
+Comparing three channels one record at a time, the plan's design, carries one of the three
+sets: human reports, and only through its text channel. Time carries the production
+signals, and the traceback alone carries the injected faults.
 
 Reproduce with:
 
@@ -320,6 +340,7 @@ mend capture faults --seed 20261021
 mend cluster kfold results/faults/records.jsonl --seed 20261021
 mend capture duplicates
 mend cluster kfold runs/duplicates/records.jsonl --seed 20261021
+# the sentence encoder: uv sync --extra st, then the same commands with --embedder st
 ```
 
 ## Reproducing the table above

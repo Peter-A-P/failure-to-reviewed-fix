@@ -357,13 +357,28 @@ def cluster_kfold(
     seed: Annotated[int, typer.Option(help="Deals the causes into folds. Recorded.")],
     k: Annotated[int, typer.Option(help="Folds.")] = 5,
     out: Annotated[Path | None, typer.Option(help="Write the folds and pooled metrics.")] = None,
+    embedder: Annotated[
+        str, typer.Option(help="The text channel: hashing (default) or st, the st extra.")
+    ] = "hashing",
 ) -> None:
     """K-fold by cause within each repository: record-level clustering tuned on the other
     folds, the fingerprint baseline beside it, and both measured once on the pooled held-out
-    labelling with bootstrap intervals."""
-    from mend.cluster.kfold import kfold
+    labelling with jackknife intervals."""
+    from collections.abc import Sequence
 
-    result = kfold(_read_records(records_path), k=k, seed=seed)
+    from mend.cluster.agglomerate import distance_matrix
+    from mend.cluster.embed import Embedder, HashingEmbedder, SentenceTransformerEmbedder
+    from mend.cluster.kfold import Matrix, kfold
+
+    if embedder not in ("hashing", "st"):
+        raise typer.BadParameter("hashing or st")
+    text: Embedder = SentenceTransformerEmbedder() if embedder == "st" else HashingEmbedder()
+
+    def matrix(group: Sequence[FailureRecord]) -> Matrix:
+        return distance_matrix(group, embedder=text)
+
+    result = kfold(_read_records(records_path), k=k, seed=seed, matrix_for=matrix)
+    typer.echo(f"embedder {text.name}")
     for name, m in result.pooled.items():
         typer.echo(
             f"{name:13} ARI {m.ari_interval.as_value(3)}  purity "
@@ -377,7 +392,13 @@ def cluster_kfold(
     )
     if out is not None:
         out.parent.mkdir(parents=True, exist_ok=True)
-        payload = {"records": records_path.as_posix(), "k": k, "seed": seed, **result.to_json()}
+        payload = {
+            "records": records_path.as_posix(),
+            "k": k,
+            "seed": seed,
+            "embedder": text.name,
+            **result.to_json(),
+        }
         out.write_text(json.dumps(payload, indent=1) + "\n", encoding="utf-8")
 
 
@@ -645,7 +666,12 @@ def report(
         text, "clustering", clustering_table(folds, label="09 chaos runs (8 faults, 373 symptoms)")
     )
     sets = []
-    for path, name in ((faults, "Injected faults"), (duplicates, "Duplicate links")):
+    for path, name in (
+        (faults, "Injected faults"),
+        (faults.with_name("kfold-st.json"), "Injected faults, sentence encoder"),
+        (duplicates, "Duplicate links"),
+        (duplicates.with_name("kfold-st.json"), "Duplicate links, sentence encoder"),
+    ):
         if path.is_file():
             payload = load_kfold(path)
             m = payload["pooled"]["record-level"]
