@@ -8,7 +8,9 @@ without a person saying yes.
 **Status: measured.** The 120-task main run on SWE-bench Verified is done and scored on
 the benchmark's hidden tests, the routing was calibrated beforehand on a separate 30-task
 validation split, and the clustering is measured on all three labelled sets the plan names:
-project 09's recorded chaos runs, injected faults, and maintainers' duplicate links. The
+project 09's recorded chaos runs, injected faults, and maintainers' duplicate links. Two
+ablations, no failing test first and same-vendor review, went through project 03's release
+gate. The
 tables below are written by `mend report` from the files in [results/](results/), not by
 hand. The plan is in [PLAN.md](PLAN.md).
 
@@ -75,6 +77,8 @@ project 03's release gate at a ten-point margin set before the runs
 <!-- report:gate -->
 | Ablation | Suite | Paired tasks | Main design | Ablated | Ablated minus main (95% CI) | Gate verdict at a 10-point margin |
 |---|---|---|---|---|---|---|
+| No failing test first | resolved | 40 | 65.0% | 67.5% | +2.5 (-12.5 to +17.5) points | block |
+| No failing test first | not-confidently-wrong | 40 | 95.0% | 95.0% | +0.0 (-7.5 to +7.5) points | pass |
 | Same-vendor review | verdict-right | 104 | 67.3% | 76.0% | +8.7 (-1.0 to +18.3) points | pass |
 | Same-vendor review | not-confidently-wrong | 104 | 95.2% | 92.3% | -2.9 (-7.7 to +1.0) points | pass |
 <!-- /report:gate -->
@@ -96,6 +100,12 @@ The different-vendor reviewer gave the same verdict when asked again on 93.3% (8
 20261021), localisation reused from the main run, each patch scored on the hidden tests*
 
 <!-- report:ablation-test-first -->
+| Arm | Resolved on hidden tests | Patches drafted | Auto-proposed | Confidently wrong among auto-proposals | Model cost per task |
+|---|---|---|---|---|---|
+| Failing test first (main run, same tasks) | 65.0% (49.5% to 77.9%, n = 40) | 36 | 18 | 11.1% (3.1% to 32.8%, n = 18) | US$0.170 |
+| No failing test first | 67.5% (52.0% to 79.9%, n = 40) | 40 | 21 | 9.5% (2.7% to 28.9%, n = 21) | US$0.080 |
+
+Task by task: 22 resolved by both, 4 only with the test first, 5 only without it.
 <!-- /report:ablation-test-first -->
 
 ### The honest limitation
@@ -118,6 +128,18 @@ patch as the other vendor's: 46% of the patches it objected to were wrong, again
 objects less often, so it lets three more wrong patches through to auto-propose. The
 release gate could not tell the two reviewers apart at a ten-point margin, so the rule
 stays as a design choice the evidence leans towards, not one it proves.
+
+**The failing test first is not shown to make the fixes better.** On 40 of the main run's
+tasks, the same pipeline without the tester:
+
+- resolved 27 against the main run's 26;
+- auto-proposed 21 patches with 2 wrong, against 18 with 2 wrong;
+- cost half as much in model calls.
+
+The release gate blocked only because 40 tasks leave a wide interval. Its estimate
+favoured the arm without the test. The test stays because it is what the pull request
+shows a person, and because the graph refuses to patch without one. It is not what makes
+the patches right.
 
 **Where it is weak.** Sympy resolved 6 of 18; the fixer often could not make its own
 failing test pass. Django, 55 of the 120, resolved 42.

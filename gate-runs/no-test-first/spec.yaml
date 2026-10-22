@@ -1,0 +1,15 @@
+version: 1
+name: mend-no-test-first
+delta_points: 10.0
+alpha: 0.05
+resamples: 2000
+seed: 0
+suites:
+- key: resolved
+  source:
+    kind: outcomes_file
+    block: resolved
+- key: not-confidently-wrong
+  source:
+    kind: outcomes_file
+    block: not-confidently-wrong

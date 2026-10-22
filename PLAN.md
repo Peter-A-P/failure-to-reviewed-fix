@@ -589,6 +589,44 @@ were reviewed again in both arms on identical input, for US$2.70 in all.
 The different-vendor rule is not shown to be what makes it work. The rule stays, and the
 README says the evidence only leans its way (`docs/ablations.md`).
 
+**2026-10-22, no failing test first, measured and through the gate.** All 40 tasks ran and
+were scored, for US$3.20.
+
+| | Main run, same 40 | No test |
+|---|---|---|
+| Resolved | 26 | 27 |
+| Auto-proposed | 18, 2 wrong | 21, 2 wrong |
+| Model cost per task | US$0.170 | US$0.080 |
+
+The gate passed not-confidently-wrong at +0.0 (-7.5 to +7.5) and blocked resolved at +2.5
+(-12.5 to +17.5). The block is about the interval's width, not its direction.
+
+Rule C candidate 1 (section 9) is not supported at this size. The four tasks the main run
+lost before patching were all lost at the test, and without the test all four were
+drafted. The test stays as the evidence a reviewer reads and as the graph's rail, and the
+README no longer implies that it buys accuracy.
+
+`docs/rejected.md` still holds record-level clustering for production signals. Its
+evidence is the clearest of the three, 56 of 56 folds, where both pipeline ablations are
+undecided at their sizes.
+
+**Spend.** The ledger total is US$31.87, about CA$43, against CA$160. The ablations cost
+US$5.90 of it. The clustering sets cost nothing, because the sentence encoder runs locally.
+
+**Definition of done, now.** Done:
+
+- symptoms per root cause with purity, completeness and ARI on all three labelled sets,
+  with intervals;
+- the ablations through 03's gate, with fingerprint-only clustering measured by paired
+  folds instead, as recorded above;
+- everything listed as done on 2026-10-20.
+
+Not done:
+
+- the false-positive analysis by cause, which is Peter's;
+- the live workflow;
+- `v0.1.0` and making the repository public.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops
@@ -612,5 +650,5 @@ were built.
 - The ablations are no longer blocked from outside. Project 03's release gate, Part B
   included, was built from 2026-09-19 and released as v0.1.0 on 2026-10-06. What the
   ablations wait on now is the harness adapter and a running Docker daemon.
-- Spend so far is US$25.97 (the ledger's total, 2026-10-20), about CA$35, against the US$1.00 per-issue
+- Spend so far is US$31.87 (the ledger's total, 2026-10-22), about CA$43, against the US$1.00 per-issue
   cap and the US$130 monthly cap in `config/mend.caps.yaml`.

@@ -131,6 +131,45 @@ through. But the README no longer claims the rule is what makes the review work.
 The noise floor: asked twice, the different-vendor reviewer gave the same verdict on 97 of
 104 patches, 93.3% (86.8% to 96.7%). The two vendors agreed on 77.9% (69.0% to 84.8%).
 
-### No failing test first
+### No failing test first (2026-10-22)
 
-Running; this section is written when the 40 tasks are scored.
+All 40 tasks ran and were scored on the hidden tests, and no task was left unjudged. The
+model calls cost US$3.20.
+
+| | Failing test first (main run, same 40) | No failing test first |
+|---|---|---|
+| Resolved on the hidden tests | 26, 65.0% (49.5% to 77.9%) | 27, 67.5% (52.0% to 79.9%) |
+| Patches drafted | 36 | 40 |
+| Auto-proposed, and of those wrong | 18, 2 wrong | 21, 2 wrong |
+| Model cost per task | US$0.170 | US$0.080 |
+
+Task by task, 22 were resolved by both, 4 only with the test first, and 5 only without it.
+
+The gate's verdict:
+
+- **not-confidently-wrong: pass**, +0.0 points (-7.5 to +7.5).
+- **resolved: block**, +2.5 points (-12.5 to +17.5).
+
+The block is about width, not direction. Forty tasks leave the interval wide enough to
+reach below the ten-point margin, while the estimate itself favours the ablated arm.
+
+Read plainly:
+
+- **On this sample the failing test first does not raise the hit rate.** It does not lower
+  the confidently-wrong rate either, and it doubles the model cost.
+- **Where the main run lost tasks, the test was the cause.** The four tasks the main run
+  never patched stopped at the test: one test errored instead of failing, and in three
+  the fixer could not make its own test pass. Without the test, all four were drafted.
+- **The router is no worse without the test.** It auto-proposed 21 patches, 2 of them
+  wrong (`django__django-10999`, which the main run also got wrong, and
+  `sympy__sympy-13852`). The main run auto-proposed 18, also 2 of them wrong.
+
+So PLAN.md section 9's first Rule C candidate, that patching without a demonstrating test
+is more often confidently wrong, is not supported at this size. Two wrong in about twenty
+on each side cannot separate a rate of 10% from one of 5% or 20%, and the gate says the
+same.
+
+What the test still does is not measured by either suite. It is the evidence in the draft
+pull request that a person reads: a test that failed before the change and passes after
+it. And it is the rail the graph enforces. Both stay. The README says the rail is a design
+choice about what a reviewer is shown, not a measured gain in accuracy.
