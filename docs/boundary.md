@@ -57,10 +57,10 @@ test rather than by intention:
 
 | Data | Terms | What this repository holds |
 |---|---|---|
-| SWE-bench Verified | MIT-licensed dataset; the underlying repositories keep their own open licences | The sampled subset ids, the seed and the sampling date. No dataset rows, no repository contents, no images |
+| SWE-bench Verified | MIT-licensed dataset; the underlying repositories keep their own open licences | The sampled subset ids, the seed and the sampling date, and the run records in `results/`: each task's issue title and text as the dataset distributes them, and mend's own test, patch, review and verdict. Never a gold patch, a hidden test or its name, a repository's contents or an image |
 | Public issue trackers | GitHub API terms | Issue ids and the duplicate labels derived from them. Issue text is cached locally for reproducibility and is not redistributed |
 | Injected faults on two open-source test suites | The repositories' own open licences | The mutation definitions. The faults are local and are never proposed upstream |
-| Project 09 chaos runs | Peter's own | Nothing raw. The captures stay in 09's working tree; the records `mend capture chaos09` derives from them go to `runs/`, which is not committed |
+| Project 09 chaos runs | Peter's own | Nothing raw. The captures stay in 09's working tree; the records `mend capture chaos09` derives from them, with the capture machine's paths scrubbed from every traceback, are in `results/chaos09/` |
 
 Nothing raw is committed. `.gitignore` keeps `data/raw/`, `data/swebench/`, `data/issues/`
 and the sandbox working directories out of the repository.
@@ -96,5 +96,5 @@ convenience.
 
 ## If this starts to resemble an internal system
 
-Stop and raise it. The substitute named in the portfolio plan takes this project's slot.
+Stop and raise it. The project stops and a different one is built in its place.
 That has not happened and this page will say so if it does.

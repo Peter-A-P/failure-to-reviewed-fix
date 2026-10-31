@@ -68,6 +68,21 @@ def test_scrub_takes_the_checkout_and_the_user_out(tmp_path: Path) -> None:
     assert str(home) not in out and "click-venv" in out
 
 
+ROOT = Path(__file__).resolve().parent.parent
+
+
+def test_no_committed_output_names_this_machines_home_folder() -> None:
+    """The records are committed, so a path the scrub missed would be published. On CI the
+    home folder is the runner's and this passes trivially; it is meant to fail locally."""
+    home = str(Path.home())
+    forms = {home, home.replace("\\", "/"), home.replace("\\", "\\\\")}
+    for folder in ("results", "gate-runs", "docs", "config", "data/subset", "data/duplicates"):
+        for path in (ROOT / folder).rglob("*"):
+            if path.is_file() and path.suffix in {".json", ".jsonl", ".md", ".yaml", ".svg"}:
+                text = path.read_text(encoding="utf-8")
+                assert not any(f in text for f in forms), path.relative_to(ROOT)
+
+
 def test_build_keeps_faults_by_the_rules_and_hides_the_label(tmp_path: Path) -> None:
     checkout = tree(tmp_path / "co")
     suite = FaultSuite("pkg", "u", "t", "c", "src/pkg")

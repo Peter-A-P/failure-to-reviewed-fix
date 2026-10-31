@@ -137,6 +137,15 @@ def _relative(frame: Frame) -> Frame:
     return frame.model_copy(update={"file": path[idx + 1 :]})
 
 
+_CHECKOUT = re.compile(r'(File ")[^"]*?[\\/](verdict[\\/])')
+
+
+def scrub(traceback: str) -> str:
+    """The traceback with the capture machine's checkout path taken out of every frame,
+    for the same reason as _relative, and so that a committed record names no user."""
+    return _CHECKOUT.sub(r"\1\2", traceback)
+
+
 def _when(raw: Any) -> datetime:
     """09 writes UTC ISO times, the broker's with nanoseconds, which datetime refuses."""
     text = str(raw).replace("Z", "+00:00")
@@ -202,7 +211,9 @@ def _log_record(capture: Capture, row: Mapping[str, Any], index: int, seen: int)
         exception_type=exc_type,
         message=message or None,
         frames=frames,
-        traceback_text=traceback,
+        # The frames above are read from the full paths, which is how the marker finds 09's
+        # package; only the stored text is scrubbed.
+        traceback_text=scrub(traceback) if traceback else None,
         env=f"chaos09:{capture.run_id}",
         logs=tuple(context),
         title=f"{service}: {exc_type or message[:80]}",

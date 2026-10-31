@@ -278,6 +278,9 @@ def test_log_errors_become_symptoms_capped_per_shape_with_the_count(tmp_path: Pa
     assert record.frames[0].file == "verdict/scoring/consumer.py"
     assert record.frames[0].in_project
     assert record.true_cause == "out-of-order"
+    assert record.traceback_text is not None
+    assert 'File "verdict\\scoring\\consumer.py"' in record.traceback_text
+    assert "someone" not in record.traceback_text
 
 
 def test_info_lines_are_not_symptoms(tmp_path: Path) -> None:

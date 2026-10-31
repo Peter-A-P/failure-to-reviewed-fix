@@ -9,15 +9,14 @@ gateway, with the fixer and the reviewer on different providers by alias and a s
 per issue), 09 (its chaos runs left labelled failure traces, used as a capture-stage
 dataset), 11 (LangGraph patterns). **Feeds:** nothing in the ten.
 
-> **Employer boundary, before anything else.** This project is close to an agentic layer
-> built inside the Government of Newfoundland and Labrador. It is built against public
-> repositories and public issue histories only, from public sources (the SWE-bench line of
-> work and published agent designs), with no internal architecture, prompts, thresholds or
-> code. Open question 02 in the plan repository was closed on 2026-09-06 on exactly this
-> basis. The design here differs on purpose: failing test first, adversarial review by a
+> **Employer boundary, before anything else.** This project sits close to work done inside
+> the Government of Newfoundland and Labrador. It is built against public repositories and
+> public issue histories only, from public sources (the SWE-bench line of work and
+> published agent designs), with no internal architecture, prompts, thresholds or code.
+> The design here differs on purpose: failing test first, adversarial review by a
 > different vendor, clustering learned from maintainers' own duplicate links. If any part
-> starts to resemble the internal system, the substitute named in the plan repository (a
-> quantisation implementation) takes the slot. Rule G applies to every commit.
+> starts to resemble an internal system, the project stops and a different one is built in
+> its place. `docs/boundary.md` holds this to every commit.
 
 ---
 
@@ -210,8 +209,8 @@ laptop's Docker; a rented CPU box for the main run if the laptop is too slow (ab
 | **Total** | | **117** | **159** |
 
 Right at the CA$160 line. If the validation run shows a higher per-task cost, the main run
-shrinks to 100 tasks before anything else moves, and the plan repository's STATUS records
-it. Actuals go there next to the estimate.
+shrinks to 100 tasks before anything else moves, and the build log records it. Actuals go
+there next to the estimate.
 
 ## 7. Handover
 
@@ -225,7 +224,7 @@ standing demonstration.
 
 | Risk | Handling |
 |---|---|
-| Employer boundary, second highest in the plan | Public repositories and public sources only; `docs/boundary.md` lists what the design is built from; the design differs deliberately (test-first, different-vendor review, duplicate-link clustering); substitute named; Rule G on every commit |
+| Employer boundary | Public repositories and public sources only; `docs/boundary.md` lists what the design is built from; the design differs deliberately (test-first, different-vendor review, duplicate-link clustering); substitute named; Rule G on every commit |
 | The hit rate is low | Published as it falls. A system resolving a fifth of issues with a 3% confidently-wrong rate is useful; one claiming most of them is not believable |
 | Agent cost runs away | Per-issue cap in the gateway before the first call; one retry; caching in development; the main run shrinks before the budget moves |
 | The sandbox is slow on the laptop | The harness images are built once; a rented CPU box is budgeted; the subset is stratified so a smaller run still covers every repository |
