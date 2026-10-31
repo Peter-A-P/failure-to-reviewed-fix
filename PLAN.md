@@ -105,10 +105,13 @@ come from the ledger, not from estimates.
 
 ### 2.7 The live demonstration acts only on Peter's own repositories
 
-A GitHub Actions workflow in this repository and in two of the portfolio's public
-repositories runs `mend` on CI failure in suggest mode: capture, cluster, propose as a
-comment, and open a draft pull request only when the routing says so and only in those
-repositories. It never acts on anyone else's repository. Every action is logged and visible.
+A reusable GitHub Actions workflow in this repository, called from two of the portfolio's
+public repositories (03's release gate and 04's gateway, chosen 2026-10-31), runs `mend` on
+CI failure: capture, cluster, triage, and comment on the pull request. Comments only,
+whatever the routing says (changed 2026-10-31, Peter's decision: the main run missed the
+confidently-wrong target, so the router's auto-propose is not trusted to open pull
+requests). It never acts on anyone else's repository. Every action is logged and visible.
+See `docs/live.md`.
 
 ### 2.8 Out of scope, on purpose
 
@@ -229,7 +232,7 @@ standing demonstration.
 | The category moves monthly | Differentiate on measurement, not capability; the README leads with the confidently-wrong analysis |
 | Duplicate links are noisy truth | Reported as maintainers' judgement, with the injected-fault set as the by-construction check |
 | The reviewer rubber-stamps | Reviewer value is measured; if disagreements do not predict wrong patches, the plan says so and the reviewer becomes an ablation, not a gate |
-| The live workflow acts where it should not | Scoped to the repository it runs in; suggest mode; draft pull requests only; every action logged |
+| The live workflow acts where it should not | Scoped to the repository it runs in and to a list of two; comments only; every action logged |
 
 ## 9. Rule C candidates
 
@@ -638,6 +641,20 @@ five, and fills the table in the README and `docs/false-positives.md` once every
 a cause and a sentence. One change to the hint: none of the five issues had a traceback, so
 it no longer offers `wrong_location` on the grounds that the patch missed frames that did
 not exist. No model calls.
+
+**2026-10-31, the live workflow built.** Peter's decisions: 03 and 04, comments only, the
+keys from each repository's Actions secrets (both already hold them), US$3 in all, and
+planted-bug branches. Section 2.7 is changed to match: no draft pull requests, and this
+repository hosts the reusable workflow rather than running it on itself. `mend live` builds
+an image from the failing commit (the build is the only step with network), reruns the
+suite in the sandbox, clusters, triages the largest ticket through the unchanged pipeline
+and comments on the pull request. `mend/live/scope.py` refuses any repository but the one
+the job runs in, and only the two listed. The budget is US$1.50 a repository: the gateway's
+per-issue and monthly caps against a ledger kept in the Actions cache, plus a running total
+that a new month does not refill. `demo/mend-live-1` in each repository holds one planted
+bug (Holm's multiplier off by one in 03; long-prompt rates a token early in 04). Not yet
+run: the callers name the workflow at `v0.1.0`, and a private repository's workflow cannot
+be called from another, so installing it waits on the release.
 
 ### What is blocked, and on what
 

@@ -1246,5 +1246,155 @@ def wrong_hidden(
     typer.echo(f"{len(ids)} cases -> {out}")
 
 
+def first_pull_request(pull_requests: str) -> int | None:
+    """The number of the first pull request in GitHub's workflow_run.pull_requests JSON.
+    Empty for a push with no pull request open, and for any pull request from a fork."""
+    rows = json.loads(pull_requests or "[]")
+    return int(rows[0]["number"]) if rows else None
+
+
+@app.command()
+def live(
+    checkout: Annotated[Path, typer.Option(help="The failing commit, checked out.")],
+    sha: Annotated[str, typer.Option(help="The failing commit's sha.")],
+    install: Annotated[str, typer.Option(help="The repository's install command.")],
+    repo: Annotated[
+        str | None, typer.Option(help="The repository. Default: the one the job runs in.")
+    ] = None,
+    pull_requests: Annotated[str, typer.Option(help="workflow_run.pull_requests, as JSON.")] = "[]",
+    marker: Annotated[
+        list[str] | None,
+        typer.Option("--marker", help="Path fragment marking in-project frames. Repeatable."),
+    ] = None,
+    tests: Annotated[
+        list[str] | None, typer.Option("--tests", help="Test paths. Default: the whole suite.")
+    ] = None,
+    home: Annotated[
+        Path | None,
+        typer.Option(help="Ledger and running total, kept between runs. Default: ~/.mend-live."),
+    ] = None,
+    work: Annotated[Path, typer.Option(help="Scratch space for this run.")] = Path("runs/live"),
+    run_url: Annotated[str, typer.Option(help="This workflow run's URL, for the comment.")] = "",
+    run_id: Annotated[str, typer.Option(help="This workflow run's id.")] = "local",
+    config: Annotated[Path, typer.Option(help="Gateway configuration.")] = Path(
+        "config/live.boundary.yaml"
+    ),
+    thresholds_path: Annotated[Path, typer.Option("--thresholds")] = Path(
+        "config/mend.thresholds.yaml"
+    ),
+    dry_run: Annotated[
+        bool, typer.Option("--dry-run", help="Triage and summarise; post nothing.")
+    ] = False,
+) -> None:
+    """Triage a failing CI run in the sandbox and post the suggestion as a pull request
+    comment. Comments only: no pull request is opened and nothing is pushed or merged.
+    Acts only on the repository the job runs in, and only one listed in mend.live.scope
+    (docs/live.md). Needs Docker and the gateway extra."""
+    import os
+
+    from mend.eval.calibration import load_thresholds
+    from mend.gateway import open_gateway
+    from mend.graph.context import Deps
+    from mend.graph.llm import GatewayClient
+    from mend.live import comment as say
+    from mend.live import image, scope
+    from mend.live.budget import Budget, BudgetSpent
+    from mend.live.run import capture, triage
+    from mend.sandbox.runner import docker_available
+    from mend.sandbox.workspace import DockerWorkspace
+
+    running_in = os.environ.get("GITHUB_REPOSITORY")
+    target = repo or running_in or ""
+    if not dry_run:
+        try:
+            target = scope.check(target, running_in=running_in)
+        except scope.OutOfScope as error:
+            typer.echo(f"refused: {error}")
+            raise typer.Exit(code=2) from error
+
+    def report(text: str) -> None:
+        typer.echo(text)
+        step_summary = os.environ.get("GITHUB_STEP_SUMMARY")
+        if step_summary:
+            with open(step_summary, "a", encoding="utf-8") as handle:
+                handle.write(text)
+
+    home = home or Path.home() / ".mend-live"
+    budget = Budget(home / "spent.json")
+    try:
+        budget.check()
+    except BudgetSpent as spent:
+        report(say.summary([], records=0, tickets=0, note=f"Nothing run: {spent}."))
+        return
+    if not docker_available():
+        typer.echo("no Docker daemon answered; the sandbox needs one")
+        raise typer.Exit(code=2)
+
+    work.mkdir(parents=True, exist_ok=True)
+    tag = image.build(checkout, install, f"mend-live:{sha[:12]}")
+    junit = image.run_suite(tag, work / "suite", paths=tuple(tests or ()))
+    records, tickets = capture(junit, repo=target, commit=sha, markers=tuple(marker or ()))
+    if not tickets:
+        report(
+            say.summary(
+                [],
+                records=0,
+                tickets=0,
+                note="The suite passed in the sandbox, so there is nothing to triage. The CI "
+                "failure was in a step other than the tests, or does not reproduce.",
+            )
+        )
+        return
+
+    workspace = DockerWorkspace.extract(tag, work / "repo", workdir=image.WORKDIR)
+    home.mkdir(parents=True, exist_ok=True)
+    client = GatewayClient(gateway=open_gateway(config, ledger_path=home / "ledger.sqlite"))
+    log_path = work / "runs.jsonl"
+
+    def log(record: Any) -> None:
+        with log_path.open("a", encoding="utf-8", newline="\n") as handle:
+            handle.write(record.to_json() + "\n")
+
+    try:
+        outcomes, note = triage(
+            tickets,
+            deps=Deps(
+                client=client, workspace=workspace, thresholds=load_thresholds(thresholds_path)
+            ),
+            budget=budget,
+            run_id=run_id,
+            run_url=run_url,
+            log=log,
+        )
+    finally:
+        client.close()
+
+    number = first_pull_request(pull_requests)
+    posted = 0
+    for outcome in outcomes:
+        if not outcome.posts:
+            continue
+        if dry_run or number is None:
+            continue
+        say.post(
+            target,
+            number,
+            say.comment(
+                outcome, run_url=run_url, spent_usd=budget.spent_usd, cap_usd=budget.cap_usd
+            ),
+        )
+        posted += 1
+    where = (
+        "dry run: nothing posted."
+        if dry_run
+        else f"{posted} comment(s) on #{number}."
+        if number is not None
+        else "No pull request for this run, so nothing posted; the summary is the record."
+    )
+    report(
+        say.summary(outcomes, records=len(records), tickets=len(tickets), note=f"{note} {where}")
+    )
+
+
 if __name__ == "__main__":  # pragma: no cover
     app()

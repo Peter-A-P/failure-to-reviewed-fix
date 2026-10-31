@@ -230,7 +230,10 @@ Built, tested, and reproducible today with `uv sync && uv run pytest`:
   run outside the graph so the graph keeps no switch that turns a rail off, and both handed
   to project 03's release gate. See [docs/ablations.md](docs/ablations.md).
 
-Not built yet: the live workflow, in [PLAN.md](PLAN.md) section 5.
+- **The live workflow.** A failing pull request in 03's or 04's repository is rerun in the
+  sandbox, triaged, and answered with a comment: comments only, scoped to the repository it
+  runs in, US$1.50 a repository. Built and tested; not yet installed, because the callers
+  need this repository public. See [docs/live.md](docs/live.md).
 
 ## What this does not do
 

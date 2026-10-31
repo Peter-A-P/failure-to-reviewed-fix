@@ -1,0 +1,113 @@
+name: live
+
+# The live workflow (docs/live.md), called from the repositories it runs in, never run here.
+# A failing CI run on a pull request in one of those repositories is rerun in the sandbox,
+# clustered, triaged through the pipeline, and the suggestion posted as a comment on that
+# pull request. Comments only: no step here opens a pull request, pushes, or merges, and
+# mend.live.scope refuses any repository but the caller's, if it is on its list.
+#
+# The caller grants the permissions; these are the most this workflow may use. contents is
+# read-only, so the job's token cannot push. The model keys reach one step, the triage,
+# and never a container: the sandbox runs take no environment from the host.
+on:
+  workflow_call:
+    inputs:
+      install:
+        description: The repository's install command, run inside the image build.
+        type: string
+        required: true
+      markers:
+        description: Space-separated path fragments marking the repository's own frames.
+        type: string
+        default: ""
+      mend_ref:
+        description: The mend release to run.
+        type: string
+        default: v0.1.0
+    secrets:
+      ANTHROPIC_API_KEY:
+        required: true
+      OPENAI_API_KEY:
+        required: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  suggest:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    # One at a time per repository, so two runs cannot both read the same running total.
+    concurrency:
+      group: mend-live-${{ github.repository }}
+      cancel-in-progress: false
+    steps:
+      - name: The failing commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          path: target
+          persist-credentials: false
+      - name: mend
+        uses: actions/checkout@v4
+        with:
+          repository: Peter-A-P/mend
+          ref: ${{ inputs.mend_ref }}
+          path: mend
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+      - name: Install mend with the gateway
+        working-directory: mend
+        run: uv sync --frozen --extra gateway
+      # The ledger and the running total, carried from run to run. The cache is per
+      # repository, which is why the budget is per repository (config/live.caps.yaml).
+      - name: Restore the ledger
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.mend-live
+          key: mend-live-${{ github.run_id }}
+          restore-keys: mend-live-
+      - name: Triage
+        working-directory: mend
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+          PULL_REQUESTS: ${{ toJSON(github.event.workflow_run.pull_requests) }}
+          INSTALL: ${{ inputs.install }}
+          MARKERS: ${{ inputs.markers }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          args=()
+          for m in $MARKERS; do args+=(--marker "$m"); done
+          uv run mend live \
+            --checkout "$GITHUB_WORKSPACE/target" \
+            --sha "$SHA" \
+            --install "$INSTALL" \
+            --pull-requests "$PULL_REQUESTS" \
+            --run-url "$RUN_URL" \
+            --run-id "$GITHUB_RUN_ID" \
+            --work "$RUNNER_TEMP/mend-live" \
+            "${args[@]}"
+      - name: Save the ledger
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.mend-live
+          key: mend-live-${{ github.run_id }}
+      - name: Keep the run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mend-live-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/mend-live/runs.jsonl
+            ${{ runner.temp }}/mend-live/suite/report.xml
+            ~/.mend-live/spent.json
+          if-no-files-found: ignore
+          retention-days: 90

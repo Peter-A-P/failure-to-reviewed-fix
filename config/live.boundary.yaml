@@ -1,0 +1,50 @@
+# The gateway configuration for the live workflow (docs/live.md). The same providers, roles
+# and prices as config/boundary.yaml; what differs is the caps file, the ledger (passed in
+# by mend live, kept in the workflow's cache between runs) and the cache, which is off: a
+# suggestion answered from a development cache would be a suggestion about some other code.
+
+version: 1
+
+providers:
+  anthropic:
+    kind: anthropic
+    base_url: https://api.anthropic.com
+    api_key_env: ANTHROPIC_API_KEY
+    api_version: "2023-06-01"
+  openai:
+    kind: openai_compat
+    base_url: https://api.openai.com/v1
+    api_key_env: OPENAI_API_KEY
+    max_tokens_field: max_completion_tokens
+
+# The four roles, in their own file so that the different-vendor pairing is one short
+# document a reader can check at a glance. See config/mend.routes.yaml.
+routes: mend.routes.yaml
+
+prices: prices
+caps: live.caps.yaml
+
+defaults:
+  max_tokens: 4096
+  timeouts:
+    connect_s: 10
+    # Generous, because a fixer drafting a patch against a long file is a slow call and a
+    # timeout here costs the whole issue, having already paid for localisation.
+    read_s: 300
+
+retry:
+  # One retry, as PLAN.md section 6 budgets for. max_attempts counts the first try.
+  max_attempts: 2
+  base_delay_s: 1.0
+  max_delay_s: 30
+
+ledger:
+  # Replaced at run time by the path mend live passes; this is only the fallback.
+  path: ../runs/mend-live-ledger.sqlite
+  env: live
+
+telemetry:
+  exporter: none
+
+cache:
+  enabled: false
