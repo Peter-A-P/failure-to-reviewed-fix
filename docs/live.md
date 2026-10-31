@@ -79,10 +79,21 @@ and labelled as staged in its commit message:
 A draft pull request from that branch makes `ci` fail and the workflow comment. Neither
 pull request is ever merged.
 
+The first runs, on 2026-10-31:
+
+| Repository | What happened |
+|---|---|
+| ai-release-gate ([#2](https://github.com/Peter-A-P/ai-release-gate/pull/2)) | All 10 CI failures reproduced in the sandbox, 5 tickets; the largest (4 symptoms) went to auto-propose at US$0.14, with a failing Holm test first and the planted line reverted, accepted by the other vendor. Posted as a comment |
+| compliant-ai-gateway ([#1](https://github.com/Peter-A-P/compliant-ai-gateway/pull/1)) | The sandbox ran no tests and reported a pass: the repository's `.dockerignore` leaves `tests/` out of its image. Fixed in v0.1.1, which builds with its own ignore file and treats a suite that ran nothing as a failed run |
+
+The build ignores the repository's own `.dockerignore`, which is written for that
+repository's image, and uses `IGNORE` in `mend/live/image.py`: `.env` files, local
+databases, the virtual environment and `.git` stay out, the tests stay in.
+
 ## Installing it
 
-In each listed repository, after mend's `v0.1.0` is public (the caller names the reusable
-workflow by that tag, and a private repository's workflow cannot be called from another):
+Installed in both on 2026-10-31. The caller names the reusable workflow by its release tag,
+now `v0.1.1`. In a new listed repository:
 
 1. Copy `action/<repository>.yml` from this repository to `.github/workflows/mend-live.yml`
    there, on the default branch, which is the only branch `workflow_run` reads.

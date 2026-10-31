@@ -12,11 +12,13 @@ network off, exactly as on the benchmark.
 
 from __future__ import annotations
 
+import os
 import shlex
 import subprocess
 import tempfile
 from collections.abc import Callable, Sequence
 from pathlib import Path
+from xml.etree import ElementTree
 
 from mend.sandbox.runner import RunResult, run
 from mend.sandbox.runners import JUNIT_PATH
@@ -49,6 +51,16 @@ def dockerfile(install: str) -> str:
     )
 
 
+# The repository's own .dockerignore is written for its own image and may leave the tests
+# out (04's does), so the build uses this one instead: BuildKit reads <Dockerfile>.dockerignore
+# beside the Dockerfile in place of the context's. It keeps secrets, local state and the
+# environment out, and the tests in.
+IGNORE = "\n".join(
+    (".git/", ".env", ".env.*", "CLAUDE.local.md", "*.sqlite", "*.sqlite-*", ".venv/")
+    + ("**/__pycache__", "")
+)
+
+
 def build(
     checkout: Path,
     install: str,
@@ -60,7 +72,9 @@ def build(
     with tempfile.TemporaryDirectory(prefix="mend-image-") as tmp:
         path = Path(tmp) / "Dockerfile"
         path.write_text(dockerfile(install), encoding="utf-8", newline="\n")
+        (Path(tmp) / "Dockerfile.dockerignore").write_text(IGNORE, encoding="utf-8", newline="\n")
         command = ["docker", "build", "-q", "-f", str(path), "-t", tag, str(checkout)]
+        env = {**os.environ, "DOCKER_BUILDKIT": "1"}
         if execute is None:
             done = subprocess.run(
                 command,
@@ -70,6 +84,7 @@ def build(
                 errors="replace",
                 check=False,
                 timeout=BUILD_S,
+                env=env,
             )
         else:
             done = execute(command)
@@ -118,3 +133,9 @@ def run_suite(
         tail = ((result.stdout or "") + (result.stderr or ""))[-2000:]
         raise SandboxError(f"the suite wrote no JUnit report: {tail}")
     return report
+
+
+def collected(report: Path) -> int:
+    """How many tests the report says ran. Zero is not a pass: it is a sandbox that did not
+    see the suite, which is what an image built without the tests looks like."""
+    return sum(1 for _ in ElementTree.parse(report).getroot().iter("testcase"))

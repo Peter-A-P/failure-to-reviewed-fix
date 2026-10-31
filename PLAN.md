@@ -654,6 +654,16 @@ bug (Holm's multiplier off by one in 03; long-prompt rates a token early in 04).
 run: the callers name the workflow at `v0.1.0`, and a private repository's workflow cannot
 be called from another, so installing it waits on the release.
 
+**2026-10-31, the live workflow's first runs.** Released public as v0.1.0, installed in 03
+and 04, and a draft pull request opened from each planted branch. In 03 the sandbox
+reproduced all ten CI failures, clustered them into five tickets, and the largest went
+through the pipeline to auto-propose at US$0.14: a failing Holm test first, then exactly
+the planted line reverted, accepted by the other vendor's reviewer. Posted as a comment. In
+04 the suite collected no tests and the run reported a pass: 04's `.dockerignore` leaves
+`tests/` out of its own image, and the live build used the repository's context as it
+stood. v0.1.1 builds with its own ignore file (secrets and local state out, tests in) and
+treats a suite that ran nothing as a failure of the run, not as a pass.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops

@@ -1333,6 +1333,17 @@ def live(
     work.mkdir(parents=True, exist_ok=True)
     tag = image.build(checkout, install, f"mend-live:{sha[:12]}")
     junit = image.run_suite(tag, work / "suite", paths=tuple(tests or ()))
+    if image.collected(junit) == 0:
+        report(
+            say.summary(
+                [],
+                records=0,
+                tickets=0,
+                note="The suite ran no tests in the sandbox, so nothing was triaged. The image "
+                "did not see the tests, or the install left pytest unable to collect them.",
+            )
+        )
+        raise typer.Exit(code=1)
     records, tickets = capture(junit, repo=target, commit=sha, markers=tuple(marker or ()))
     if not tickets:
         report(

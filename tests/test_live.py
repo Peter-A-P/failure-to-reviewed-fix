@@ -98,6 +98,34 @@ def test_the_build_is_the_repositorys_own_install(tmp_path: Path) -> None:
     assert commands[0][:2] == ["docker", "build"] and str(tmp_path) == commands[0][-1]
 
 
+def test_the_build_keeps_the_tests_whatever_the_repositorys_dockerignore_says(
+    tmp_path: Path,
+) -> None:
+    seen: dict[str, str] = {}
+
+    def execute(command: list[str]) -> subprocess.CompletedProcess[str]:
+        dockerfile = Path(command[command.index("-f") + 1])
+        seen["ignore"] = (dockerfile.parent / "Dockerfile.dockerignore").read_text("utf-8")
+        return subprocess.CompletedProcess(command, 0, "", "")
+
+    image.build(tmp_path, "uv sync --frozen", "mend-live:abc", execute=execute)
+    rules = seen["ignore"].splitlines()
+    assert ".env" in rules and ".env.*" in rules
+    assert not any(rule.startswith("tests") for rule in rules)
+
+
+def test_a_suite_that_ran_nothing_is_not_a_pass(tmp_path: Path) -> None:
+    empty = tmp_path / "empty.xml"
+    empty.write_text(
+        '<testsuites><testsuite name="pytest" tests="0" failures="0"/></testsuites>',
+        encoding="utf-8",
+    )
+    assert image.collected(empty) == 0
+    ran = tmp_path / "ran.xml"
+    ran.write_text(JUNIT, encoding="utf-8")
+    assert image.collected(ran) == 3
+
+
 JUNIT = """<testsuite name="pytest">
 <testcase classname="tests.test_core" name="test_a"><failure message="ZeroDivisionError">
 Traceback (most recent call last):
