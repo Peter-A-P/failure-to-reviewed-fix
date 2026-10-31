@@ -314,7 +314,7 @@ uv run mend cluster metrics records.jsonl --threshold 0.6
 
 ## Part of a portfolio
 
-One of fifteen projects. It calls models through the
+One of 16 projects. It calls models through the
 [Compliant AI Gateway](https://github.com/Peter-A-P/compliant-ai-gateway), is measured with
 the [AI Release Gate](https://github.com/Peter-A-P/ai-release-gate), uses the failure traces
 from the [Real-Time Risk Platform](https://github.com/Peter-A-P/realtime-risk-platform)'s

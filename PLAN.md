@@ -2,9 +2,8 @@
 
 **Written:** 2026-09-07. **Status:** plan only, nothing built.
 
-**Build:** three weeks, Jul 5 to Jul 25 2027, slack to Jul 31 (July is shared with 08's two
-weeks per the sequence). **Package:** `mend`. **Fed by:** 03 (the gate runs every
-comparison with intervals; graders are tests, not judges), 04 (every model call through the
+**Build:** three weeks, plus a week of slack. **Package:** `mend`. **Fed by:** 03 (the gate
+runs every comparison with intervals; graders are tests, not judges), 04 (every model call through the
 gateway, with the fixer and the reviewer on different providers by alias and a spend cap
 per issue), 09 (its chaos runs left labelled failure traces, used as a capture-stage
 dataset), 11 (LangGraph patterns). **Feeds:** nothing in the ten.
@@ -172,12 +171,12 @@ workflow is scoped to the repository it runs in.
 
 ## 5. Week by week
 
-| Dates | Built | Done when |
+| Week | Built | Done when |
 |---|---|---|
-| Jul 5 to 11 | Failure record and ingestion (pytest, OpenTelemetry, GitHub); the three clustering sets built; clustering and metrics with threshold from validation; SWE-bench harness running locally with the stratified subset sampled; gateway aliases (localiser, fixer, tester, reviewer on a different provider) and the per-issue cap; gate eval specs | Symptoms-per-root-cause table with CIs on all three sets; one benchmark task runs end to end in the sandbox |
-| Jul 12 to 18 | LangGraph graph: localise, test-first, patch, run, review, route, act; validation run on 30 tasks; routing thresholds calibrated against the 3% target; routing curve | Validation hit rate and confidently-wrong rate; `docs/routing.md` |
-| Jul 19 to 25 | Main run on about 120 tasks through the gate; ablations (no test-first, same-vendor review, fingerprint-only clustering) on 40 tasks each; false-positive taxonomy; reviewer value; cost and latency; live workflow on own repositories in suggest mode; Rule C; README; `v0.1.0`; repository public | Every table in section 1 filled |
-| Jul 26 to 31 | Slack (shared with 08) | |
+| 1 | Failure record and ingestion (pytest, OpenTelemetry, GitHub); the three clustering sets built; clustering and metrics with threshold from validation; SWE-bench harness running locally with the stratified subset sampled; gateway aliases (localiser, fixer, tester, reviewer on a different provider) and the per-issue cap; gate eval specs | Symptoms-per-root-cause table with CIs on all three sets; one benchmark task runs end to end in the sandbox |
+| 2 | LangGraph graph: localise, test-first, patch, run, review, route, act; validation run on 30 tasks; routing thresholds calibrated against the 3% target; routing curve | Validation hit rate and confidently-wrong rate; `docs/routing.md` |
+| 3 | Main run on about 120 tasks through the gate; ablations (no test-first, same-vendor review, fingerprint-only clustering) on 40 tasks each; false-positive taxonomy; reviewer value; cost and latency; live workflow on own repositories in suggest mode; Rule C; README; `v0.1.0`; repository public | Every table in section 1 filled |
+| 4 | Slack | |
 
 First to drop if behind: the injected-fault clustering set (duplicates and 09's traces
 stay); ablation samples from 40 to 25; the live workflow on one repository instead of
@@ -204,7 +203,7 @@ laptop's Docker; a rented CPU box for the main run if the laptop is too slow (ab
 | Validation run | 30 tasks, same profile | 14 | 19 |
 | Ablations | Three ablations, 40 tasks each, localisation cached | 36 | 49 |
 | Clustering | Embeddings local; ticket summaries on the small model | 3 | 4 |
-| Live workflow, July | Suggest mode on own repositories, capped | 3 | 4 |
+| Live workflow | Suggest mode on own repositories, capped | 3 | 4 |
 | Sandbox compute | Rented CPU box if needed | 7 | 10 |
 | **Total** | | **117** | **159** |
 
@@ -214,7 +213,7 @@ there next to the estimate.
 
 ## 7. Handover
 
-`mend` v0.1.0 on Jul 25 2027. Nothing in the ten imports it. What carries forward: the
+`mend` v0.1.0 at the end of the build. Nothing in the ten imports it. What carries forward: the
 failure record schema as the shape 09's observability could emit; the routing-curve method
 as the pattern for any "should the system act" decision in the portfolio; and the live
 workflow, which keeps running on the portfolio's own repositories after the build as a
@@ -275,7 +274,7 @@ Whichever produces the clearest evidence becomes `docs/rejected.md`.
 
 ## 12. Build log: what was built early, and where this plan changed
 
-**2026-09-13.** The offline half was built ten months ahead of the July 2027 slot, because
+**2026-09-13.** The offline half was built first, because
 none of it needs money, a benchmark container, or anything from projects 09 and 03 that
 does not exist yet. Built: capture and its three ingesters, clustering with its metrics and
 a threshold tuner, the state machine that carries the rails, routing with calibration and

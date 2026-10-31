@@ -12,7 +12,7 @@
 # needing more than twice the budgeted work is a task this system should decline, and the
 # refusal is a result worth reporting.
 #
-# monthly_usd covers the whole July build: the validation run, the main run, three
+# monthly_usd covers the whole build: the validation run, the main run, three
 # ablations and the clustering summaries, at US$107 in PLAN.md section 6, plus room for
 # one repeat of the validation run. Raising either of these is a deliberate commit, never
 # a change in code, and never a bypass.

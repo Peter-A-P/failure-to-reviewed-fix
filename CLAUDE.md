@@ -4,7 +4,7 @@ This repository is From Failure to Reviewed Fix, in Minutes (renamed 2026-09-20;
 Self-Healing Production AI, and nothing here heals itself: every change is human-gated),
 package `mend`: failure capture and
 clustering, test-first patch drafting, adversarial review by a different vendor's model,
-and calibrated confidence routing to a human-approved pull request. Built July 2027. The
+and calibrated confidence routing to a human-approved pull request. The
 plan is in [PLAN.md](PLAN.md).
 
 ## Read first

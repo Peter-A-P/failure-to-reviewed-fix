@@ -52,7 +52,7 @@ jobs:
       - name: mend
         uses: actions/checkout@v4
         with:
-          repository: Peter-A-P/mend
+          repository: Peter-A-P/failure-to-reviewed-fix
           ref: ${{ inputs.mend_ref }}
           path: mend
           persist-credentials: false
