@@ -84,7 +84,8 @@ The first runs, on 2026-10-31:
 | Repository | What happened |
 |---|---|
 | ai-release-gate ([#2](https://github.com/Peter-A-P/ai-release-gate/pull/2)) | All 10 CI failures reproduced in the sandbox, 5 tickets; the largest (4 symptoms) went to auto-propose at US$0.14, with a failing Holm test first and the planted line reverted, accepted by the other vendor. Posted as a comment |
-| compliant-ai-gateway ([#1](https://github.com/Peter-A-P/compliant-ai-gateway/pull/1)) | The sandbox ran no tests and reported a pass: the repository's `.dockerignore` leaves `tests/` out of its image. Fixed in v0.1.1, which builds with its own ignore file and treats a suite that ran nothing as a failed run |
+| compliant-ai-gateway ([#1](https://github.com/Peter-A-P/compliant-ai-gateway/pull/1)) | On v0.1.0 the sandbox ran no tests and reported a pass: the repository's `.dockerignore` leaves `tests/` out of its image. Fixed in v0.1.1, which builds with its own ignore file and treats a suite that ran nothing as a failed run |
+| compliant-ai-gateway, rerun on v0.1.1 | All 5 CI failures reproduced, 3 tickets. The largest was not the planted bug: 4 tests refused by a one-cent cap that 04's main had carried since 2026-10-29. mend's patch raised the cap; the other vendor objected that it weakened a deliberate safeguard to pass mocked tests, so it went out as a suggestion with the objection quoted, at US$0.22. The planted bug was the smaller ticket, not triaged (one a run) |
 
 The build ignores the repository's own `.dockerignore`, which is written for that
 repository's image, and uses `IGNORE` in `mend/live/image.py`: `.env` files, local

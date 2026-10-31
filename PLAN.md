@@ -663,6 +663,11 @@ the planted line reverted, accepted by the other vendor's reviewer. Posted as a 
 `tests/` out of its own image, and the live build used the repository's context as it
 stood. v0.1.1 builds with its own ignore file (secrets and local state out, tests in) and
 treats a suite that ran nothing as a failure of the run, not as a pass.
+Rerun on v0.1.1, 04 reproduced all five CI failures. The largest ticket was a real
+breakage already on 04's main (a one-cent cap refusing four tests), not the planted bug;
+the patch raised the cap, the other vendor objected that it weakened a deliberate
+safeguard, and it went out as a suggestion with the objection, at US$0.22. Live spend so
+far: US$0.36 of US$3.00.
 
 ### What is blocked, and on what
 
