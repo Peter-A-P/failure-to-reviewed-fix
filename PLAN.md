@@ -627,6 +627,18 @@ Not done:
 - the live workflow;
 - `v0.1.0` and making the repository public.
 
+**2026-10-31, the false-positive worksheet.** The classification stays Peter's; this makes
+it quick and keeps the hidden half away from any model. `mend wrong worksheet` writes the
+five cases from the committed run log (issue, generated test and output, patch, reviewer
+verdict, the hint's shortlist, links to the upstream pull request and the benchmark row)
+and an answers file, `results/main/false-positives.yaml`. `mend wrong hidden`, run by Peter,
+writes the maintainers' fixes and the hidden tests into `runs/`, which git ignores, and
+prints none of it. `mend report` refuses an answers file that does not cover exactly the
+five, and fills the table in the README and `docs/false-positives.md` once every case has
+a cause and a sentence. One change to the hint: none of the five issues had a traceback, so
+it no longer offers `wrong_location` on the grounds that the patch missed frames that did
+not exist. No model calls.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops

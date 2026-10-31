@@ -1,0 +1,31 @@
+# Why each auto-proposed patch failed the hidden tests (docs/false-positives.md).
+# Filled in by hand, by a person who read the hidden tests; no model reads them.
+# cause is one of:
+#   test_proved_nothing: the generated test passed after the patch but tested something other than the reported bug
+#   symptom_not_cause: guarded the point of failure instead of fixing where the bad value came from
+#   regression_elsewhere: fixed the reported case and broke one the visible suite does not cover
+#   wrong_location: changed the wrong place
+#   issue_underspecified: a fair reading of the issue as written, not what the maintainers meant
+#   defensible_disagreement: reasonable behaviour the project decided differently: wording, an order, a default
+#   unclassified: none of the above
+# note is one sentence a reader could check against the diff. Both are required.
+
+- issue_id: django__django-10999
+  cause: ""
+  note: ""
+
+- issue_id: pytest-dev__pytest-5840
+  cause: ""
+  note: ""
+
+- issue_id: scikit-learn__scikit-learn-14983
+  cause: ""
+  note: ""
+
+- issue_id: sphinx-doc__sphinx-7462
+  cause: ""
+  note: ""
+
+- issue_id: sympy__sympy-18763
+  cause: ""
+  note: ""

@@ -118,6 +118,14 @@ could not have caught this; [docs/routing.md](docs/routing.md) said so before th
 run. A 3% rate is not demonstrated here, and on this evidence the system should open
 suggestions, not draft pull requests.
 
+Why each of the five was wrong, classified by hand against the benchmark's own fix and
+tests into causes fixed before the first run
+([docs/false-positives.md](docs/false-positives.md)):
+
+<!-- report:false-positives -->
+Not yet classified.
+<!-- /report:false-positives -->
+
 **Restraint costs a lot.** Of the 35 tasks routed to silence, 14 had a patch the hidden
 tests accepted. Most were patches with no related existing test to check against, which
 the router reads, cautiously, as "not shown safe".

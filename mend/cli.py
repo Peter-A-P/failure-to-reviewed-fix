@@ -40,6 +40,10 @@ ablate_app = typer.Typer(
     no_args_is_help=True, help="The ablations: take one part out, run the rest, compare."
 )
 app.add_typer(ablate_app, name="ablate")
+wrong_app = typer.Typer(
+    no_args_is_help=True, help="Why the confident patches were wrong: classified by a person."
+)
+app.add_typer(wrong_app, name="wrong")
 
 CONFIG_DEFAULT = Path("config/boundary.yaml")
 
@@ -681,6 +685,7 @@ def report(
     if sets:
         text = replace_section(text, "clustering-sets", kfold_table(sets))
     text = _ablation_sections(text)
+    text = _wrong_section(text)
     readme.write_text(text, encoding="utf-8", newline="\n")
     typer.echo(f"{readme}: tables written from {outcomes} and {crossval}")
 
@@ -932,6 +937,31 @@ def run_split(
 
 
 MAIN_RUN = Path("results/main/fix.jsonl")
+
+
+def _wrong_section(text: str) -> str:
+    """The false-positive table, in the README and in docs/false-positives.md, once every
+    case in the answers file has a cause."""
+    from mend.eval import confident_wrong
+    from mend.eval.report import replace_section
+
+    if not WRONG_ANSWERS.is_file():
+        return text
+    ids = [str(r["issue"]["issue_id"]) for r in _wrong_cases()]
+    classified = confident_wrong.read(WRONG_ANSWERS, ids)
+    if classified is None:
+        typer.echo(f"{WRONG_ANSWERS}: not every case has a cause yet; table left as it was")
+        return text
+    body = confident_wrong.table(classified)
+    doc = Path("docs/false-positives.md")
+    doc.write_text(
+        replace_section(doc.read_text(encoding="utf-8"), "false-positives", body),
+        encoding="utf-8",
+        newline="\n",
+    )
+    return replace_section(text, "false-positives", body)
+
+
 MAIN_VERDICTS = Path("results/main/verdicts.jsonl")
 ABLATION_SPLIT = Path("data/subset/ablation.json")
 
@@ -1156,6 +1186,64 @@ def ablate_export(
             json.dumps(payload, indent=1, sort_keys=True) + "\n", encoding="utf-8"
         )
     typer.echo(f"{target}: spec.yaml, baseline.json, candidate.json")
+
+
+WRONG_ANSWERS = Path("results/main/false-positives.yaml")
+WRONG_DIR = Path("runs/false-positives")
+
+
+def _wrong_cases() -> list[dict[str, Any]]:
+    from mend.eval.confident_wrong import wrong_auto_proposals
+
+    return [
+        dict(r)
+        for r in wrong_auto_proposals(_main_records(MAIN_RUN).values(), _verdicts(MAIN_VERDICTS))
+    ]
+
+
+@wrong_app.command("worksheet")
+def wrong_worksheet() -> None:
+    """Write the worksheet for the main run's confidently-wrong patches, the answers file to
+    fill in (only if there is none yet), and the five tasks as a run log to rescore.
+
+    Everything in the worksheet is what the pipeline itself saw or wrote."""
+    from mend.eval.confident_wrong import template
+    from mend.eval.worksheet import RERUN_ID, worksheet
+
+    cases = _wrong_cases()
+    WRONG_DIR.mkdir(parents=True, exist_ok=True)
+    five = WRONG_DIR / "five.jsonl"
+    five.write_text("".join(json.dumps(r) + "\n" for r in cases), encoding="utf-8", newline="\n")
+    rerun = f"runs/score/{RERUN_ID}/logs/run_evaluation/{RERUN_ID}/mend"
+    sheet = WRONG_DIR / "worksheet.md"
+    sheet.write_text(
+        worksheet(cases, answers=WRONG_ANSWERS.as_posix(), five=five.as_posix(), rerun_dir=rerun),
+        encoding="utf-8",
+        newline="\n",
+    )
+    if not WRONG_ANSWERS.exists():
+        WRONG_ANSWERS.write_text(
+            template([str(r["issue"]["issue_id"]) for r in cases]), encoding="utf-8", newline="\n"
+        )
+    typer.echo(f"{len(cases)} cases -> {sheet}, {five}; answers in {WRONG_ANSWERS}")
+
+
+@wrong_app.command("hidden")
+def wrong_hidden(
+    tasks: Annotated[Path, typer.Option(help="The local SWE-bench Verified copy.")] = Path(
+        "data/swebench/verified.jsonl"
+    ),
+) -> None:
+    """Write the maintainers' fixes and the hidden tests for the same cases, for the person
+    classifying them. Into runs/, which git ignores; nothing of it is printed."""
+    from mend.eval.worksheet import hidden
+
+    ids = [str(r["issue"]["issue_id"]) for r in _wrong_cases()]
+    rows = [json.loads(x) for x in tasks.read_text(encoding="utf-8").splitlines() if x.strip()]
+    WRONG_DIR.mkdir(parents=True, exist_ok=True)
+    out = WRONG_DIR / "hidden.md"
+    out.write_text(hidden(rows, ids), encoding="utf-8", newline="\n")
+    typer.echo(f"{len(ids)} cases -> {out}")
 
 
 if __name__ == "__main__":  # pragma: no cover

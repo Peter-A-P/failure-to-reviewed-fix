@@ -18,9 +18,16 @@ is that a person looked at the diff.
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from enum import StrEnum
+from pathlib import Path
+from typing import Any
+
+import yaml
+
+from mend.eval.stats import wilson
+from mend.graph.route import Tier
 
 
 class Cause(StrEnum):
@@ -83,15 +90,18 @@ def hint(
     touches_traceback_frames: bool,
     suite_green: bool,
     reviewer_objected: bool,
+    issue_has_traceback: bool = True,
 ) -> tuple[Cause, ...]:
     """Causes worth looking at first, from the evidence already on the record.
 
     A shortlist for the person classifying, in no particular order of likelihood, and
     explicitly not a decision. Returns every cause when the evidence says nothing, which
-    is the honest answer rather than a confident guess.
+    is the honest answer rather than a confident guess. A patch can only miss the
+    traceback's frames when the issue had a traceback, so an issue without one says
+    nothing about location.
     """
     candidates: list[Cause] = []
-    if not touches_traceback_frames:
+    if issue_has_traceback and not touches_traceback_frames:
         candidates.append(Cause.WRONG_LOCATION)
     if files_touched == 1 and lines_changed <= 3:
         # A one-line change at the point of failure is what a symptom patch looks like.
@@ -115,3 +125,91 @@ def tabulate(classifications: Sequence[Classification]) -> dict[Cause, int]:
     for item in classifications:
         counts[item.cause] += 1
     return counts
+
+
+# What each cause means in one line, for the template a person fills in and the README.
+MEANING: dict[Cause, str] = {
+    Cause.TEST_PROVED_NOTHING: "the generated test passed after the patch but tested "
+    "something other than the reported bug",
+    Cause.SYMPTOM_NOT_CAUSE: "guarded the point of failure instead of fixing where the bad "
+    "value came from",
+    Cause.REGRESSION_ELSEWHERE: "fixed the reported case and broke one the visible suite "
+    "does not cover",
+    Cause.WRONG_LOCATION: "changed the wrong place",
+    Cause.ISSUE_UNDERSPECIFIED: "a fair reading of the issue as written, not what the "
+    "maintainers meant",
+    Cause.DEFENSIBLE_DISAGREEMENT: "reasonable behaviour the project decided differently: "
+    "wording, an order, a default",
+    Cause.UNCLASSIFIED: "none of the above",
+}
+
+
+def wrong_auto_proposals(
+    runs: Iterable[Mapping[str, Any]], passed: Mapping[str, bool]
+) -> list[Mapping[str, Any]]:
+    """The run records this taxonomy is about: auto-proposed, and failed the hidden tests."""
+    return sorted(
+        (
+            r
+            for r in runs
+            if (r.get("state") or {}).get("tier") == Tier.AUTO_PROPOSE.value
+            and not passed.get(str(r["issue"]["issue_id"]))
+        ),
+        key=lambda r: str(r["issue"]["issue_id"]),
+    )
+
+
+def template(issue_ids: Sequence[str]) -> str:
+    """The file a person fills in: one entry per case, cause and note left empty."""
+    lines = [
+        "# Why each auto-proposed patch failed the hidden tests (docs/false-positives.md).",
+        "# Filled in by hand, by a person who read the hidden tests; no model reads them.",
+        "# cause is one of:",
+        *(f"#   {c.value}: {MEANING[c]}" for c in Cause),
+        "# note is one sentence a reader could check against the diff. Both are required.",
+        "",
+    ]
+    for issue_id in issue_ids:
+        lines += [f"- issue_id: {issue_id}", '  cause: ""', '  note: ""', ""]
+    return "\n".join(lines)
+
+
+def read(path: Path, issue_ids: Sequence[str]) -> list[Classification] | None:
+    """The classifications in path, or None while any case is still blank.
+
+    The file has to cover exactly the cases the run produced: a case dropped or added by
+    hand would change the denominator, which is the one thing this table must not do."""
+    rows = yaml.safe_load(path.read_text(encoding="utf-8")) or []
+    found = [str(r["issue_id"]) for r in rows]
+    if sorted(found) != sorted(issue_ids):
+        raise ValueError(
+            f"{path} must classify exactly {sorted(issue_ids)}; it has {sorted(found)}"
+        )
+    if any(not str(r.get("cause") or "").strip() for r in rows):
+        return None
+    return [
+        Classification(str(r["issue_id"]), Cause(str(r["cause"]).strip()), str(r.get("note") or ""))
+        for r in rows
+    ]
+
+
+def table(classifications: Sequence[Classification]) -> str:
+    """Counts by cause, every cause a row, then each case with its sentence."""
+    n = len(classifications)
+    counts = tabulate(classifications)
+    lines = [
+        "| Cause | What it means | Cases (95% CI) |",
+        "|---|---|---|",
+        *(
+            f"| {c.value} | {MEANING[c]} | {counts[c]} of {n}, {wilson(counts[c], n).as_percent()} |"
+            for c in Cause
+        ),
+        "",
+        "| Task | Cause | Why |",
+        "|---|---|---|",
+        *(
+            f"| {item.issue_id} | {item.cause.value} | {item.note.strip()} |"
+            for item in sorted(classifications, key=lambda x: x.issue_id)
+        ),
+    ]
+    return "\n".join(lines)
