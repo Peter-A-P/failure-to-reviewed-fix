@@ -56,8 +56,17 @@ def dockerfile(install: str) -> str:
 # beside the Dockerfile in place of the context's. It keeps secrets, local state and the
 # environment out, and the tests in.
 IGNORE = "\n".join(
-    (".git/", ".env", ".env.*", "CLAUDE.local.md", "*.sqlite", "*.sqlite-*", ".venv/")
-    + ("**/__pycache__", "")
+    (
+        ".git/",
+        ".env",
+        ".env.*",
+        "CLAUDE.local.md",
+        "*.sqlite",
+        "*.sqlite-*",
+        ".venv/",
+        "**/__pycache__",
+        "",
+    )
 )
 
 
