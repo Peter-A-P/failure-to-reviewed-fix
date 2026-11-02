@@ -66,6 +66,17 @@ If the cache is evicted (GitHub drops one unused for seven days), the first two 
 again from nothing. The run artifacts still hold every total, and the third line does not
 reset.
 
+**Not working as written, found 2026-11-02.** The cache is never saved. Every run that got
+as far as the save step logged "cache write denied: token has no writable scopes": the
+caller grants `contents: read` and `pull-requests: write`, and the job's token is not
+allowed to write the cache under them. So each run starts from an empty ledger, the
+gateway's monthly cap and the running total see only that run, and the comment's "spent
+so far" is that run's cost alone (04's third comment says US$0.23 of US$1.50; the
+repository's true total is US$0.45). What has held: US$1.00 an issue before every call,
+one ticket a run, a run only when Peter's own pull request fails ci, and the vendor
+consoles' limits. Actual live spend, from the run artifacts: US$0.14 in 03 and US$0.45 in
+04, US$0.59 of US$3.00.
+
 ## The demonstration
 
 Each repository has a branch with one planted bug, `demo/mend-live-1`, made on 2026-10-31
@@ -86,6 +97,7 @@ The first runs, on 2026-10-31:
 | ai-release-gate ([#2](https://github.com/Peter-A-P/ai-release-gate/pull/2)) | All 10 CI failures reproduced in the sandbox, 5 tickets; the largest (4 symptoms) went to auto-propose at US$0.14, with a failing Holm test first and the planted line reverted, accepted by the other vendor. Posted as a comment |
 | compliant-ai-gateway ([#1](https://github.com/Peter-A-P/compliant-ai-gateway/pull/1)) | On v0.1.0 the sandbox ran no tests and reported a pass: the repository's `.dockerignore` leaves `tests/` out of its image. Fixed in v0.1.1, which builds with its own ignore file and treats a suite that ran nothing as a failed run |
 | compliant-ai-gateway, rerun on v0.1.1 | All 5 CI failures reproduced, 3 tickets. The largest was not the planted bug: 4 tests refused by a one-cent cap that 04's main had carried since 2026-10-29. mend's patch raised the cap; the other vendor objected that it weakened a deliberate safeguard to pass mocked tests, so it went out as a suggestion with the objection quoted, at US$0.22. The planted bug was the smaller ticket, not triaged (one a run) |
+| compliant-ai-gateway, 2026-11-02 (UTC), with 04's main merged into the branch | 2 CI failures reproduced, 2 tickets, and the largest was the planted bug. A failing boundary test first; the patch compensated in `cost_usd` by passing one token fewer instead of fixing the comparison in `PriceEntry.for_prompt`. The other vendor objected, naming the right place, and it went out as a suggestion at score 0.61, at US$0.23 |
 
 The build ignores the repository's own `.dockerignore`, which is written for that
 repository's image, and uses `IGNORE` in `mend/live/image.py`: `.env` files, local

@@ -675,8 +675,24 @@ Four are `issue_underspecified` (django-10999, whose test pinned the issue's own
 pytest-5840, scikit-learn-14983, sympy-18763) and one `wrong_location` (sphinx-7462: the
 right guard, and a second fix in `pycode/ast.py` it did not make). django-10999 was first
 entered as `test_proved_nothing` and moved the same day: its test did test the reported
-bug, against the behaviour the issue asked for. `mend report` wrote the table into the README and `docs/false-positives.md`. That
-was the last deliverable outstanding. No model calls.
+bug, against the behaviour the issue asked for. `mend report` wrote the table into the
+README and `docs/false-positives.md`. That was the last deliverable outstanding. No model
+calls.
+
+**2026-11-02, 04's planted bug triaged, and the budget's carry-over found broken.** 04's
+main (the docintel fix) was merged into `demo/mend-live-1`, because `mend live` tests the
+branch head and a plain rerun would have met the old breakage again. ci failed on the
+planted bug alone: 2 failures, 2 tickets, the largest the long-prompt threshold. mend wrote
+a failing boundary test first, then a patch that passed one token fewer to
+`PriceEntry.for_prompt` from `cost_usd` rather than fixing the comparison; the other
+vendor objected and named the comparison, and it was posted as a suggestion at score 0.61,
+US$0.23. Right ticket, a symptom-side patch, and the reviewer caught it. The same run
+showed that section 2.7's ledger in the Actions cache has never been saved: every live run
+logged "cache write denied: token has no writable scopes", so each run starts from
+nothing and the US$1.50 per repository is not enforced across runs (`docs/live.md`). The
+per-issue cap, one ticket a run and the vendor limits still hold. Live spend US$0.59 of
+US$3.00, from the run artifacts. Not fixed yet: the fix changes the token's permissions or
+where the total is kept, and needs a release and both callers updated.
 
 ### What is blocked, and on what
 

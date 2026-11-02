@@ -254,8 +254,10 @@ Built, tested, and reproducible today with `uv sync && uv run pytest`:
 
 - **The live workflow.** A failing pull request in 03's or 04's repository is rerun in the
   sandbox, triaged, and answered with a comment: comments only, scoped to the repository it
-  runs in, US$1.50 a repository. Built and tested; not yet installed, because the callers
-  need this repository public. See [docs/live.md](docs/live.md).
+  runs in, US$1.00 an issue. Installed in both on 2026-10-31; three runs have commented,
+  for US$0.59 in all. The US$1.50 running total per repository does not yet survive from
+  one run to the next: the job's token may not write the Actions cache it is kept in. See
+  [docs/live.md](docs/live.md).
 
 ## What this does not do
 
