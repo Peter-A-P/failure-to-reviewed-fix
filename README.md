@@ -125,29 +125,28 @@ tests into causes fixed before the first run
 <!-- report:false-positives -->
 | Cause | What it means | Cases (95% CI) |
 |---|---|---|
-| test_proved_nothing | the generated test passed after the patch but tested something other than the reported bug | 1 of 5, 20.0% (3.6% to 62.4%, n = 5) |
+| test_proved_nothing | the generated test passed after the patch but tested something other than the reported bug | 0 of 5, 0.0% (0.0% to 43.4%, n = 5) |
 | symptom_not_cause | guarded the point of failure instead of fixing where the bad value came from | 0 of 5, 0.0% (0.0% to 43.4%, n = 5) |
 | regression_elsewhere | fixed the reported case and broke one the visible suite does not cover | 0 of 5, 0.0% (0.0% to 43.4%, n = 5) |
 | wrong_location | changed the wrong place | 1 of 5, 20.0% (3.6% to 62.4%, n = 5) |
-| issue_underspecified | a fair reading of the issue as written, not what the maintainers meant | 3 of 5, 60.0% (23.1% to 88.2%, n = 5) |
+| issue_underspecified | a fair reading of the issue as written, not what the maintainers meant | 4 of 5, 80.0% (37.6% to 96.4%, n = 5) |
 | defensible_disagreement | reasonable behaviour the project decided differently: wording, an order, a default | 0 of 5, 0.0% (0.0% to 43.4%, n = 5) |
 | unclassified | none of the above | 0 of 5, 0.0% (0.0% to 43.4%, n = 5) |
 
 | Task | Cause | Why |
 |---|---|---|
-| django__django-10999 | test_proved_nothing | Mend applied the regex proposed in the issue, and its test pinned -1:-2:-3 as valid, while the hidden tests require one leading - to negate the whole duration (-15:30 is -930s) and reject inner signs like -01:-01. |
+| django__django-10999 | issue_underspecified | Mend applied the regex proposed in the issue, and its test pinned -1:-2:-3 as valid, while the hidden tests require one leading - to negate the whole duration (-15:30 is -930s) and reject inner signs like -01:-01. |
 | pytest-dev__pytest-5840 | issue_underspecified | Mend's patch does load conftests with their original casing, but the FAIL_TO_PASS tests assert that _conftestpath2mod is keyed by Path(...).resolve(), an internal detail the casing issue never asked for. |
 | scikit-learn__scikit-learn-14983 | issue_underspecified | Mend's repr follows the issue's expected output (n_splits, n_repeats, random_state), but the hidden test expects _build_repr's alphabetical order (n_repeats=6, n_splits=2, ...). |
 | sphinx-doc__sphinx-7462 | wrong_location | Mend's empty-tuple guard in sphinx/domains/python.py matches the maintainers', but they also fixed unparse in sphinx/pycode/ast.py, which test_unparse[()-()] needs. |
 | sympy__sympy-18763 | issue_underspecified | Mend's parenthesize(expr, PRECEDENCE["Mul"], strict=True) handles the issue's -x + y example, but it leaves x y bare, and the hidden test expects every Subs expression wrapped in \left(...\right), which the issue never asked for. |
 <!-- /report:false-positives -->
 
-**Most of the five did what the issue asked.** Three were fair readings of an issue that
+**Four of the five did what the issue asked.** They were fair readings of an issue that
 left out what the maintainers' tests check: a field order, an internal cache key, every
-case wrapped rather than the one shown. One fixed one of the two places the bug lived, and
-one wrote a test that pinned the regex the issue itself proposed. Five cases are too few to
-rank the causes; they do say the generated test is only as good as the issue it is written
-from.
+case wrapped rather than the one shown, and a regex the issue itself proposed. The fifth
+fixed one of the two places the bug lived. Five cases are too few to rank the causes; they
+do say the generated test is only as good as the issue it is written from.
 
 **Restraint costs a lot.** Of the 35 tasks routed to silence, 14 had a patch the hidden
 tests accepted. Most were patches with no related existing test to check against, which

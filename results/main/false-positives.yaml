@@ -11,7 +11,7 @@
 # note is one sentence a reader could check against the diff. Both are required.
 
 - issue_id: django__django-10999
-  cause: "test_proved_nothing"
+  cause: "issue_underspecified"
   note: "Mend applied the regex proposed in the issue, and its test pinned -1:-2:-3 as valid, while the hidden tests require one leading - to negate the whole duration (-15:30 is -930s) and reject inner signs like -01:-01."
 
 - issue_id: pytest-dev__pytest-5840

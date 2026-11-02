@@ -671,10 +671,11 @@ far: US$0.36 of US$3.00.
 
 **2026-11-01, the false-positive analysis.** Peter classified the five against the hidden
 tests and the maintainers' fixes, which stayed in `runs/` and were read by no model.
-Three are `issue_underspecified` (pytest-5840, scikit-learn-14983, sympy-18763), one
-`wrong_location` (sphinx-7462: the right guard, and a second fix in `pycode/ast.py` it
-did not make) and one `test_proved_nothing` (django-10999: the test pinned the issue's own
-regex). `mend report` wrote the table into the README and `docs/false-positives.md`. That
+Four are `issue_underspecified` (django-10999, whose test pinned the issue's own regex;
+pytest-5840, scikit-learn-14983, sympy-18763) and one `wrong_location` (sphinx-7462: the
+right guard, and a second fix in `pycode/ast.py` it did not make). django-10999 was first
+entered as `test_proved_nothing` and moved the same day: its test did test the reported
+bug, against the behaviour the issue asked for. `mend report` wrote the table into the README and `docs/false-positives.md`. That
 was the last deliverable outstanding. No model calls.
 
 ### What is blocked, and on what

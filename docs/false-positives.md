@@ -50,17 +50,17 @@ narrows, it does not decide.
 <!-- report:false-positives -->
 | Cause | What it means | Cases (95% CI) |
 |---|---|---|
-| test_proved_nothing | the generated test passed after the patch but tested something other than the reported bug | 1 of 5, 20.0% (3.6% to 62.4%, n = 5) |
+| test_proved_nothing | the generated test passed after the patch but tested something other than the reported bug | 0 of 5, 0.0% (0.0% to 43.4%, n = 5) |
 | symptom_not_cause | guarded the point of failure instead of fixing where the bad value came from | 0 of 5, 0.0% (0.0% to 43.4%, n = 5) |
 | regression_elsewhere | fixed the reported case and broke one the visible suite does not cover | 0 of 5, 0.0% (0.0% to 43.4%, n = 5) |
 | wrong_location | changed the wrong place | 1 of 5, 20.0% (3.6% to 62.4%, n = 5) |
-| issue_underspecified | a fair reading of the issue as written, not what the maintainers meant | 3 of 5, 60.0% (23.1% to 88.2%, n = 5) |
+| issue_underspecified | a fair reading of the issue as written, not what the maintainers meant | 4 of 5, 80.0% (37.6% to 96.4%, n = 5) |
 | defensible_disagreement | reasonable behaviour the project decided differently: wording, an order, a default | 0 of 5, 0.0% (0.0% to 43.4%, n = 5) |
 | unclassified | none of the above | 0 of 5, 0.0% (0.0% to 43.4%, n = 5) |
 
 | Task | Cause | Why |
 |---|---|---|
-| django__django-10999 | test_proved_nothing | Mend applied the regex proposed in the issue, and its test pinned -1:-2:-3 as valid, while the hidden tests require one leading - to negate the whole duration (-15:30 is -930s) and reject inner signs like -01:-01. |
+| django__django-10999 | issue_underspecified | Mend applied the regex proposed in the issue, and its test pinned -1:-2:-3 as valid, while the hidden tests require one leading - to negate the whole duration (-15:30 is -930s) and reject inner signs like -01:-01. |
 | pytest-dev__pytest-5840 | issue_underspecified | Mend's patch does load conftests with their original casing, but the FAIL_TO_PASS tests assert that _conftestpath2mod is keyed by Path(...).resolve(), an internal detail the casing issue never asked for. |
 | scikit-learn__scikit-learn-14983 | issue_underspecified | Mend's repr follows the issue's expected output (n_splits, n_repeats, random_state), but the hidden test expects _build_repr's alphabetical order (n_repeats=6, n_splits=2, ...). |
 | sphinx-doc__sphinx-7462 | wrong_location | Mend's empty-tuple guard in sphinx/domains/python.py matches the maintainers', but they also fixed unparse in sphinx/pycode/ast.py, which test_unparse[()-()] needs. |
