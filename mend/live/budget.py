@@ -3,13 +3,20 @@
 The gateway caps spend per issue and per month (config/live.caps.yaml). A demonstration
 budget is neither: it is a total, and a new month must not refill it. So mend live keeps
 the total of every issue it has run in this repository, refuses to start one once the
-total has reached the cap, and adds each issue's cost when it finishes. The file travels
-with the ledger in the workflow's cache.
+total has reached the cap, and adds each issue's cost when it finishes.
+
+The total is carried between runs in the runs' own artifacts: each run uploads this file,
+and the next one downloads every earlier run's copy and merges them by issue (carry). The
+Actions cache was the first carrier and never worked: the job's token may not write it.
+An artifact lasts 90 days, so an issue older than that drops out of the total; at one
+ticket a run on Peter's own pull requests that is a known, small leak, and the vendor
+consoles' limits do not expire.
 """
 
 from __future__ import annotations
 
 import json
+from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -34,6 +41,25 @@ class Budget:
             return {"total_usd": 0.0, "issues": []}
         data: dict[str, Any] = json.loads(self.path.read_text(encoding="utf-8"))
         return data
+
+    def carry(self, earlier: Iterable[Path]) -> float:
+        """Merge earlier runs' copies of this file into this one and return the total.
+        Issues are keyed by id, which names the run they ran in, so a copy that already
+        holds another's issues adds nothing twice."""
+        data = self._load()
+        issues = {str(i["issue_id"]): i for i in data["issues"]}
+        for path in earlier:
+            other: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
+            for issue in other["issues"]:
+                issues.setdefault(str(issue["issue_id"]), issue)
+        merged = sorted(issues.values(), key=lambda i: str(i["at"]))
+        data = {
+            "total_usd": round(sum(float(i["cost_usd"]) for i in merged), 6),
+            "issues": merged,
+        }
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        self.path.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
+        return float(data["total_usd"])
 
     @property
     def spent_usd(self) -> float:

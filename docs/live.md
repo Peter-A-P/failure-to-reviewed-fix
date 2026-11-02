@@ -14,7 +14,7 @@ decides.
 | Trigger | the repository's `ci` workflow finishing with a failure, on a pull request from the repository itself |
 | What it does | reruns the suite in a sandbox, clusters the failures, triages the largest ticket, comments on the pull request |
 | What it never does | open a pull request, push, merge, or act on any repository but the one it runs in |
-| Token | the job's own, with `contents: read` and `pull-requests: write`: it cannot push |
+| Token | the job's own, with `contents: read`, `pull-requests: write` and `actions: read` (for earlier runs' artifacts): it cannot push |
 | Spend | US$1.00 an issue and US$1.50 in all per repository, US$3.00 across the two |
 
 **Comments only.** The plan allowed a draft pull request when the router says
@@ -47,26 +47,30 @@ to anyway.
 5. **The comment** is the proposal's body with a header saying it is a suggestion, and a
    footer with its cost, the repository's running total, and a link to the run.
 6. **The record:** the job summary lists every ticket, posted or not; the run log, the JUnit
-   report and the running total are kept as the run's artifact for 90 days.
+   report and the running total are kept as the run's artifact for 90 days. The next run
+   reads the running totals from those artifacts before it starts.
 
 ## The budget
 
 Three lines, each of which stops a run on its own:
 
 - **The gateway's caps** (`config/live.caps.yaml`): US$1.00 an issue, checked before every
-  call, and US$1.50 a month for the repository, against a ledger kept in the repository's
-  Actions cache between runs.
-- **The running total** (`mend/live/budget.py`): a new month does not refill the
-  demonstration's budget, so `mend live` keeps the total of every issue it has run and
-  starts nothing once it reaches US$1.50. An issue whose cost is unknown is counted at the
-  per-issue cap.
+  call. Its ledger lasts one run, so its US$1.50 a month caps a single run.
+- **The running total** (`mend/live/budget.py`): `mend live` keeps the total of every
+  issue it has run in the repository and starts nothing once it reaches US$1.50; a new
+  month does not refill it. Each run uploads its `spent.json` in its artifact, and the
+  next run first downloads every unexpired `mend-live-*` artifact in the repository and
+  merges their totals by issue (`--earlier`). If the listing or a download fails, the run
+  fails before any model call rather than starting from nothing. An issue whose cost is
+  unknown is counted at the per-issue cap.
 - **The vendor consoles'** own hard limits.
 
-If the cache is evicted (GitHub drops one unused for seven days), the first two start
-again from nothing. The run artifacts still hold every total, and the third line does not
-reset.
+An artifact lasts 90 days, so an issue older than that drops out of the running total. At
+one ticket a run, on Peter's own pull requests, that is a small and known leak, and the
+third line does not expire.
 
-**Not working as written, found 2026-11-02.** The cache is never saved. Every run that got
+**Before v0.1.2 the total was not carried, found 2026-11-02.** The total and the gateway's
+ledger were kept in the Actions cache, and the cache was never saved. Every run that got
 as far as the save step logged "cache write denied: token has no writable scopes": the
 caller grants `contents: read` and `pull-requests: write`, and the job's token is not
 allowed to write the cache under them. So each run starts from an empty ledger, the
@@ -75,7 +79,8 @@ so far" is that run's cost alone (04's third comment says US$0.23 of US$1.50; th
 repository's true total is US$0.45). What has held: US$1.00 an issue before every call,
 one ticket a run, a run only when Peter's own pull request fails ci, and the vendor
 consoles' limits. Actual live spend, from the run artifacts: US$0.14 in 03 and US$0.45 in
-04, US$0.59 of US$3.00.
+04, US$0.59 of US$3.00. v0.1.2 carries the total in the run artifacts instead, which
+already held every run's cost, so the three earlier runs count from its first run on.
 
 ## The demonstration
 
@@ -106,7 +111,7 @@ databases, the virtual environment and `.git` stay out, the tests stay in.
 ## Installing it
 
 Installed in both on 2026-10-31. The caller names the reusable workflow by its release tag,
-now `v0.1.1`. In a new listed repository:
+now `v0.1.2`, and grants it `actions: read`. In a new listed repository:
 
 1. Copy `action/<repository>.yml` from this repository to `.github/workflows/mend-live.yml`
    there, on the default branch, which is the only branch `workflow_run` reads.

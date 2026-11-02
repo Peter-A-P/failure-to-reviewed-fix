@@ -1,13 +1,13 @@
 # Spend caps for the live workflow, enforced by the gateway before a call is made. USD.
 #
 # Peter set US$3 for the live demonstration across the two repositories it runs in, so each
-# repository gets half: the ledger lives in that repository's Actions cache, and a cap
-# shared across repositories would need a ledger shared across them. per_run_usd is the
+# repository gets half: the running total is carried in that repository's run artifacts,
+# and a cap shared across repositories would need a total shared across them. per_run_usd is the
 # same per-issue cap as the build (mend.gateway.PER_ISSUE_CAP_USD).
 #
-# monthly_usd is the gateway's line. mend live adds a second, across months, from the
-# total it keeps beside the ledger (mend/live/budget.py), so a new month does not refill
-# the budget. The vendor consoles' hard caps are the third.
+# monthly_usd is the gateway's line, and its ledger lasts one run, so in practice it caps a
+# run. mend live adds the line that holds across runs and months, the total it carries
+# from run to run (mend/live/budget.py), so a new month does not refill the budget. The vendor consoles' hard caps are the third.
 
 version: 1
 portfolio_monthly_usd: 350

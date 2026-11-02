@@ -3,6 +3,7 @@ and does nothing else, its sandbox has no network, and its budget is a total."""
 
 from __future__ import annotations
 
+import json
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -59,6 +60,37 @@ def test_the_budget_is_a_total_and_matches_the_gateway_cap(tmp_path: Path) -> No
     b.add("i3", 0.20)
     with pytest.raises(BudgetSpent):
         b.check()
+
+
+def test_the_total_is_carried_from_earlier_runs_and_counts_each_issue_once(
+    tmp_path: Path,
+) -> None:
+    first = Budget(tmp_path / "a" / "spent.json")
+    first.add("live-1-T0001", 0.60)
+    second = Budget(tmp_path / "b" / "spent.json")
+    second.carry([first.path])
+    second.add("live-2-T0001", 0.50)  # the second run's copy holds both
+
+    this_run = Budget(tmp_path / "home" / "spent.json")
+    assert this_run.carry([first.path, second.path]) == pytest.approx(1.10)
+    assert len(json.loads(this_run.path.read_text(encoding="utf-8"))["issues"]) == 2
+    this_run.add("live-3-T0001", 0.40)
+    with pytest.raises(BudgetSpent):
+        this_run.check()
+
+
+def test_no_earlier_runs_is_an_empty_total(tmp_path: Path) -> None:
+    assert Budget(tmp_path / "spent.json").carry([]) == 0.0
+
+
+def test_the_total_rides_in_artifacts_not_the_cache() -> None:
+    path = ROOT / ".github" / "workflows" / "live.yml"
+    steps = workflow(path)["jobs"]["suggest"]["steps"]
+    assert not any("actions/cache" in str(s.get("uses", "")) for s in steps)
+    assert '--earlier "$RUNNER_TEMP/earlier"' in path.read_text(encoding="utf-8")
+    upload = next(s for s in steps if "upload-artifact" in str(s.get("uses", "")))
+    assert "spent.json" in upload["with"]["path"]
+    assert upload["with"]["name"] == "mend-live-${{ github.run_id }}"
 
 
 def test_the_live_gateway_answers_nothing_from_cache() -> None:
@@ -230,11 +262,12 @@ def workflow(path: Path) -> dict[Any, Any]:
 
 def test_the_workflows_cannot_push_and_skip_forks() -> None:
     called = workflow(ROOT / ".github" / "workflows" / "live.yml")
-    assert called["permissions"] == {"contents": "read", "pull-requests": "write"}
+    granted = {"actions": "read", "contents": "read", "pull-requests": "write"}
+    assert called["permissions"] == granted
     assert "workflow_call" in called[True]  # YAML reads the key "on" as True
     for caller in sorted((ROOT / "action").glob("*.yml")):
         data = workflow(caller)
-        assert data["permissions"] == {"contents": "read", "pull-requests": "write"}
+        assert data["permissions"] == granted
         assert "pull_request_target" not in data[True]
         job = data["jobs"]["suggest"]
         assert "head_repository.full_name == github.repository" in job["if"]

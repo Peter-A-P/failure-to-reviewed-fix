@@ -7,7 +7,8 @@ name: live
 # mend.live.scope refuses any repository but the caller's, if it is on its list.
 #
 # The caller grants the permissions; these are the most this workflow may use. contents is
-# read-only, so the job's token cannot push. The model keys reach one step, the triage,
+# read-only, so the job's token cannot push; actions is read-only, for earlier runs'
+# artifacts, which carry the running total. The model keys reach one step, the triage,
 # and never a container: the sandbox runs take no environment from the host.
 on:
   workflow_call:
@@ -23,7 +24,7 @@ on:
       mend_ref:
         description: The mend release to run.
         type: string
-        default: v0.1.1
+        default: v0.1.2
     secrets:
       ANTHROPIC_API_KEY:
         required: true
@@ -31,6 +32,7 @@ on:
         required: true
 
 permissions:
+  actions: read
   contents: read
   pull-requests: write
 
@@ -62,14 +64,29 @@ jobs:
       - name: Install mend with the gateway
         working-directory: mend
         run: uv sync --frozen --extra gateway
-      # The ledger and the running total, carried from run to run. The cache is per
-      # repository, which is why the budget is per repository (config/live.caps.yaml).
-      - name: Restore the ledger
-        uses: actions/cache/restore@v4
-        with:
-          path: ~/.mend-live
-          key: mend-live-${{ github.run_id }}
-          restore-keys: mend-live-
+      # The running total, carried from run to run in the runs' own artifacts: every
+      # unexpired mend-live artifact's spent.json, merged by mend live --earlier. Artifacts
+      # are per repository, which is why the budget is per repository
+      # (config/live.caps.yaml). A failure to list or download fails the run before any
+      # model call, rather than starting from nothing.
+      - name: Earlier runs' spending
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          earlier="$RUNNER_TEMP/earlier"
+          mkdir -p "$earlier"
+          gh api --paginate "repos/$REPO/actions/artifacts?per_page=100" \
+            --jq '.artifacts[] | select(.name | startswith("mend-live-")) | select(.expired | not) | .id' \
+            > "$earlier/ids"
+          while read -r id; do
+            gh api "repos/$REPO/actions/artifacts/$id/zip" > "$earlier/$id.zip"
+            # Whole: a run that spent nothing has no spent.json, and mend reads only those.
+            unzip -q -o "$earlier/$id.zip" -d "$earlier/$id"
+            rm "$earlier/$id.zip"
+          done < "$earlier/ids"
+          echo "$(wc -l < "$earlier/ids") earlier run(s) read"
       - name: Triage
         working-directory: mend
         env:
@@ -93,13 +110,8 @@ jobs:
             --run-url "$RUN_URL" \
             --run-id "$GITHUB_RUN_ID" \
             --work "$RUNNER_TEMP/mend-live" \
+            --earlier "$RUNNER_TEMP/earlier" \
             "${args[@]}"
-      - name: Save the ledger
-        if: always()
-        uses: actions/cache/save@v4
-        with:
-          path: ~/.mend-live
-          key: mend-live-${{ github.run_id }}
       - name: Keep the run log
         if: always()
         uses: actions/upload-artifact@v4

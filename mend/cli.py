@@ -1271,7 +1271,11 @@ def live(
     ] = None,
     home: Annotated[
         Path | None,
-        typer.Option(help="Ledger and running total, kept between runs. Default: ~/.mend-live."),
+        typer.Option(help="Ledger and running total for this run. Default: ~/.mend-live."),
+    ] = None,
+    earlier: Annotated[
+        Path | None,
+        typer.Option(help="Earlier runs' artifacts; every spent.json under it is carried in."),
     ] = None,
     work: Annotated[Path, typer.Option(help="Scratch space for this run.")] = Path("runs/live"),
     run_url: Annotated[str, typer.Option(help="This workflow run's URL, for the comment.")] = "",
@@ -1321,6 +1325,8 @@ def live(
 
     home = home or Path.home() / ".mend-live"
     budget = Budget(home / "spent.json")
+    if earlier is not None:
+        budget.carry(sorted(earlier.rglob("spent.json")))
     try:
         budget.check()
     except BudgetSpent as spent:

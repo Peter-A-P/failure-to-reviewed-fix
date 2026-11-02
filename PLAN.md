@@ -109,7 +109,9 @@ CI failure: capture, cluster, triage, and comment on the pull request. Comments 
 whatever the routing says (changed 2026-10-31, Peter's decision: the main run missed the
 confidently-wrong target, so the router's auto-propose is not trusted to open pull
 requests). It never acts on anyone else's repository. Every action is logged and visible.
-See `docs/live.md`.
+The running total per repository is carried in the runs' own artifacts (changed
+2026-11-02: the Actions cache first chosen was never writable by the job's token). See
+`docs/live.md`.
 
 ### 2.8 Out of scope, on purpose
 
@@ -691,8 +693,19 @@ showed that section 2.7's ledger in the Actions cache has never been saved: ever
 logged "cache write denied: token has no writable scopes", so each run starts from
 nothing and the US$1.50 per repository is not enforced across runs (`docs/live.md`). The
 per-issue cap, one ticket a run and the vendor limits still hold. Live spend US$0.59 of
-US$3.00, from the run artifacts. Not fixed yet: the fix changes the token's permissions or
-where the total is kept, and needs a release and both callers updated.
+US$3.00, from the run artifacts.
+
+**2026-11-02, v0.1.2: the total rides in the artifacts.** Peter's choice between two fixes.
+Granting `actions: write` would let the cache save, but that token can also cancel and
+rerun workflows and delete caches, and GitHub drops a cache unused for seven days. Instead
+each run's artifact, which already held its `spent.json`, is the carrier: the job lists
+and downloads every unexpired `mend-live-*` artifact with `actions: read` and `mend live
+--earlier` merges them by issue id, so a copy holding another run's issues counts nothing
+twice. A failed listing or download fails the run before any model call. The cache steps
+are gone; the gateway's ledger now lasts one run, so its monthly cap is in effect a cap
+per run, and the cross-run line is the carried total. An issue drops out after the
+artifact's 90 days, a known leak at one ticket a run. Section 2.7 changed to match.
+Released as v0.1.2, both callers updated to it with `actions: read`.
 
 ### What is blocked, and on what
 
