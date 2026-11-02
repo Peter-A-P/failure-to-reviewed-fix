@@ -11,21 +11,21 @@
 # note is one sentence a reader could check against the diff. Both are required.
 
 - issue_id: django__django-10999
-  cause: ""
-  note: ""
+  cause: "test_proved_nothing"
+  note: "Mend applied the regex proposed in the issue, and its test pinned -1:-2:-3 as valid, while the hidden tests require one leading - to negate the whole duration (-15:30 is -930s) and reject inner signs like -01:-01."
 
 - issue_id: pytest-dev__pytest-5840
-  cause: ""
-  note: ""
+  cause: "issue_underspecified"
+  note: "Mend's patch does load conftests with their original casing, but the FAIL_TO_PASS tests assert that _conftestpath2mod is keyed by Path(...).resolve(), an internal detail the casing issue never asked for."
 
 - issue_id: scikit-learn__scikit-learn-14983
-  cause: ""
-  note: ""
+  cause: "issue_underspecified"
+  note: "Mend's repr follows the issue's expected output (n_splits, n_repeats, random_state), but the hidden test expects _build_repr's alphabetical order (n_repeats=6, n_splits=2, ...)."
 
 - issue_id: sphinx-doc__sphinx-7462
-  cause: ""
-  note: ""
+  cause: "wrong_location"
+  note: "Mend's empty-tuple guard in sphinx/domains/python.py matches the maintainers', but they also fixed unparse in sphinx/pycode/ast.py, which test_unparse[()-()] needs."
 
 - issue_id: sympy__sympy-18763
-  cause: ""
-  note: ""
+  cause: "issue_underspecified"
+  note: 'Mend''s parenthesize(expr, PRECEDENCE["Mul"], strict=True) handles the issue''s -x + y example, but it leaves x y bare, and the hidden test expects every Subs expression wrapped in \left(...\right), which the issue never asked for.'
