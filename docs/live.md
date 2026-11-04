@@ -81,7 +81,7 @@ one ticket a run, a run only when Peter's own pull request fails ci, and the ven
 consoles' limits. Actual live spend, from the run artifacts: US$0.14 in 03 and US$0.45 in
 04, US$0.59 of US$3.00. v0.1.2 carries the total in the run artifacts instead, which
 already held every run's cost, so the earlier runs count from its first run on. Its first
-run in 04, on 2026-11-04, read all three and carried them in.
+run in 04, on 2026-11-03, read all three and carried them in.
 
 ## The demonstration
 
@@ -104,7 +104,7 @@ The first runs, on 2026-10-31:
 | compliant-ai-gateway ([#1](https://github.com/Peter-A-P/compliant-ai-gateway/pull/1)) | On v0.1.0 the sandbox ran no tests and reported a pass: the repository's `.dockerignore` leaves `tests/` out of its image. Fixed in v0.1.1, which builds with its own ignore file and treats a suite that ran nothing as a failed run |
 | compliant-ai-gateway, rerun on v0.1.1 | All 5 CI failures reproduced, 3 tickets. The largest was not the planted bug: 4 tests refused by a one-cent cap that 04's main had carried since 2026-10-29. mend's patch raised the cap; the other vendor objected that it weakened a deliberate safeguard to pass mocked tests, so it went out as a suggestion with the objection quoted, at US$0.22. The planted bug was the smaller ticket, not triaged (one a run) |
 | compliant-ai-gateway, 2026-11-02 (UTC), with 04's main merged into the branch | 2 CI failures reproduced, 2 tickets, and the largest was the planted bug. A failing boundary test first; the patch compensated in `cost_usd` by passing one token fewer instead of fixing the comparison in `PriceEntry.for_prompt`. The other vendor objected, naming the right place, and it went out as a suggestion at score 0.61, at US$0.23 |
-| compliant-ai-gateway, 2026-11-04 (UTC), the same commit rerun on v0.1.2 | Read 3 earlier runs' artifacts and carried US$0.46 in, so the total after the run was US$0.68 of US$1.50: the carry works. The same planted bug, and this time the patch never made its own failing test pass, so the pipeline stopped at the patch and posted nothing (the job summary lists it), at US$0.23. Same commit, same bug, a different outcome from one run to the next |
+| compliant-ai-gateway, 2026-11-03 (01:57 UTC on the 4th), the same commit rerun on v0.1.2 | Read 3 earlier runs' artifacts and carried US$0.46 in, so the total after the run was US$0.68 of US$1.50: the carry works. The same planted bug, and this time the patch never made its own failing test pass, so the pipeline stopped at the patch and posted nothing (the job summary lists it), at US$0.23. Same commit, same bug, a different outcome from one run to the next |
 
 The build ignores the repository's own `.dockerignore`, which is written for that
 repository's image, and uses `IGNORE` in `mend/live/image.py`: `.env` files, local

@@ -707,7 +707,7 @@ per run, and the cross-run line is the carried total. An issue drops out after t
 artifact's 90 days, a known leak at one ticket a run. Section 2.7 changed to match.
 Released as v0.1.2, both callers updated to it with `actions: read`.
 
-**2026-11-04, v0.1.2's first run.** 04's failing demo ci rerun on the same commit. The job
+**2026-11-03, v0.1.2's first run.** 04's failing demo ci rerun on the same commit. The job
 read three earlier runs' artifacts, carried US$0.46 in and ended at US$0.68 of US$1.50,
 so the total now holds across runs. The planted bug went differently from two days
 before: the patch never made its own failing test pass, the pipeline stopped at the patch,
