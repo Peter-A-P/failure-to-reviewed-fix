@@ -707,6 +707,14 @@ per run, and the cross-run line is the carried total. An issue drops out after t
 artifact's 90 days, a known leak at one ticket a run. Section 2.7 changed to match.
 Released as v0.1.2, both callers updated to it with `actions: read`.
 
+**2026-11-04, v0.1.2's first run.** 04's failing demo ci rerun on the same commit. The job
+read three earlier runs' artifacts, carried US$0.46 in and ended at US$0.68 of US$1.50,
+so the total now holds across runs. The planted bug went differently from two days
+before: the patch never made its own failing test pass, the pipeline stopped at the patch,
+and nothing was posted, at US$0.23. The same commit and the same bug gave a suggestion
+once and nothing the next time, which is the run-to-run variance a single demo cannot
+show. Live spend US$0.82 of US$3.00 (03 US$0.14, 04 US$0.68).
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops
