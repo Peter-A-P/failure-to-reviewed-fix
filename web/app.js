@@ -324,6 +324,178 @@
     show(0);
   }
 
+  /* The animation: one real run, step by step ------------------------------------------
+     A drawn sequence, not a video: the failures are dots that move as the pipeline handles
+     them, and each step's detail fades in beside them. Every count, file name, line of code
+     and verdict comes from the run's record in data.json. It plays when it scrolls into view,
+     loops, and can be paused or stepped; with reduced motion it waits for the reader. */
+
+  function flow(f) {
+    var host = byId("flow");
+    if (!host) { return; }
+    var H = 400, top = 18, nodeW = 98, gap = 8, x0 = 20;
+    var names = ["Tests fail", "Capture", "Group", "Locate", "Prove", "Fix", "Challenge", "Comment"];
+    var root = frame(H, "Animation: a failing pull request becomes a reviewed fix, step by step");
+    root.setAttribute("class", "flow-svg");
+
+    /* The row of stages, and the progress line under it. */
+    root.appendChild(svg("rect", { x: x0, y: top + 21, width: names.length * (nodeW + gap) - gap, height: 2, "class": "flow-track" }));
+    var progress = svg("rect", { x: x0, y: top + 20, width: names.length * (nodeW + gap) - gap, height: 4, rx: 2, "class": "flow-progress" });
+    root.appendChild(progress);
+    var nodes = names.map(function (name, i) {
+      var g = svg("g", { "class": "flow-node" });
+      g.appendChild(svg("rect", { x: x0 + i * (nodeW + gap), y: top, width: nodeW, height: 44, rx: 8 }));
+      g.appendChild(svg("text", { x: x0 + i * (nodeW + gap) + nodeW / 2, y: top + 27, "text-anchor": "middle" }, name));
+      root.appendChild(g);
+      return g;
+    });
+
+    /* Which dot belongs to which ticket, where the tickets sit, and the opening scatter. */
+    var owner = [];
+    f.tickets.forEach(function (t, ti) { for (var k = 0; k < t.size; k++) { owner.push([ti, k]); } });
+    var n = owner.length;
+    var pileX = function (ti) { return 150 + ti * (600 / Math.max(1, f.tickets.length - 1)); };
+    var scatter = [];
+    for (var i = 0; i < n; i++) {
+      var a = (i * 137.5) * Math.PI / 180, r = 40 + (i * 53) % 110;
+      scatter.push([440 + Math.cos(a) * r * 2.2, 265 + Math.sin(a) * r * 0.7]);
+    }
+
+    function layer() { var g = svg("g", { "class": "flow-layer" }); root.appendChild(g); return g; }
+    function label(g, x, y, text, cls, anchor) { g.appendChild(svg("text", { x: x, y: y, "text-anchor": anchor || "start", "class": cls || "flow-text" }, text)); }
+    function card(g, x, y, w, h, cls) { g.appendChild(svg("rect", { x: x, y: y, width: w, height: h, rx: 10, "class": cls || "flow-card" })); }
+    function pill(g, x, y, text, cls) {
+      var w = text.length * 7.4 + 28;
+      g.appendChild(svg("rect", { x: x, y: y, width: w, height: 28, rx: 14, "class": "flow-pill " + cls }));
+      g.appendChild(svg("text", { x: x + w / 2, y: y + 19, "text-anchor": "middle", "class": "flow-pill-text " + cls }, text));
+      return w;
+    }
+
+    var company = function (p) { return { anthropic: "Anthropic", openai: "OpenAI", google: "Google" }[p] || p; };
+    var layers = names.map(function () { return layer(); });
+    var lead = f.tickets[0];
+    var fixedFile = (String(f.diff).match(/^diff --git a\/(\S+)/m) || [])[1] || "";
+    var diffLines = String(f.diff).split("\n").filter(function (l) { return /^[-+]/.test(l) && !/^(---|\+\+\+)/.test(l); });
+    var testDefs = String(f.test_source).split("\n").filter(function (l) { return /^def /.test(l); }).map(function (l) { return l.replace(/ -> None:$/, "").replace(/:$/, ""); });
+
+    /* 0: the failures arrive. */
+    label(layers[0], 440, 110, "Pull request in " + f.repo + ": " + n + " tests fail", "flow-title", "middle");
+    /* 1: captured in the sandbox. */
+    card(layers[1], 230, 92, 420, 270, "flow-box");
+    label(layers[1], 440, 116, "Rerun in a sealed container, network off", "flow-title", "middle");
+    label(layers[1], 440, 350, n + " records: the error, the test, where it failed", "flow-text faint", "middle");
+    /* 2: grouped into tickets. */
+    label(layers[2], 440, 110, n + " failures, " + f.tickets.length + " tickets; the biggest goes first", "flow-title", "middle");
+    f.tickets.forEach(function (t, ti) {
+      label(layers[2], pileX(ti), 362, "ticket " + (ti + 1), ti === 0 ? "flow-text strong" : "flow-text faint", "middle");
+      label(layers[2], pileX(ti), 380, t.size + (t.size === 1 ? " failure" : " failures"), "flow-text faint", "middle");
+    });
+    /* Ticket 1 stays on the left from here on. */
+    var tag = layer();
+    label(tag, 95, 372, "ticket 1", "flow-text strong", "middle");
+    /* 3: locate. */
+    label(layers[3], 230, 112, "Files most likely at fault, in order", "flow-title");
+    f.suspects.forEach(function (s, si) {
+      var y = 150 + si * 44;
+      card(layers[3], 230, y - 24, 380, 34, s === fixedFile ? "flow-card hot" : "flow-card");
+      label(layers[3], 248, y - 2, (si + 1) + ".  " + s, "flow-mono");
+      if (s === fixedFile) { label(layers[3], 625, y - 2, "the fix lands here", "flow-text strong"); }
+    });
+    /* 4: prove. */
+    card(layers[4], 230, 96, 560, 166);
+    label(layers[4], 252, 126, f.test_id, "flow-mono strong");
+    testDefs.slice(0, 3).forEach(function (d, di) { label(layers[4], 252, 160 + di * 30, d, "flow-mono"); });
+    pill(layers[4], 230, 282, "fails on the broken code", "bad");
+    label(layers[4], 230, 340, "No failing test, no fix: otherwise the run stops here.", "flow-text faint");
+    /* 5: fix. */
+    card(layers[5], 230, 96, 600, 120);
+    label(layers[5], 252, 124, fixedFile, "flow-mono strong");
+    diffLines.slice(0, 4).forEach(function (l, li) { label(layers[5], 252, 154 + li * 26, l.replace(/\s+/g, " ").slice(0, 74), l.charAt(0) === "+" ? "flow-mono add" : "flow-mono del"); });
+    var w5 = pill(layers[5], 230, 240, "the new test passes", "good");
+    pill(layers[5], 230 + w5 + 12, 240, "the existing tests still pass", "good");
+    /* 6: challenge. */
+    card(layers[6], 230, 110, 200, 90);
+    label(layers[6], 330, 148, "Fix written by", "flow-text faint", "middle");
+    label(layers[6], 330, 176, company(f.fixer), "flow-title", "middle");
+    card(layers[6], 620, 110, 200, 90);
+    label(layers[6], 720, 148, "Reviewed by", "flow-text faint", "middle");
+    label(layers[6], 720, 176, company(f.reviewer), "flow-title", "middle");
+    layers[6].appendChild(svg("line", { x1: 444, x2: 600, y1: 155, y2: 155, "class": "flow-arrow" }));
+    layers[6].appendChild(svg("path", { d: "M600 149 L610 155 L600 161 Z", "class": "flow-arrowhead" }));
+    label(layers[6], 525, 143, "find what is wrong", "flow-text faint", "middle");
+    pill(layers[6], 620, 222, f.agrees ? "accepted" : "objected", f.agrees ? "good" : "bad");
+    /* 7: comment. */
+    card(layers[7], 230, 96, 560, 150, "flow-card comment");
+    label(layers[7], 252, 128, "mend commented on the pull request", "flow-title");
+    label(layers[7], 252, 162, "The fix, the test that failed first, and the review", "flow-text");
+    label(layers[7], 252, 192, "Rated ready to propose; posted as a suggestion", "flow-text");
+    label(layers[7], 252, 222, usd(f.cost) + " in model calls, " + f.seconds + " seconds", "flow-text faint");
+    pill(layers[7], 230, 266, "Nothing merges. A person decides.", "neutral");
+
+    /* The dots: one per failing test. */
+    var dots = owner.map(function (o) {
+      var c = svg("circle", { cx: 0, cy: 0, r: 9, "class": "flow-dot" + (o[0] === 0 ? " lead" : "") });
+      root.appendChild(c);
+      return c;
+    });
+    function place(c, x, y) { c.style.transform = "translate(" + x.toFixed(1) + "px, " + y.toFixed(1) + "px)"; }
+
+    var captions = [
+      "A pull request's tests fail on the build server: " + n + " failing tests, some of them symptoms of the same bug.",
+      "mend reruns the whole suite in a sealed container with no network, and turns each failure into a record.",
+      "Failures with one cause become one ticket. " + n + " failures become " + f.tickets.length + " tickets, and the biggest, " + lead.size + " failures, goes first.",
+      "A small, cheap model reads the ticket and lists the files most likely at fault.",
+      "Before any fix, a new test that shows the bug must fail on the broken code. Here it did.",
+      "The fixer changes one line. The new test now passes, and so do the existing tests nearest the change.",
+      "A model from another company (" + company(f.reviewer) + ", against an " + company(f.fixer) + " fixer) is asked to find what is wrong with the fix. It " + (f.agrees ? "found nothing and accepted it." : "objected: " + f.objection),
+      "Every check passed, so mend posted the fix, its test and the review on the pull request, for " + usd(f.cost) + ". Nothing merges: a person decides."
+    ];
+
+    var step = 0;
+    function show(s) {
+      step = s;
+      nodes.forEach(function (g, i) { g.setAttribute("class", "flow-node" + (i < s ? " done" : i === s ? " on" : "")); });
+      progress.style.transform = "scaleX(" + ((s + 1) / names.length).toFixed(3) + ")";
+      layers.forEach(function (g, i) { g.setAttribute("class", "flow-layer" + (i === s ? " show" : "")); });
+      tag.setAttribute("class", "flow-layer" + (s >= 3 ? " show" : ""));
+      dots.forEach(function (c, i) {
+        var o = owner[i], ti = o[0], k = o[1];
+        var cls = "flow-dot" + (ti === 0 ? " lead" : "");
+        if (s === 0) { place(c, scatter[i][0], scatter[i][1]); }
+        else if (s === 1) { place(c, 330 + (i % 5) * 55, 185 + Math.floor(i / 5) * 80); }
+        else if (s === 2) { place(c, pileX(ti), 330 - k * 26); }
+        else {
+          if (ti === 0) { place(c, 95, 340 - k * 26); } else { place(c, pileX(ti), 330 - k * 26); cls += s === 3 ? " faded" : " gone"; }
+          if (ti === 0 && s >= 5) { cls += " fixed"; }
+        }
+        c.setAttribute("class", cls);
+      });
+      byId("flow-caption").textContent = (s + 1) + ". " + names[s] + ": " + captions[s];
+      byId("flow-count").textContent = "Step " + (s + 1) + " of " + names.length;
+    }
+
+    clear(host).appendChild(root);
+    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var playing = false, timer = null, button = byId("flow-play");
+    function tick() { show(step === names.length - 1 ? 0 : step + 1); timer = setTimeout(tick, step === names.length - 1 ? 7000 : 4200); }
+    function play() { if (playing) { return; } playing = true; button.textContent = "Pause"; timer = setTimeout(tick, 4200); }
+    function pause() { playing = false; button.textContent = "Play"; if (timer) { clearTimeout(timer); timer = null; } }
+    button.addEventListener("click", function () { if (playing) { pause(); } else { play(); } });
+    byId("flow-next").addEventListener("click", function () { pause(); show(Math.min(names.length - 1, step + 1)); });
+    byId("flow-back").addEventListener("click", function () { pause(); show(Math.max(0, step - 1)); });
+    show(0);
+    pause();
+    if (!still && "IntersectionObserver" in window) {
+      var seen = false;
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !seen) { seen = true; play(); }
+          else if (!e.isIntersecting && playing) { pause(); seen = false; }
+        });
+      }, { threshold: 0.45 }).observe(host);
+    }
+  }
+
   /* Loading ------------------------------------------------------------------------ */
 
   function fail(message) {
@@ -332,6 +504,7 @@
   }
 
   function draw(data) {
+    flow(data.follow);
     follow(data.follow);
 
     var chaos = data.clustering.chaos.map(function (c, i) { return { label: c.label, value: c.value, cls: i === 2 ? "seq0" : "seq2" }; });

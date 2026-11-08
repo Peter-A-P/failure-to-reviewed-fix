@@ -5,6 +5,8 @@
  "ari_two_stage": "0.636",
  "auto_count": "51",
  "auto_hit_pct": "90.2%",
+ "auto_hit_range": "79.0% to 95.7%",
+ "auto_right": "46",
  "chaos_folds": "56",
  "chaos_symptoms": "373",
  "chaos_wins": "56",

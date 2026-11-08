@@ -128,6 +128,8 @@ def resolution(outcomes: Sequence[IssueOutcome]) -> tuple[dict[str, str], dict[s
         "wrong_count": str(round(wrong.estimate * wrong.n)),
         "auto_count": str(wrong.n),
         "auto_hit_pct": pct(auto.hit_rate.estimate),
+        "auto_hit_range": pct_range(auto.hit_rate),
+        "auto_right": str(round(auto.hit_rate.estimate * auto.n)),
         "cost_resolved": money(per_resolved.estimate),
         "cost_resolved_range": f"{money(per_resolved.low)} to {money(per_resolved.high)}",
         "cost_attempted": money(per_attempted.estimate),

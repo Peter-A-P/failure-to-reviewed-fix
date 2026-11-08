@@ -30,7 +30,7 @@
 <nav class="tabs" aria-label="This site">
   <div class="tabs-inner">
     <a href="index.html" aria-current="page">Overview</a>
-    <a href="#follow">One failure</a>
+    <a href="#watch">Watch it work</a>
     <a href="#picture">The idea</a>
     <a href="#results">Does it work?</a>
     <a href="#wrong">When it was wrong</a>
@@ -43,27 +43,26 @@
 
   <header class="hero">
     <p class="eyebrow">Measured on 120 real bugs, judged by tests no model saw</p>
-    <h1>An AI that fixes two real bugs in three, <span class="hl">and publishes how often it would have been wrong.</span></h1>
+    <h1>An AI that <span class="hl">automatically fixes two real bugs in three</span>, and proposes a pull request only when it is confident.</h1>
     <p class="lead">
       When software breaks, someone has to find out why and write the fix, and that can take
       days. This project hands the first draft to AI: it groups the error messages into one
       problem, <strong>writes a test that proves the bug</strong> before touching the code,
       drafts a fix, and has a second AI from a different company try to break it. Then a
       person decides. It was measured on {{tasks}} bugs from public Python projects, each
-      judged by the maintainers' own tests, and <strong>the number at the top is how often it
-      was confidently wrong.</strong>
+      judged by <strong>tests the maintainers wrote and no model saw.</strong>
     </p>
-    <p class="hero-cta"><a class="button" href="#follow">Follow one failure</a></p>
+    <p class="hero-cta"><a class="button" href="#watch">Watch it work</a></p>
     <div class="hero-points">
+      <div class="point">
+        <span class="point-figure">{{auto_hit_pct}}</span>
+        <span class="point-unit">of its proposed pull requests were right</span>
+        <span class="point-label">{{auto_right}} of the {{auto_count}} fixes it was confident enough to propose passed the maintainers' hidden tests. 95% interval {{auto_hit_range}}.</span>
+      </div>
       <div class="point">
         <span class="point-figure">{{hit_pct}}</span>
         <span class="point-unit">of {{tasks}} real bugs fixed</span>
-        <span class="point-label">{{resolved}} fixes passed tests the maintainers wrote and no model saw. 95% interval {{hit_range}}.</span>
-      </div>
-      <div class="point warnline">
-        <span class="point-figure down">{{wrong_pct}}</span>
-        <span class="point-unit">confidently wrong</span>
-        <span class="point-label">{{wrong_count}} of the {{auto_count}} fixes it was sure enough to offer failed those tests. The target was 3%, and it was missed (interval {{wrong_range}}).</span>
+        <span class="point-label">{{resolved}} fixes passed tests the maintainers wrote and no model saw, proposed or not. 95% interval {{hit_range}}.</span>
       </div>
       <div class="point good">
         <span class="point-figure">{{ari_two_stage}}</span>
@@ -76,6 +75,13 @@
         <span class="point-label">In model calls, interval {{cost_resolved_range}}, and a median of {{minutes}} minutes each.</span>
       </div>
     </div>
+    <p class="hero-note hero-caveat">
+      <strong>The target was missed.</strong> The plan allowed at most 3% of proposed pull
+      requests to be wrong. {{wrong_count}} of the {{auto_count}} were, {{wrong_pct}} (95%
+      interval {{wrong_range}}), so on this evidence it should suggest rather than propose, and
+      the live version only comments. {{wrong_underspecified}} of the {{wrong_count}} did what the
+      issue asked, where the issue left out what the maintainers' tests checked.
+    </p>
     <p class="hero-note">
       {{tasks}} bugs from SWE-bench Verified, picked at random and written down before the first
       run, plus {{live_runs}} live runs on real pull requests. Every number on this page is
@@ -88,6 +94,7 @@
   <nav class="toc" aria-label="On this page">
     <p class="eyebrow">On this page</p>
     <ol>
+      <li><a href="#watch">Watch it work</a></li>
       <li><a href="#follow">Follow one failure</a></li>
       <li><a href="#picture">The whole idea in one picture</a></li>
       <li><a href="#grouping">Twenty alarms, one bug</a></li>
@@ -113,6 +120,27 @@
   </noscript>
 
   <p class="warning" id="failure" hidden></p>
+
+  <!-- ============================================================== the animation -->
+
+  <section class="section" id="watch">
+    <h2>Watch a failure become a reviewed fix</h2>
+    <p class="section-lead">
+      What happens, step by step, from the moment a pull request's tests fail to the moment a
+      person reads the proposed fix. The numbers and the code in the animation are from a real
+      run on another of my projects, with one bug planted in it on purpose.
+    </p>
+    <figure class="flow-figure">
+      <div id="flow" class="flow wide-chart"></div>
+      <p class="flow-caption" id="flow-caption" aria-live="polite"></p>
+      <div class="flow-controls">
+        <button type="button" class="step-move" id="flow-play">Pause</button>
+        <button type="button" class="step-move" id="flow-back">Back</button>
+        <button type="button" class="step-move" id="flow-next">Next</button>
+        <span class="flow-count" id="flow-count"></span>
+      </div>
+    </figure>
+  </section>
 
   <!-- ============================================================== the thing to use -->
 
