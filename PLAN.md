@@ -715,6 +715,19 @@ and nothing was posted, at US$0.23. The same commit and the same bug gave a sugg
 once and nothing the next time, which is the run-to-run variance a single demo cannot
 show. Live spend US$0.82 of US$3.00 (03 US$0.14, 04 US$0.68).
 
+**2026-11-08, the site.** triage.peterparker.ca, in the portfolio's shared style: the first
+screen with the four headline figures, a step-by-step walk-through of 03's live run read from
+its committed record (`results/live/`, now kept for every live run), one section per stage
+with a chart and its intervals, the five confidently-wrong cases, the live runs, what did not
+work and the limits, and an architecture page of four generated diagrams. The diagrams were
+brought up to what is built (the clustering sets, the live workflow, comments only) and a
+fourth, the live workflow, added. `mend site` writes the page's numbers from the result files
+`mend report` reads, the ablation tables' counts moved into functions both share, and
+`tests/test_site.py` fails if the page falls behind. A threshold slider was planned for the
+routing section and dropped: the main run's scores take six values and the rules decide the
+tier, so a slider would have shown a choice the router never makes. Hosted on Azure Static
+Web Apps' Free plan, CA$0. No model calls.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops

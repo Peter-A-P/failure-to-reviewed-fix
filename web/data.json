@@ -1,0 +1,555 @@
+{
+ "resolution": {
+  "tiers": [
+   {
+    "tier": "Offer a pull request",
+    "n": 51,
+    "hit": {
+     "est": 0.9019607843137255,
+     "low": 0.7902176531891913,
+     "high": 0.9573919268923814,
+     "n": 51
+    },
+    "wrong": {
+     "est": 0.09803921568627451,
+     "low": 0.04260807310761862,
+     "high": 0.20978234681080865,
+     "n": 51
+    },
+    "cost_attempted": {
+     "est": 0.15149364117647057,
+     "low": 0.12998701181372552,
+     "high": 0.17306694259803923,
+     "n": 51
+    },
+    "cost_resolved": {
+     "est": 0.1679603413043478,
+     "low": 0.14093190960594879,
+     "high": 0.19793126262987012,
+     "n": 51
+    }
+   },
+   {
+    "tier": "Suggest",
+    "n": 34,
+    "hit": {
+     "est": 0.6176470588235294,
+     "low": 0.450410173444307,
+     "high": 0.7609981667549109,
+     "n": 34
+    },
+    "wrong": null,
+    "cost_attempted": {
+     "est": 0.17613304411764705,
+     "low": 0.15081967500000001,
+     "high": 0.20213301485294116,
+     "n": 34
+    },
+    "cost_resolved": {
+     "est": 0.2851677857142857,
+     "low": 0.22142915523749998,
+     "high": 0.39468245718749995,
+     "n": 34
+    }
+   },
+   {
+    "tier": "Stay quiet",
+    "n": 35,
+    "hit": {
+     "est": 0.4,
+     "low": 0.2555072885938059,
+     "high": 0.5642729098710749,
+     "n": 35
+    },
+    "wrong": null,
+    "cost_attempted": {
+     "est": 0.1473948052631579,
+     "low": 0.11636203999999999,
+     "high": 0.1808628993421052,
+     "n": 19
+    },
+    "cost_resolved": {
+     "est": 0.42335501428571426,
+     "low": 0.2685384893483709,
+     "high": 0.7537403174603171,
+     "n": 35
+    }
+   }
+  ],
+  "all": {
+   "n": 120,
+   "hit": {
+    "est": 0.675,
+    "low": 0.5869018408594733,
+    "high": 0.7522414508939805,
+    "n": 120
+   },
+   "wrong": {
+    "est": 0.09803921568627451,
+    "low": 0.04260807310761862,
+    "high": 0.20978234681080865,
+    "n": 51
+   },
+   "cost_attempted": {
+    "est": 0.1588000048076923,
+    "low": 0.14438606283653846,
+    "high": 0.17464605139423073,
+    "n": 104
+   },
+   "cost_resolved": {
+    "est": 0.24248974567901235,
+    "low": 0.20843887114151305,
+    "high": 0.2876494196437404,
+    "n": 120
+   }
+  }
+ },
+ "review": {
+  "split": [
+   {
+    "label": "The reviewer objected",
+    "value": {
+     "est": 0.4,
+     "low": 0.2634832568429192,
+     "high": 0.5540410633965381,
+     "n": 40
+    }
+   },
+   {
+    "label": "The reviewer agreed",
+    "value": {
+     "est": 0.109375,
+     "low": 0.05400113344416799,
+     "high": 0.2089864132689612,
+     "n": 64
+    }
+   }
+  ],
+  "arms": [
+   {
+    "label": "A different company's model",
+    "caught": {
+     "est": 0.6956521739130435,
+     "low": 0.49134243731240795,
+     "high": 0.8439597554678597,
+     "n": 23
+    },
+    "false_alarm": {
+     "est": 0.2962962962962963,
+     "low": 0.20791957048345946,
+     "high": 0.40311964950752444,
+     "n": 81
+    },
+    "wrong_auto": {
+     "est": 0.09803921568627451,
+     "low": 0.04260807310761862,
+     "high": 0.20978234681080865,
+     "n": 51
+    }
+   },
+   {
+    "label": "The fixer's own company's model",
+    "caught": {
+     "est": 0.5652173913043478,
+     "low": 0.3681137508501646,
+     "high": 0.743653646743258,
+     "n": 23
+    },
+    "false_alarm": {
+     "est": 0.18518518518518517,
+     "low": 0.1155629000590669,
+     "high": 0.28331589447245376,
+     "n": 81
+    },
+    "wrong_auto": {
+     "est": 0.12698412698412698,
+     "low": 0.06577324856136738,
+     "high": 0.23107034478269664,
+     "n": 63
+    }
+   }
+  ]
+ },
+ "test_first": {
+  "arms": [
+   {
+    "label": "Failing test first",
+    "resolved": {
+     "est": 0.65,
+     "low": 0.49505880837257693,
+     "high": 0.7786547112682372,
+     "n": 40
+    },
+    "cost": 0.1701333975
+   },
+   {
+    "label": "No failing test first",
+    "resolved": {
+     "est": 0.675,
+     "low": 0.5201774618987767,
+     "high": 0.7991549776821731,
+     "n": 40
+    },
+    "cost": 0.08001588750000001
+   }
+  ]
+ },
+ "wrong": {
+  "causes": [
+   {
+    "cause": "test proved nothing",
+    "meaning": "the generated test passed after the patch but tested something other than the reported bug",
+    "count": 0,
+    "share": {
+     "est": 0.0,
+     "low": 0.0,
+     "high": 0.43448246478317476,
+     "n": 5
+    }
+   },
+   {
+    "cause": "symptom not cause",
+    "meaning": "guarded the point of failure instead of fixing where the bad value came from",
+    "count": 0,
+    "share": {
+     "est": 0.0,
+     "low": 0.0,
+     "high": 0.43448246478317476,
+     "n": 5
+    }
+   },
+   {
+    "cause": "regression elsewhere",
+    "meaning": "fixed the reported case and broke one the visible suite does not cover",
+    "count": 0,
+    "share": {
+     "est": 0.0,
+     "low": 0.0,
+     "high": 0.43448246478317476,
+     "n": 5
+    }
+   },
+   {
+    "cause": "wrong location",
+    "meaning": "changed the wrong place",
+    "count": 1,
+    "share": {
+     "est": 0.2,
+     "low": 0.036224108632430085,
+     "high": 0.6244653702374747,
+     "n": 5
+    }
+   },
+   {
+    "cause": "issue underspecified",
+    "meaning": "a fair reading of the issue as written, not what the maintainers meant",
+    "count": 4,
+    "share": {
+     "est": 0.8,
+     "low": 0.3755346297625253,
+     "high": 0.9637758913675698,
+     "n": 5
+    }
+   },
+   {
+    "cause": "defensible disagreement",
+    "meaning": "reasonable behaviour the project decided differently: wording, an order, a default",
+    "count": 0,
+    "share": {
+     "est": 0.0,
+     "low": 0.0,
+     "high": 0.43448246478317476,
+     "n": 5
+    }
+   },
+   {
+    "cause": "unclassified",
+    "meaning": "none of the above",
+    "count": 0,
+    "share": {
+     "est": 0.0,
+     "low": 0.0,
+     "high": 0.43448246478317476,
+     "n": 5
+    }
+   }
+  ],
+  "cases": [
+   {
+    "task": "django__django-10999",
+    "cause": "issue underspecified",
+    "why": "Mend applied the regex proposed in the issue, and its test pinned -1:-2:-3 as valid, while the hidden tests require one leading - to negate the whole duration (-15:30 is -930s) and reject inner signs like -01:-01."
+   },
+   {
+    "task": "pytest-dev__pytest-5840",
+    "cause": "issue underspecified",
+    "why": "Mend's patch does load conftests with their original casing, but the FAIL_TO_PASS tests assert that _conftestpath2mod is keyed by Path(...).resolve(), an internal detail the casing issue never asked for."
+   },
+   {
+    "task": "scikit-learn__scikit-learn-14983",
+    "cause": "issue underspecified",
+    "why": "Mend's repr follows the issue's expected output (n_splits, n_repeats, random_state), but the hidden test expects _build_repr's alphabetical order (n_repeats=6, n_splits=2, ...)."
+   },
+   {
+    "task": "sphinx-doc__sphinx-7462",
+    "cause": "wrong location",
+    "why": "Mend's empty-tuple guard in sphinx/domains/python.py matches the maintainers', but they also fixed unparse in sphinx/pycode/ast.py, which test_unparse[()-()] needs."
+   },
+   {
+    "task": "sympy__sympy-18763",
+    "cause": "issue underspecified",
+    "why": "Mend's parenthesize(expr, PRECEDENCE[\"Mul\"], strict=True) handles the issue's -x + y example, but it leaves x y bare, and the hidden test expects every Subs expression wrapped in \\left(...\\right), which the issue never asked for."
+   }
+  ]
+ },
+ "clustering": {
+  "chaos": [
+   {
+    "label": "One record at a time",
+    "value": {
+     "est": 0.031548035835766985,
+     "low": 0.009144956230080315,
+     "high": 0.05530897666013418,
+     "n": 56
+    }
+   },
+   {
+    "label": "Fingerprint only",
+    "value": {
+     "est": 0.021286937318298893,
+     "low": 0.003765476283957891,
+     "high": 0.043670161704261364,
+     "n": 56
+    }
+   },
+   {
+    "label": "Incidents first, then signatures",
+    "value": {
+     "est": 0.6358006162784307,
+     "low": 0.13551709944667273,
+     "high": 0.9910894452143763,
+     "n": 56
+    }
+   }
+  ],
+  "sets": [
+   {
+    "label": "Injected faults",
+    "causes": 40,
+    "symptoms": 404,
+    "ari": {
+     "est": 0.5680918081915507,
+     "low": 0.35247879399871307,
+     "high": 0.7837048223843883
+    },
+    "purity": {
+     "est": 0.9678217821782178,
+     "low": 0.9315841218639834,
+     "high": 1.0
+    },
+    "completeness": {
+     "est": 0.5173267326732673,
+     "low": 0.3692925176667547,
+     "high": 0.6653609476797799
+    }
+   },
+   {
+    "label": "Duplicate reports",
+    "causes": 639,
+    "symptoms": 1378,
+    "ari": {
+     "est": 0.08568617120518933,
+     "low": 0.059070769715543314,
+     "high": 0.11230157269483534
+    },
+    "purity": {
+     "est": 0.9687953555878084,
+     "low": 0.9566985478293998,
+     "high": 0.980892163346217
+    },
+    "completeness": {
+     "est": 0.4934687953555878,
+     "low": 0.4815885687269611,
+     "high": 0.5053490219842145
+    }
+   },
+   {
+    "label": "Duplicate reports, trained text encoder",
+    "causes": 639,
+    "symptoms": 1378,
+    "ari": {
+     "est": 0.5160159025623908,
+     "low": 0.4698335791810726,
+     "high": 0.562198225943709
+    },
+    "purity": {
+     "est": 0.9223512336719883,
+     "low": 0.9011025927184086,
+     "high": 0.943599874625568
+    },
+    "completeness": {
+     "est": 0.7177068214804064,
+     "low": 0.6973501605114485,
+     "high": 0.7380634824493644
+    }
+   }
+  ]
+ },
+ "live": {
+  "runs": [
+   {
+    "repo": "compliant-ai-gateway",
+    "run": "https://github.com/Peter-A-P/compliant-ai-gateway/actions/runs/41236966363",
+    "pull_request": "https://github.com/Peter-A-P/compliant-ai-gateway/pull/1",
+    "date": "2026-10-31",
+    "tests": 0,
+    "failures": 0,
+    "tickets": 0,
+    "outcome": "ran no tests",
+    "cost": 0.0,
+    "posted": false
+   },
+   {
+    "repo": "ai-release-gate",
+    "run": "https://github.com/Peter-A-P/ai-release-gate/actions/runs/41237394546",
+    "pull_request": "https://github.com/Peter-A-P/ai-release-gate/pull/2",
+    "date": "2026-10-31",
+    "tests": 603,
+    "failures": 10,
+    "tickets": 5,
+    "outcome": "would offer a pull request",
+    "cost": 0.140464,
+    "posted": true
+   },
+   {
+    "repo": "compliant-ai-gateway",
+    "run": "https://github.com/Peter-A-P/compliant-ai-gateway/actions/runs/41238507837",
+    "pull_request": "https://github.com/Peter-A-P/compliant-ai-gateway/pull/1",
+    "date": "2026-10-31",
+    "tests": 989,
+    "failures": 6,
+    "tickets": 3,
+    "outcome": "suggestion",
+    "cost": 0.2232739,
+    "posted": true
+   },
+   {
+    "repo": "compliant-ai-gateway",
+    "run": "https://github.com/Peter-A-P/compliant-ai-gateway/actions/runs/41370423269",
+    "pull_request": "https://github.com/Peter-A-P/compliant-ai-gateway/pull/1",
+    "date": "2026-11-02",
+    "tests": 990,
+    "failures": 2,
+    "tickets": 2,
+    "outcome": "suggestion",
+    "cost": 0.2336272,
+    "posted": true
+   },
+   {
+    "repo": "compliant-ai-gateway",
+    "run": "https://github.com/Peter-A-P/compliant-ai-gateway/actions/runs/41757454245",
+    "pull_request": "https://github.com/Peter-A-P/compliant-ai-gateway/pull/1",
+    "date": "2026-11-04",
+    "tests": 990,
+    "failures": 2,
+    "tickets": 2,
+    "outcome": "stopped: the failing test still does not pass",
+    "cost": 0.2251442,
+    "posted": false
+   }
+  ]
+ },
+ "follow": {
+  "repo": "ai-release-gate",
+  "pull_request": "https://github.com/Peter-A-P/ai-release-gate/pull/2",
+  "run": "https://github.com/Peter-A-P/ai-release-gate/actions/runs/41237394546",
+  "failing": [
+   "tests/test_gate_decision.py::test_a_real_regression_blocks_and_names_the_suite",
+   "tests/test_gate_decision.py::test_the_corrected_interval_is_shown_but_does_not_decide_unless_asked",
+   "tests/test_gate_live.py::test_a_pull_request_cannot_loosen_its_own_margin",
+   "tests/test_gate_live.py::test_a_regression_is_blocked_and_the_comment_says_why",
+   "tests/test_gate_live.py::test_every_answer_is_kept_for_a_human_to_read_cached_or_not",
+   "tests/test_gate_live.py::test_the_decision_is_recorded_with_its_occasion_as_the_action_asks",
+   "tests/test_gate_outcomes_aa.py::test_a_noisy_arm_shows_the_point_rule_costing_more_than_the_interval_rule",
+   "tests/test_gate_outcomes_aa.py::test_too_few_identical_items_cannot_rule_out_the_margin",
+   "tests/test_gate_stats.py::test_holm_is_step_down_monotone_and_capped",
+   "tests/test_service.py::test_the_front_page_figures_are_the_reports"
+  ],
+  "tickets": [
+   {
+    "title": "AssertionError in tests/test_gate_live.py",
+    "size": 4
+   },
+   {
+    "title": "AssertionError in tests/test_gate_outcomes_aa.py",
+    "size": 2
+   },
+   {
+    "title": "AssertionError in tests/test_gate_decision.py",
+    "size": 2
+   },
+   {
+    "title": "AssertionError in tests/test_service.py",
+    "size": 1
+   },
+   {
+    "title": "AssertionError in tests/test_gate_stats.py",
+    "size": 1
+   }
+  ],
+  "ticket": "AssertionError in tests/test_gate_live.py",
+  "suspects": [
+   "gate/decision.py",
+   "gate/stats.py",
+   "gate/live.py",
+   "gate/ledger.py"
+  ],
+  "test_id": "tests/test_holm_adjustment.py",
+  "test_source": "import pytest\n\nfrom gate.stats import holm\n\n\ndef test_a_single_pvalue_is_not_adjusted_to_zero() -> None:\n    # With one suite there is no multiplicity: the adjusted p equals the raw p.\n    assert holm([1.0]) == pytest.approx([1.0])\n    assert holm([0.5]) == pytest.approx([0.5])\n\n\ndef test_holm_step_down_multipliers() -> None:\n    # Sorted 0.01, 0.03, 0.04 are multiplied by 3, 2, 1 and made monotone.\n    adjusted = holm([0.01, 0.04, 0.03])\n    assert adjusted == pytest.approx([0.03, 0.06, 0.06])\n\n\ndef test_holm_caps_at_one() -> None:\n    assert holm([0.9, 0.8]) == pytest.approx([0.9, 0.9]) or max(holm([0.9, 0.8])) <= 1.0\n    assert all(p >= 0.8 for p in holm([0.9, 0.8]))\n",
+  "test_output": "FF.                                                                      [100%]\n=================================== FAILURES ===================================\n_________________ test_a_single_pvalue_is_not_adjusted_to_zero _________________\n\n    def test_a_single_pvalue_is_not_adjusted_to_zero() -> None:\n        # With one suite there is no multiplicity: the adjusted p equals the raw p.\n>       assert holm([1.0]) == pytest.approx([1.0])\nE       assert [0.0] == approx([1.0 \u00b1 1.0e-06])\nE         \nE         comparison failed. Mismatched elements: 1 / 1:\nE         Max absolute difference: 1.0\nE         Max relative difference: inf\nE         Index | Obtained | Expected     \nE         0     | 0.0      | 1.0 \u00b1 1.0e-06",
+  "diff": "diff --git a/gate/stats.py b/gate/stats.py\n--- a/gate/stats.py\n+++ b/gate/stats.py\n@@ -210,7 +210,7 @@\n     adjusted = [0.0] * m\n     running = 0.0\n     for rank, i in enumerate(order):\n-        running = max(running, min(1.0, (m - rank - 1) * pvalues[i]))\n+        running = max(running, min(1.0, (m - rank) * pvalues[i]))\n         adjusted[i] = running\n     return adjusted\n \n",
+  "suite": [
+   "tests/test_stats.py",
+   "tests/test_gate_spec.py",
+   "tests/test_gate_stats.py"
+  ],
+  "reviewer": "openai",
+  "fixer": "anthropic",
+  "agrees": true,
+  "objection": "",
+  "tier": "auto_propose",
+  "score": 0.84,
+  "cost": 0.140464,
+  "seconds": 36,
+  "hops": [
+   {
+    "role": "localiser",
+    "provider": "anthropic",
+    "model": "claude-haiku-5-5",
+    "cost": 0.000747,
+    "seconds": 2.8
+   },
+   {
+    "role": "tester",
+    "provider": "anthropic",
+    "model": "claude-sonnet-5-5",
+    "cost": 0.068454,
+    "seconds": 9.2
+   },
+   {
+    "role": "fixer",
+    "provider": "anthropic",
+    "model": "claude-sonnet-5-5",
+    "cost": 0.061012,
+    "seconds": 6.4
+   },
+   {
+    "role": "reviewer",
+    "provider": "openai",
+    "model": "gpt-6.1-sol",
+    "cost": 0.010251,
+    "seconds": 2.9
+   }
+  ]
+ }
+}

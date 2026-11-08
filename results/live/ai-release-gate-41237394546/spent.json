@@ -1,0 +1,12 @@
+{
+ "total_usd": 0.140464,
+ "issues": [
+  {
+   "issue_id": "live-41237394546-T0003",
+   "cost_usd": 0.140464,
+   "cost_known": true,
+   "at": "2026-10-31T20:12:30+00:00",
+   "run": "https://github.com/Peter-A-P/ai-release-gate/actions/runs/41237394546"
+  }
+ ]
+}

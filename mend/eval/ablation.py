@@ -13,7 +13,7 @@ from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
-from mend.eval.stats import wilson
+from mend.eval.stats import Interval, wilson
 from mend.graph.route import Tier
 
 Run = Mapping[str, Any]
@@ -32,8 +32,8 @@ def _auto(run: Run) -> bool:
     return _state(run).get("tier") == Tier.AUTO_PROPOSE.value
 
 
-def review_row(name: str, runs: Sequence[Run], passed: Mapping[str, bool]) -> str:
-    """One reviewer, over the patches it reviewed."""
+def review_numbers(runs: Sequence[Run], passed: Mapping[str, bool]) -> dict[str, Interval]:
+    """One reviewer, over the patches it reviewed: the shares the table and the site show."""
     judged = [r for r in runs if _agrees(r) is not None]
     ok = [r for r in judged if passed.get(str(r["issue"]["issue_id"]))]
     bad = [r for r in judged if not passed.get(str(r["issue"]["issue_id"]))]
@@ -41,12 +41,22 @@ def review_row(name: str, runs: Sequence[Run], passed: Mapping[str, bool]) -> st
     right = [r for r in judged if _agrees(r) == bool(passed.get(str(r["issue"]["issue_id"])))]
     auto = [r for r in judged if _auto(r)]
     wrong_auto = [r for r in auto if not passed.get(str(r["issue"]["issue_id"]))]
+    return {
+        "objected": wilson(len(objected), len(judged)),
+        "caught": wilson(sum(1 for r in bad if _agrees(r) is False), len(bad)),
+        "false_alarm": wilson(sum(1 for r in ok if _agrees(r) is False), len(ok)),
+        "right": wilson(len(right), len(judged)),
+        "wrong_auto": wilson(len(wrong_auto), len(auto)),
+    }
+
+
+def review_row(name: str, runs: Sequence[Run], passed: Mapping[str, bool]) -> str:
+    """One reviewer, over the patches it reviewed."""
+    n = review_numbers(runs, passed)
     return (
-        f"| {name} | {wilson(len(objected), len(judged)).as_percent()} "
-        f"| {wilson(sum(1 for r in bad if _agrees(r) is False), len(bad)).as_percent()} "
-        f"| {wilson(sum(1 for r in ok if _agrees(r) is False), len(ok)).as_percent()} "
-        f"| {wilson(len(right), len(judged)).as_percent()} "
-        f"| {wilson(len(wrong_auto), len(auto)).as_percent()} |"
+        f"| {name} | {n['objected'].as_percent()} | {n['caught'].as_percent()} "
+        f"| {n['false_alarm'].as_percent()} | {n['right'].as_percent()} "
+        f"| {n['wrong_auto'].as_percent()} |"
     )
 
 
@@ -69,16 +79,28 @@ def agreement(a: Sequence[Run], b: Sequence[Run]) -> str:
     return wilson(sum(1 for x, y in pairs if x == y), len(pairs)).as_percent()
 
 
-def first_test_row(name: str, runs: Sequence[Run], passed: Mapping[str, bool]) -> str:
+def first_test_numbers(runs: Sequence[Run], passed: Mapping[str, bool]) -> dict[str, Any]:
+    """One arm of the no-test-first ablation: the counts the table and the site show."""
     resolved = sum(1 for r in runs if passed.get(str(r["issue"]["issue_id"])))
     drafted = sum(1 for r in runs if (_state(r).get("patch") or {}).get("diff"))
     auto = [r for r in runs if _auto(r)]
     wrong = sum(1 for r in auto if not passed.get(str(r["issue"]["issue_id"])))
     costs = [float(r["cost_usd"]) for r in runs if r.get("cost_usd") is not None]
+    return {
+        "resolved": wilson(resolved, len(runs)),
+        "drafted": drafted,
+        "auto": len(auto),
+        "wrong_auto": wilson(wrong, len(auto)),
+        "cost": sum(costs) / len(costs),
+    }
+
+
+def first_test_row(name: str, runs: Sequence[Run], passed: Mapping[str, bool]) -> str:
+    n = first_test_numbers(runs, passed)
     return (
-        f"| {name} | {wilson(resolved, len(runs)).as_percent()} | {drafted} "
-        f"| {len(auto)} | {wilson(wrong, len(auto)).as_percent()} "
-        f"| US${sum(costs) / len(costs):.3f} |"
+        f"| {name} | {n['resolved'].as_percent()} | {n['drafted']} "
+        f"| {n['auto']} | {n['wrong_auto'].as_percent()} "
+        f"| US${n['cost']:.3f} |"
     )
 
 

@@ -78,8 +78,9 @@ packages = ["mend"]
 line-length = 100
 target-version = "py313"
 # ruff formats Python blocks inside Markdown by default; the plan and the docs keep their
-# own layout.
-extend-exclude = ["*.md"]
+# own layout. tools/site.py is the portfolio's shared site builder, copied unchanged so it
+# can be refreshed from the shared copy; it holds typographic dashes on purpose, to find them.
+extend-exclude = ["*.md", "tools/site.py"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "N", "RUF"]

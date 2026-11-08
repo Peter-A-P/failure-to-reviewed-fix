@@ -1,0 +1,48 @@
+name: website
+
+# The site at triage.peterparker.ca (docs/deploy.md), built from web/ and uploaded to Azure
+# Static Web Apps on every push to main that changes it. The build fills the pages' tokens
+# from data/site/values.json, which `mend site` writes from the committed results, and the
+# check refuses an unfilled token, inline script or style, an off-site request or a missing
+# link-preview card. tests/test_site.py fails in ci if the numbers have fallen behind the
+# results. The upload token is the repository secret AZURE_STATIC_WEB_APPS_API_TOKEN, never a
+# file in the repository.
+#
+# Runs only while the repository variable SITE is on; otherwise it skips.
+
+on:
+  push:
+    branches: [main]
+    paths: [web/**, data/site/**, docs/architecture.md, docs/architecture/**, tools/site.py, .github/workflows/site.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: website
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ vars.SITE == 'on' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build and check
+        run: |
+          python tools/site.py build --web web --values data/site/values.json --docs docs --out dist
+          python tools/site.py check dist
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: upload
+          app_location: dist
+          skip_app_build: true

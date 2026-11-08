@@ -1,0 +1,26 @@
+{
+ "total_usd": 0.682045,
+ "issues": [
+  {
+   "issue_id": "live-41238507837-T0001",
+   "cost_usd": 0.2232739,
+   "cost_known": true,
+   "at": "2026-10-31T20:23:24+00:00",
+   "run": "https://github.com/Peter-A-P/compliant-ai-gateway/actions/runs/41238507837"
+  },
+  {
+   "issue_id": "live-41370423269-T0001",
+   "cost_usd": 0.2336272,
+   "cost_known": true,
+   "at": "2026-11-02T01:06:24+00:00",
+   "run": "https://github.com/Peter-A-P/compliant-ai-gateway/actions/runs/41370423269"
+  },
+  {
+   "issue_id": "live-41757454245-T0001",
+   "cost_usd": 0.2251442,
+   "cost_known": true,
+   "at": "2026-11-04T01:59:48+00:00",
+   "run": "https://github.com/Peter-A-P/compliant-ai-gateway/actions/runs/41757454245"
+  }
+ ]
+}

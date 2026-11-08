@@ -5,6 +5,9 @@ fix, has a second AI review it adversarially, and hands an engineer a ready-to-a
 request. Triage in minutes instead of days, engineers back on new work, and nothing changes
 without a person saying yes.
 
+**The site:** [triage.peterparker.ca](https://triage.peterparker.ca) walks through one real
+failure step by step and charts every result below with its interval.
+
 **Status: measured.** The 120-task main run on SWE-bench Verified is done and scored on
 the benchmark's hidden tests, the routing was calibrated beforehand on a separate 30-task
 validation split, and the clustering is measured on all three labelled sets the plan names:
@@ -285,8 +288,9 @@ decides whether to open a draft pull request, leave a suggestion, or stay quiet.
 model call goes through the portfolio gateway with a spend cap per issue; every comparison
 runs through the release gate with intervals.
 
-[docs/boundary.md](docs/boundary.md) records what the design is built from, with sources. Three
-architecture diagrams, the system, one failure through the pipeline and how the numbers are produced, are
+[docs/boundary.md](docs/boundary.md) records what the design is built from, with sources. Four
+architecture diagrams, the system, one failure through the pipeline, how the numbers are
+produced and the live workflow, are
 in [docs/architecture.md](docs/architecture.md).
 
 ## Installing and running

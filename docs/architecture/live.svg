@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1216" height="944" viewBox="0 0 1216 944" role="img" aria-label="When ci fails on a pull request in project 03&#x27;s or 04&#x27;s repository, the caller starts the reusable workflow, which reads earlier runs&#x27; spending from their artifacts and stops if the repository&#x27;s US$1.50 is spent, builds an image from the failing commit, reruns the suite in a container with no network, clusters the failures, sends the largest ticket through the unchanged pipeline with every call through the gateway, and posts the result as a comment; it never pushes, opens a pull request or merges, and uploads its record for the next run." font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 z" fill="#14201E"/></marker><marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 z" fill="#0E6E60"/></marker><marker id="arrow-signal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 z" fill="#A64C1C"/></marker><marker id="arrow-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 z" fill="#5C6B67"/></marker></defs>
+<rect width="1216" height="944" fill="#FFFFFF"/>
+<text x="28" y="42" font-size="16" font-weight="700" fill="#14201E">The live workflow: a failing pull request gets a reviewed suggestion</text>
+<rect x="442.0" y="182.0" width="332.0" height="720.0" rx="8" fill="#F6F8F7" stroke="#D5DCD9" stroke-width="1"/>
+<text x="454.0" y="196.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" font-weight="600" letter-spacing="0.08em" fill="#5C6B67">GITHUB ACTIONS; THE JOB&#x27;S TOKEN CANNOT PUSH</text>
+<path d="M 178.0 154.0 L 178.0 212.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 328.0 244.0 L 458.0 244.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 888.0 244.0 L 758.0 244.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 608.0 276.0 L 608.0 334.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 608.0 398.0 L 608.0 456.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 608.0 520.0 L 608.0 578.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 608.0 642.0 L 608.0 700.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 758.0 732.0 L 888.0 732.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<path d="M 458.0 854.0 L 328.0 854.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<path d="M 608.0 764.0 L 608.0 822.0" fill="none" stroke="#14201E" stroke-width="1.4" marker-end="url(#arrow)"/>
+<rect x="28.0" y="90.0" width="300.0" height="64.0" rx="32.0" fill="#F2F4F3" stroke="#14201E" stroke-width="1.1"/>
+<text x="178.0" y="118.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">A pull request in 03 or 04</text>
+<text x="178.0" y="134.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">ci fails</text>
+<rect x="28.0" y="212.0" width="300.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/>
+<text x="178.0" y="233.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">The caller</text>
+<text x="178.0" y="249.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">.github/workflows/mend-live.yml</text>
+<text x="178.0" y="266.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">action/&lt;repository&gt;.yml</text>
+<rect x="458.0" y="212.0" width="300.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#0E6E60" stroke-width="1.6"/>
+<rect x="458.0" y="212.0" width="5" height="64.0" rx="2" fill="#0E6E60"/>
+<text x="608.0" y="233.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Earlier runs&#x27; spending</text>
+<text x="608.0" y="249.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">from their artifacts; stop at US$1.50</text>
+<text x="608.0" y="266.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend.live.budget</text>
+<rect x="458.0" y="334.0" width="300.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/>
+<text x="608.0" y="355.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Build the image</text>
+<text x="608.0" y="371.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">the failing commit, its own install</text>
+<text x="608.0" y="388.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend.live.image</text>
+<rect x="458.0" y="456.0" width="300.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#0E6E60" stroke-width="1.6"/>
+<rect x="458.0" y="456.0" width="5" height="64.0" rx="2" fill="#0E6E60"/>
+<text x="608.0" y="477.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Rerun the suite</text>
+<text x="608.0" y="493.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">in a container, network off</text>
+<text x="608.0" y="510.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend.sandbox</text>
+<rect x="458.0" y="578.0" width="300.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/>
+<text x="608.0" y="599.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Capture and cluster</text>
+<text x="608.0" y="615.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">the largest ticket goes first</text>
+<text x="608.0" y="632.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend.live.run</text>
+<rect x="458.0" y="700.0" width="300.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#0E6E60" stroke-width="1.6"/>
+<rect x="458.0" y="700.0" width="5" height="64.0" rx="2" fill="#0E6E60"/>
+<text x="608.0" y="721.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">The pipeline, unchanged</text>
+<text x="608.0" y="737.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">test first, patch, other-vendor review</text>
+<text x="608.0" y="754.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend.graph</text>
+<rect x="458.0" y="822.0" width="300.0" height="64.0" rx="4" fill="#FFFFFF" stroke="#A64C1C" stroke-width="1.6"/>
+<rect x="458.0" y="822.0" width="5" height="64.0" rx="2" fill="#A64C1C"/>
+<text x="608.0" y="843.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">A comment on the pull request</text>
+<text x="608.0" y="859.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">never a push, a pull request or a merge</text>
+<text x="608.0" y="876.0" font-size="11" font-family="Consolas, Menlo, 'DejaVu Sans Mono', monospace" text-anchor="middle" fill="#5C6B67">mend.live.comment</text>
+<rect x="888.0" y="700.0" width="300.0" height="64.0" rx="4" fill="#F2F4F3" stroke="#5C6B67" stroke-width="1.1" stroke-dasharray="5 3"/>
+<text x="1038.0" y="728.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">The gateway, project 04</text>
+<text x="1038.0" y="744.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">US$1 per issue; Anthropic, OpenAI</text>
+<path d="M 888.0 213.0 a 150.0 7 0 0 1 300.0 0 L 1188.0 275.0 a 150.0 7 0 0 1 -300.0 0 Z" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/><path d="M 888.0 213.0 a 150.0 7 0 0 0 300.0 0" fill="none" stroke="#14201E" stroke-width="1.1"/>
+<text x="1038.0" y="236.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">Earlier runs&#x27; artifacts</text>
+<text x="1038.0" y="252.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">each run uploads its log, JUnit</text>
+<text x="1038.0" y="268.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">report and spending; 90 days</text>
+<rect x="28.0" y="822.0" width="300.0" height="64.0" rx="32.0" fill="#F2F4F3" stroke="#14201E" stroke-width="1.1"/>
+<text x="178.0" y="850.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">A person reads it</text>
+<text x="178.0" y="866.0" font-size="13" font-weight="500" text-anchor="middle" fill="#14201E">and decides</text>
+<rect x="138.7" y="173.0" width="78.7" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="178.0" y="185.0" font-size="12" text-anchor="middle" fill="#14201E">workflow_run</text>
+<rect x="376.7" y="234.0" width="32.7" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="393.0" y="246.0" font-size="12" text-anchor="middle" fill="#14201E">calls</text>
+<rect x="786.3" y="234.0" width="73.4" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="823.0" y="246.0" font-size="12" text-anchor="middle" fill="#14201E">earlier totals</text>
+<rect x="576.3" y="295.0" width="63.4" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="608.0" y="307.0" font-size="12" text-anchor="middle" fill="#14201E">money left</text>
+<rect x="587.7" y="417.0" width="40.7" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="608.0" y="429.0" font-size="12" text-anchor="middle" fill="#14201E">image</text>
+<rect x="576.0" y="539.0" width="64.0" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="608.0" y="551.0" font-size="12" text-anchor="middle" fill="#14201E">JUnit XML</text>
+<rect x="578.0" y="661.0" width="60.0" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="608.0" y="673.0" font-size="12" text-anchor="middle" fill="#14201E">one ticket</text>
+<rect x="793.3" y="722.0" width="59.3" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="823.0" y="734.0" font-size="12" text-anchor="middle" fill="#14201E">every call</text>
+<rect x="371.0" y="844.0" width="44.0" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="393.0" y="856.0" font-size="12" text-anchor="middle" fill="#14201E">posted</text>
+<rect x="571.0" y="783.0" width="74.0" height="20.0" rx="3" fill="#FFFFFF"/>
+<text x="608.0" y="795.0" font-size="12" text-anchor="middle" fill="#14201E">the proposal</text>
+<rect x="28" y="908" width="26" height="16" rx="3" fill="#FFFFFF" stroke="#0E6E60" stroke-width="1.6"/>
+<text x="62" y="920" font-size="11" fill="#5C6B67">the guard rails</text>
+<rect x="168.85" y="908" width="26" height="16" rx="3" fill="#FFFFFF" stroke="#A64C1C" stroke-width="1.6"/>
+<text x="202.85" y="920" font-size="11" fill="#5C6B67">what a person gets</text>
+<path d="M 325.9 915.0 a 13.0 7 0 0 1 26.0 0 L 351.9 917.0 a 13.0 7 0 0 1 -26.0 0 Z" fill="#FFFFFF" stroke="#14201E" stroke-width="1.1"/><path d="M 325.9 915.0 a 13.0 7 0 0 0 26.0 0" fill="none" stroke="#14201E" stroke-width="1.1"/>
+<text x="359.87" y="920" font-size="11" fill="#5C6B67">data at rest</text>
+<rect x="450.55" y="908" width="26" height="16" rx="3" fill="#F2F4F3" stroke="#5C6B67" stroke-dasharray="4 3"/>
+<text x="484.55" y="920" font-size="11" fill="#5C6B67">reused</text>
+<text x="542.89" y="920" font-size="11" fill="#5C6B67">a person</text>
+</svg>

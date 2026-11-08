@@ -690,6 +690,17 @@ def report(
     typer.echo(f"{readme}: tables written from {outcomes} and {crossval}")
 
 
+@app.command()
+def site() -> None:
+    """Write the website's numbers, data/site/values.json and web/data.json, from the
+    committed results, the same files the README's tables are written from. The page types
+    no measured number; tests/test_site.py fails if either file has fallen behind."""
+    from mend import site as website
+
+    for path in website.write():
+        typer.echo(f"wrote {path}")
+
+
 def _ablation_sections(text: str) -> str:
     """The ablation tables, for whichever ablations have committed results."""
     from mend.ablation import self_review

@@ -1,0 +1,12 @@
+{
+ "total_usd": 0.233627,
+ "issues": [
+  {
+   "issue_id": "live-41370423269-T0001",
+   "cost_usd": 0.2336272,
+   "cost_known": true,
+   "at": "2026-11-02T01:06:24+00:00",
+   "run": "https://github.com/Peter-A-P/compliant-ai-gateway/actions/runs/41370423269"
+  }
+ ]
+}

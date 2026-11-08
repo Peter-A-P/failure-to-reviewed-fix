@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Failure to Reviewed Fix: an AI that fixes real bugs and says how often it is wrong</title>
+<meta name="description" content="An AI pipeline that turns failing tests into reviewed fixes, measured on 120 real bugs: {{hit_pct}} fixed against the maintainers' hidden tests, and {{wrong_pct}} confidently wrong against a 3% target. Every number reproducible from the public repository.">
+<link rel="canonical" href="https://triage.peterparker.ca/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Peter Parker">
+<meta property="og:url" content="https://triage.peterparker.ca/">
+<meta property="og:title" content="From Failure to Reviewed Fix, in Minutes">
+<meta property="og:description" content="An AI that drafts and reviews fixes for real bugs, and publishes how often it would have been confidently wrong.">
+<meta property="og:image" content="https://triage.peterparker.ca/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="From Failure to Reviewed Fix, in Minutes: a failing test, a drafted fix, a second AI's review, and a person who decides.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="style.css?v={{version}}">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="https://peterparker.ca"><span class="mono-mark" aria-hidden="true">P</span>Peter Parker</a>
+    <p class="top-nav"><a href="https://github.com/Peter-A-P/failure-to-reviewed-fix">Project 10: From Failure to Reviewed Fix</a></p>
+  </div>
+</header>
+<nav class="tabs" aria-label="This site">
+  <div class="tabs-inner">
+    <a href="index.html" aria-current="page">Overview</a>
+    <a href="#follow">One failure</a>
+    <a href="#picture">The idea</a>
+    <a href="#results">Does it work?</a>
+    <a href="#wrong">When it was wrong</a>
+    <a href="#live">Real pull requests</a>
+    <a href="#rejected">What did not work</a>
+    <a href="architecture.html">How it's built</a>
+  </div>
+</nav>
+<main>
+
+  <header class="hero">
+    <p class="eyebrow">Measured on 120 real bugs, judged by tests no model saw</p>
+    <h1>An AI that fixes two real bugs in three, <span class="hl">and publishes how often it would have been wrong.</span></h1>
+    <p class="lead">
+      When software breaks, someone has to find out why and write the fix, and that can take
+      days. This project hands the first draft to AI: it groups the error messages into one
+      problem, <strong>writes a test that proves the bug</strong> before touching the code,
+      drafts a fix, and has a second AI from a different company try to break it. Then a
+      person decides. It was measured on {{tasks}} bugs from public Python projects, each
+      judged by the maintainers' own tests, and <strong>the number at the top is how often it
+      was confidently wrong.</strong>
+    </p>
+    <p class="hero-cta"><a class="button" href="#follow">Follow one failure</a></p>
+    <div class="hero-points">
+      <div class="point">
+        <span class="point-figure">{{hit_pct}}</span>
+        <span class="point-unit">of {{tasks}} real bugs fixed</span>
+        <span class="point-label">{{resolved}} fixes passed tests the maintainers wrote and no model saw. 95% interval {{hit_range}}.</span>
+      </div>
+      <div class="point warnline">
+        <span class="point-figure down">{{wrong_pct}}</span>
+        <span class="point-unit">confidently wrong</span>
+        <span class="point-label">{{wrong_count}} of the {{auto_count}} fixes it was sure enough to offer failed those tests. The target was 3%, and it was missed (interval {{wrong_range}}).</span>
+      </div>
+      <div class="point good">
+        <span class="point-figure">{{ari_two_stage}}</span>
+        <span class="point-unit">agreement with the true causes</span>
+        <span class="point-label">Grouping alarms by incident first, against {{ari_record}} for comparing them one by one. 0 is chance and 1 is perfect.</span>
+      </div>
+      <div class="point violet">
+        <span class="point-figure">{{cost_resolved}}</span>
+        <span class="point-unit">per bug fixed</span>
+        <span class="point-label">In model calls, interval {{cost_resolved_range}}, and a median of {{minutes}} minutes each.</span>
+      </div>
+    </div>
+    <p class="hero-note">
+      {{tasks}} bugs from SWE-bench Verified, picked at random and written down before the first
+      run, plus {{live_runs}} live runs on real pull requests. Every number on this page is
+      written by the project's report command and can be reproduced from
+      <a href="https://github.com/Peter-A-P/failure-to-reviewed-fix">the public repository</a>.
+      <a href="architecture.html">See how it's built</a>, in four diagrams.
+    </p>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <p class="eyebrow">On this page</p>
+    <ol>
+      <li><a href="#follow">Follow one failure</a></li>
+      <li><a href="#picture">The whole idea in one picture</a></li>
+      <li><a href="#grouping">Twenty alarms, one bug</a></li>
+      <li><a href="#test-first">No fix without a failing test</a></li>
+      <li><a href="#review">A second AI tries to break it</a></li>
+      <li><a href="#routing">Knowing when to stay quiet</a></li>
+      <li><a href="#results">Does it work?</a></li>
+      <li><a href="#wrong">The five times it was confidently wrong</a></li>
+      <li><a href="#live">On real pull requests</a></li>
+      <li><a href="#rejected">What did not work</a></li>
+      <li><a href="#limits">What this does not do</a></li>
+      <li><a href="#engineering">How it is engineered</a></li>
+      <li><a href="#built">How this was built</a></li>
+    </ol>
+  </nav>
+
+  <noscript>
+    <p class="warning">
+      The charts and the walk-through on this page are drawn in the browser, so they need
+      JavaScript. The words work without it, and every number is also in the repository's
+      README as a table.
+    </p>
+  </noscript>
+
+  <p class="warning" id="failure" hidden></p>
+
+  <!-- ============================================================== the thing to use -->
+
+  <section class="section" id="follow">
+    <h2>Follow one failure, from red tests to a reviewed fix</h2>
+    <p class="section-lead">
+      A real run, on a pull request in another of my projects with a bug planted in it on
+      purpose. The project's tests failed {{follow_failures}} times, which mend grouped into {{follow_tickets}} tickets. Step through what happened
+      next: every line below is from the run's own record. The whole run took
+      {{follow_seconds}} seconds and cost {{follow_cost}}.
+    </p>
+    <div class="stepper" id="follow-steps" role="tablist" aria-label="Steps of the run"></div>
+    <div class="step-panel" id="follow-panel" role="tabpanel" aria-live="polite"></div>
+    <p class="note">
+      The planted bug was in the Holm correction, a standard way of adjusting several
+      statistical tests at once: one multiplier was off by one. The comment it posted is on
+      <a href="https://github.com/Peter-A-P/ai-release-gate/pull/2">the pull request</a>, and
+      the pull request is never merged.
+    </p>
+  </section>
+
+  <!-- ============================================================== how it works -->
+
+  <div class="part">
+    <p class="eyebrow">How it works</p>
+    <h2 class="part-title">Seven steps, each checked before the next</h2>
+    <p class="lead">
+      The rest of this page is the whole method, in the order it happens. Each part starts in
+      plain language, with a picture. Where there is more to say for someone who does this for
+      a living, it is folded away under <strong>For the technical reader</strong>, so you can
+      skip it if you only want the idea.
+    </p>
+  </div>
+
+  <section class="section" id="picture">
+    <h2>The whole idea in one picture</h2>
+    <p class="section-lead">
+      One broken change usually sets off many alarms. The pipeline turns them into one problem,
+      proves the problem with a test, fixes it, has the fix attacked, and then decides how loudly
+      to speak. Nothing it produces is merged; at most it offers a fix.
+    </p>
+    <ol class="pipeline steps-7">
+      <li><span class="step">1</span><strong>Capture</strong><span>Each failure becomes one record, with its error and where it happened.</span></li>
+      <li><span class="step">2</span><strong>Group</strong><span>Records with one cause become one ticket.</span></li>
+      <li><span class="step">3</span><strong>Locate</strong><span>A small, cheap model finds the files most likely at fault.</span></li>
+      <li class="key"><span class="step">4</span><strong>Prove</strong><span>A new test must fail on the broken code, or the run stops.</span></li>
+      <li><span class="step">5</span><strong>Fix</strong><span>The fix must pass that test and every test that passed before.</span></li>
+      <li class="key"><span class="step">6</span><strong>Challenge</strong><span>A model from another company is asked to find what is wrong.</span></li>
+      <li><span class="step">7</span><strong>Route</strong><span>Offer it, suggest it, or say nothing.</span></li>
+    </ol>
+    <div class="verdict">
+      <p><strong>No step can be skipped.</strong> No fix is written until a test has failed, no
+      fix is offered while the reviewer objects, and there is no step at all that merges. The
+      code enforces each of those rules, and a test checks each one.</p>
+    </div>
+  </section>
+
+  <section class="section" id="grouping">
+    <h2>Twenty alarms, one bug</h2>
+    <p class="section-lead">
+      When a live system breaks, a dozen measurements jump at once, each its own alarm with its
+      own name. Nothing in the words "dead letters rose" and "request latency fell" says they are
+      the same problem. Only the timing does. The first design compared alarms one at a time and
+      found almost nothing; grouping them by when they started, and then by their pattern, found
+      most of the causes.
+    </p>
+    <figure class="chart-figure">
+      <div id="chaos-chart" class="chart wide-chart"></div>
+      <p class="readout" id="chaos-readout">Select a bar for its value.</p>
+      <figcaption>Project 09's recorded breakdowns: eight known faults, {{chaos_symptoms}} alarms.
+      Each method was tuned on five faults and scored on the other three, every way of choosing
+      the three. The whisker is the spread across those {{chaos_folds}} splits, not a confidence
+      interval.</figcaption>
+    </figure>
+    <div class="verdict">
+      <p><strong>Grouping by incident first wins on all {{chaos_wins}} of {{chaos_folds}}
+      splits.</strong> Its average agreement with the true faults is {{ari_two_stage}}, against
+      {{ari_record}} for comparing alarms one by one, which is chance.</p>
+    </div>
+    <figure class="chart-figure">
+      <div id="sets-chart" class="chart wide-chart"></div>
+      <p class="readout" id="sets-readout">Select a bar for its value.</p>
+      <figcaption>The same one-at-a-time method on two other kinds of failure, where it does
+      better: tracebacks from bugs planted in two libraries, and bug reports that maintainers
+      closed as duplicates. Whiskers are 95% intervals.</figcaption>
+    </figure>
+    <div class="assumption">
+      <p><strong>What these numbers do not say.</strong> With tracebacks it finds about half of
+      each fault ({{faults_completeness}} completeness). With people's bug reports, where only
+      the words are left, it needs a trained text model ({{duplicates_ari_encoder}}, against
+      {{duplicates_ari_hash}} without one), and that model was tried after the first result was
+      seen. None of the three sets has two incidents overlapping in time.</p>
+    </div>
+    <details class="disclose">
+      <summary>For the technical reader: the two clustering methods and how they were scored</summary>
+      <p>The record-level method builds one distance per pair of records from three channels: a
+      fingerprint (exception type, innermost project frame, normalised message), an embedding of
+      the failure text, and code locality (shared frames and files). Average-linkage clustering
+      cuts it at a threshold tuned on held-out causes. The two-stage method first groups records
+      whose start times fall together into incidents, then groups incidents by the set of their
+      symptoms. Quality is the adjusted Rand index (ARI), purity and completeness. On 09's runs,
+      every one of the {{chaos_folds}} ways of holding three of eight faults out was scored; on
+      the other two sets, five folds by cause with a delete-one-cause jackknife for the interval.
+      The full write-up of the rejected method is in <a href="https://github.com/Peter-A-P/failure-to-reviewed-fix/blob/main/docs/rejected.md">docs/rejected.md</a>.</p>
+    </details>
+  </section>
+
+  <section class="section" id="test-first">
+    <h2>No fix without a failing test first</h2>
+    <p class="section-lead">
+      Before the fixer may touch the code, another step writes a new test that shows the bug, and
+      runs it on the broken code in a sealed container. If the test passes there, it proves
+      nothing, and the run stops. The fixer is then held to that test and to every test that
+      passed before. The idea is that a fix should come with its own evidence.
+    </p>
+    <div class="headline">
+      <div class="stat up"><span class="figure">{{test_first_pct}}</span><span class="caption">of the {{tasks}} bugs got a test that failed first ({{test_first_count}} of them)</span></div>
+      <div class="stat"><span class="figure">{{with_test_resolved}} vs {{without_test_resolved}}</span><span class="caption">bugs fixed out of {{ablation_tasks}}, with the test step and without it</span></div>
+      <div class="stat"><span class="figure">{{without_test_cost}}</span><span class="caption">per bug in model calls without the step, against {{with_test_cost}} with it</span></div>
+    </div>
+    <figure class="chart-figure">
+      <div id="testfirst-chart" class="chart wide-chart"></div>
+      <p class="readout" id="testfirst-readout">Select a bar for its value.</p>
+      <figcaption>The same {{ablation_tasks}} bugs, drawn at random before the second run, fixed
+      with and without the test step. Whiskers are 95% intervals.</figcaption>
+    </figure>
+    <div class="verdict">
+      <p><strong>The test step is not shown to make the fixes better.</strong> Without it the
+      pipeline fixed one more bug of {{ablation_tasks}}, at half the cost. The difference is
+      {{gate_test_diff}} points ({{gate_test_range}}), far too uncertain to call either way.</p>
+    </div>
+    <div class="assumption">
+      <p><strong>Why it stays.</strong> The test is what the person reviewing the fix gets to
+      read and run, and the pipeline refuses to write a fix without one. It stays as evidence for
+      that person.</p>
+    </div>
+    <details class="disclose">
+      <summary>For the technical reader: how the rule is enforced, and how the comparison was run</summary>
+      <p>The pipeline is a state machine with no transition into "patched" except from "test
+      failed as expected", observed in the sandbox; a test that errors rather than fails, or
+      passes on the broken commit, gets one retry that is told why, then the run stops. The
+      ablation ran outside the graph, so the graph keeps no switch that turns the rule off, on {{ablation_tasks}}
+      of the main run's tasks drawn with a fixed seed, reusing the main run's localisation, and
+      went through project 03's release gate as a paired comparison at a ten-point margin.</p>
+    </details>
+  </section>
+
+  <section class="section" id="review">
+    <h2>A second AI, from another company, tries to break it</h2>
+    <p class="section-lead">
+      The fix is written by Anthropic's model. It is then reviewed by OpenAI's, which is told to
+      find what is wrong with it. The idea is that two models from different companies share
+      fewer blind spots. When the reviewer objects, the fix can still be suggested, but it is
+      never offered as ready.
+    </p>
+    <figure class="chart-figure">
+      <div id="review-chart" class="chart wide-chart"></div>
+      <p class="readout" id="review-readout">Select a bar for its value.</p>
+      <figcaption>Of the {{reviewed}} fixes that were reviewed, how many went on to fail the
+      hidden tests, split by what the reviewer said. Whiskers are 95% intervals.</figcaption>
+    </figure>
+    <div class="verdict">
+      <p><strong>An objection is a real warning.</strong> When the reviewer objected, the fix
+      was wrong {{wrong_objected_pct}} of the time ({{objected_count}} fixes); when it agreed,
+      {{wrong_agreed_pct}} ({{agreed_count}} fixes).</p>
+    </div>
+    <figure class="chart-figure">
+      <div id="reviewers-chart" class="chart wide-chart"></div>
+      <p class="readout" id="reviewers-readout">Select a bar for its value.</p>
+      <div class="legend" id="reviewers-legend"></div>
+      <figcaption>The same fixes reviewed again by the fixer's own company's model. "Caught" is
+      objecting to a fix the hidden tests failed; "false alarm" is objecting to one they
+      passed.</figcaption>
+    </figure>
+    <div class="assumption">
+      <p><strong>The different-company rule is not proven.</strong> The fixer's own company's
+      model objected less often, so it raised fewer false alarms and caught fewer bad fixes, and
+      its confidently-wrong rate would have been {{same_wrong_auto_pct}}. Project 03's release
+      gate could not tell the two reviewers apart. The rule stays as a design choice the evidence
+      leans towards.</p>
+    </div>
+    <details class="disclose">
+      <summary>For the technical reader: how the vendor split is enforced</summary>
+      <p>Each role is an alias in the portfolio gateway (project 04). At start-up the pipeline
+      resolves the fixer and reviewer aliases and refuses to run if they land on the same
+      provider, and a test asserts it against the shipped configuration. The same-vendor arm
+      reviewed all {{reviewed}} reviewed patches again on identical input, and the
+      different-vendor reviewer was also asked again, to measure how much a reviewer disagrees
+      with itself.</p>
+    </details>
+  </section>
+
+  <section class="section" id="routing">
+    <h2>Knowing when to stay quiet</h2>
+    <p class="section-lead">
+      A wrong fix presented as ready wastes an engineer's time, so each fix is routed by its
+      evidence: did the new test pass, did every old test still pass, did the
+      reviewer agree. Only a fix with all three is offered as a pull request. A weaker one is left
+      as a suggestion, and a run with no fix stays quiet. The rules were set on a separate 30 bugs
+      before the main run.
+    </p>
+    <figure class="chart-figure">
+      <div id="tiers-chart" class="chart wide-chart"></div>
+      <p class="readout" id="tiers-readout">Select a bar for its value.</p>
+      <figcaption>Share of each group that the hidden tests confirmed as fixed, with 95%
+      intervals. The stronger the evidence, the more often the fix was right.</figcaption>
+    </figure>
+    <div class="verdict">
+      <p><strong>The evidence sorts the fixes, but restraint costs a lot.</strong> Of the
+      {{auto_count}} it offered, {{auto_hit_pct}} were right. Of the {{quiet_count}} it kept
+      quiet about, {{quiet_right}} had a fix the hidden tests accepted, mostly where no old test
+      covered the code it changed, which the rules read as "not shown safe".</p>
+    </div>
+    <details class="disclose">
+      <summary>For the technical reader: why the confidence score does not decide</summary>
+      <p>The router also computes a confidence score with size penalties, and the plan was to
+      calibrate a threshold on it against a 3% confidently-wrong target. On the validation split
+      every patch that passed the rules scored the same, so the score did no work and the
+      calibration landed on zero; changing it after seeing the main run would have been tuning on
+      the test set. The rules decide, and that consequence was written down before the main run
+      (<a href="https://github.com/Peter-A-P/failure-to-reviewed-fix/blob/main/docs/routing.md">docs/routing.md</a>).</p>
+    </details>
+  </section>
+
+  <!-- ============================================================== the result -->
+
+  <section class="section" id="results">
+    <h2>Does it work?</h2>
+    <p class="section-lead">
+      {{tasks}} bugs from SWE-bench Verified, a public set of real GitHub issues in Python
+      projects such as Django, scikit-learn and sympy. Each comes with tests the maintainers
+      wrote for their own fix, which are kept from every model and used only to mark the result.
+      The {{tasks}} were drawn at random and committed to the repository before the first run, so
+      no hard bug could be dropped afterwards.
+    </p>
+    <div class="headline">
+      <div class="stat up"><span class="figure">{{hit_pct}}</span><span class="caption">fixed ({{resolved}} of {{tasks}})</span><span class="range">{{hit_range}}</span></div>
+      <div class="stat down"><span class="figure">{{wrong_pct}}</span><span class="caption">of offered fixes confidently wrong, against a 3% target</span><span class="range">{{wrong_range}}</span></div>
+      <div class="stat"><span class="figure">{{cost_attempted}}</span><span class="caption">per bug attempted; {{cost_resolved}} per bug fixed</span><span class="range">{{cost_resolved_range}} per fix</span></div>
+    </div>
+    <div class="table-wrap">
+      <table class="tight">
+        <caption>Each group's share fixed, its confidently-wrong rate and its cost, with 95% intervals.</caption>
+        <thead><tr><th>What it did</th><th class="num">Bugs</th><th class="num">Fixed</th><th class="num">Confidently wrong</th><th class="num">Cost per bug</th></tr></thead>
+        <tbody id="results-rows"></tbody>
+      </table>
+    </div>
+    <div class="assumption">
+      <p><strong>What this number does not say.</strong> It is one public benchmark, in Python,
+      on issues that come with a clear description; a real outage is messier. And {{hit_pct}} is not
+      what a team would see from the offered fixes alone: those are right more often, and the
+      rest arrive as suggestions or not at all.</p>
+    </div>
+    <details class="disclose">
+      <summary>For the technical reader: how the evaluation avoids fooling itself</summary>
+      <p>The subset was drawn with seed 20261017, 30 for calibration and 120 for the main run,
+      and the sampler refuses to redraw once a run exists. Every drafted patch, whatever its
+      tier, goes to the official SWE-bench harness, which runs the hidden tests in a Linux
+      container; a task the harness could not judge is rerun, never counted as a failure.
+      Proportions carry Wilson intervals and costs bootstrap intervals. The hidden tests and
+      the maintainers' patches never reach a prompt.</p>
+    </details>
+  </section>
+
+  <section class="section" id="wrong">
+    <h2>The five times it was confidently wrong</h2>
+    <p class="section-lead">
+      {{wrong_count}} fixes passed every check the pipeline had and still failed the
+      maintainers' tests. I read each one against the maintainers' own fix and put it in one of
+      seven categories that were written down before the run.
+    </p>
+    <figure class="chart-figure">
+      <div id="causes-chart" class="chart wide-chart"></div>
+      <p class="readout" id="causes-readout">Select a bar for its value.</p>
+      <figcaption>Cases per cause, out of {{wrong_count}}, with 95% intervals. Five cases make
+      every interval wide: this says which causes happened, not how often each would.</figcaption>
+    </figure>
+    <div class="verdict">
+      <p><strong>{{wrong_underspecified}} of the {{wrong_count}} did what the issue asked.</strong> The issue left out what the
+      maintainers' tests checked: an order of fields, an internal key, every case wrapped rather
+      than the one shown, a pattern the issue itself proposed. In {{wrong_location}} case the fix changed only one
+      of the two places the bug lived.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <caption>Each case, with the sentence that classifies it.</caption>
+        <thead><tr><th>Bug</th><th>Cause</th><th>Why</th></tr></thead>
+        <tbody id="cases-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="live">
+    <h2>On real pull requests</h2>
+    <p class="section-lead">
+      The same pipeline runs on two of my other projects, the release gate (03) and the AI
+      gateway (04). When a pull request's tests fail, it reruns them in a sealed container,
+      picks the biggest problem, and answers with a comment. It cannot push, open a pull request
+      or merge, and it stops when that repository's US$1.50 is spent.
+    </p>
+    <div class="table-wrap">
+      <table class="tight">
+        <caption>Every live run so far: {{live_runs}} runs, {{live_comments}} comments, {{live_cost}} in all.</caption>
+        <thead><tr><th>Date</th><th>Repository</th><th class="num">Tests run</th><th class="num">Failures captured</th><th class="num">Tickets</th><th>Outcome</th><th class="num">Cost</th></tr></thead>
+        <tbody id="live-rows"></tbody>
+      </table>
+    </div>
+    <div class="verdict">
+      <p><strong>It found a real breakage nobody had planted.</strong> On its second run in 04,
+      the biggest problem was not the planted bug but four tests broken by a spending limit set
+      elsewhere. Its fix raised the limit, the reviewer objected that this weakened a deliberate
+      safeguard, and it went out as a suggestion with the objection attached. The reviewer was
+      right.</p>
+    </div>
+    <div class="assumption">
+      <p><strong>The same bug, two different answers.</strong> 04's planted bug was run twice on
+      the same code. Once the fix treated the symptom and the reviewer named the right place;
+      the next time the fix never passed its own test, so it stopped and posted nothing. Five runs
+      show how it behaves; the measurement is the {{tasks}} bugs above.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================== what did not work -->
+
+  <section class="section" id="rejected">
+    <h2>What did not work</h2>
+    <p class="section-lead">
+      Each of these was built and measured, and the measurement went against it. The full
+      record is in the repository's build log.
+    </p>
+    <div class="cards">
+      <article class="card-note"><h3>Comparing alarms one by one</h3><p>The first clustering design. On 09's breakdowns it scored {{ari_record}}, chance, on every split, and grouping by incident replaced it.</p></article>
+      <article class="card-note"><h3>The 3% target</h3><p>The plan allowed at most 3% of offered fixes to be wrong. It was {{wrong_pct}}, so the live version posts comments only.</p></article>
+      <article class="card-note"><h3>The test step as a quality gain</h3><p>Expected to make fixes better. Without it the pipeline fixed {{without_test_resolved}} of {{ablation_tasks}} against {{with_test_resolved}}, at half the cost.</p></article>
+      <article class="card-note"><h3>A different company as the reviewer</h3><p>Expected to catch more. The fixer's own company's model reviewed about as well, and the gate could not separate them.</p></article>
+      <article class="card-note"><h3>A pass that tested nothing</h3><p>The first live run in 04 ran no tests, because that repository leaves its tests out of its own image, and reported a pass. A run that tests nothing now fails.</p></article>
+      <article class="card-note"><h3>A budget that forgot</h3><p>The live spending total was meant to carry between runs in a cache the job was never allowed to write. It now travels in each run's own records.</p></article>
+    </div>
+  </section>
+
+  <!-- ============================================================== limits -->
+
+  <section class="section" id="limits">
+    <h2>What this does not do</h2>
+    <p class="section-lead">The limits, stated as plainly as the results.</p>
+    <ul class="checks limits">
+      <li><strong>It never merges.</strong> There is no merge step in the code, and a test scans every source file to make sure none appears. On the live repositories it only comments.</li>
+      <li><strong>It does not fix without proof.</strong> No failing test, no fix: the run stops and says why.</li>
+      <li><strong>It does not meet its own target.</strong> {{wrong_pct}} confidently wrong is above 3%, so on this evidence it should suggest, not offer.</li>
+      <li><strong>It is Python only,</strong> because the benchmark and the sandbox are.</li>
+      <li><strong>It is not a production incident tool.</strong> The clustering was measured on recorded breakdowns, planted faults and old bug reports, with no two incidents at once.</li>
+      <li><strong>It holds back good fixes.</strong> {{quiet_right}} of the {{quiet_count}} bugs it stayed quiet about had a fix that was right.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================== engineering -->
+
+  <section class="section" id="engineering">
+    <h2>How it is engineered</h2>
+    <p class="section-lead">
+      The code is typed and tested and the pipeline is automated, so anyone can regenerate the
+      numbers on this page from the repository.
+    </p>
+    <div class="headline">
+      <div class="stat"><span class="figure">{{test_functions}}</span><span class="caption">test functions, including that no merge path exists, that the reviewer is on another vendor, and that no fix starts without a failing test</span></div>
+      <div class="stat"><span class="figure">{{code_lines}}</span><span class="caption">lines of typed Python, strict type checking and linting clean on every push</span></div>
+      <div class="stat"><span class="figure">1</span><span class="caption">command to rebuild every table in the README and every number on this page</span></div>
+    </div>
+    <ul class="chips" aria-label="Tools and techniques">
+      <li>Python 3.13</li><li>LangGraph</li><li>Agentic workflows</li><li>LLM evaluation</li>
+      <li>SWE-bench Verified</li><li>Anthropic and OpenAI APIs</li><li>Adversarial review</li>
+      <li>Failure clustering</li><li>Embeddings</li><li>OpenTelemetry</li><li>Docker sandboxing</li>
+      <li>GitHub Actions</li><li>GitHub API</li><li>Wilson and bootstrap intervals</li>
+      <li>Ablation studies</li><li>Spend caps</li><li>mypy strict</li><li>ruff</li><li>pytest</li>
+    </ul>
+    <details class="disclose">
+      <summary>For the technical reader: the choices that are easy to get wrong</summary>
+      <ul>
+        <li>The sample was committed before the first run and the sampler refuses to redraw, so no hard task can quietly leave.</li>
+        <li>Every drafted patch is scored, whatever tier it was routed to, so the quiet tier's missed fixes are counted rather than invisible.</li>
+        <li>The benchmark harness runs in a Linux container, because on a Windows host even the benchmark's own reference patches fail.</li>
+        <li>Django and sympy, 61% of the benchmark, do not use pytest; the sandbox runs each project's own test runner and reads its output with the harness's parsers.</li>
+        <li>Every model call goes through the gateway with a US$1 cap per issue checked before the call, not after.</li>
+        <li>On live repositories the image build is the only step with network access, and it runs only the repository's own locked install.</li>
+      </ul>
+    </details>
+  </section>
+
+  <!-- ============================================================== how this was built -->
+
+  <section class="section" id="built">
+    <h2>How this was built</h2>
+    <p>I designed this project and made the calls in it. I put the confidently-wrong rate at
+    the top of the results, ahead of the fix rate, because the plan said from the start that
+    knowing when the system is wrong matters more than how often it is right. I read the
+    maintainers' hidden tests myself to classify the five wrong fixes, so that no model ever
+    saw them. When the main run missed the 3% target, I decided the live version would post
+    comments and never open pull requests. I chose my own repositories for the live trial and
+    planted the bugs it was tested on, and I set its spending cap before the first call.</p>
+    <p>
+      I used an AI coding assistant (Claude Code) for implementation and drafting, which is now
+      standard practice in software, data science and machine learning work. Every number on
+      this page can be reproduced from <a href="https://github.com/Peter-A-P/failure-to-reviewed-fix">the repository</a>.
+    </p>
+    <p>
+      Two pieces are my own earlier projects, reused as published: every model call goes through
+      the <a href="https://gateway.peterparker.ca">AI gateway</a> (project 04), and both
+      experiments were judged by the <a href="https://gate.peterparker.ca">release gate</a>
+      (project 03). The recorded breakdowns come from the
+      <a href="https://fraud.peterparker.ca">real-time fraud and risk platform</a> (project 09).
+    </p>
+    <details class="disclose">
+      <summary>Glossary</summary>
+      <dl class="glossary">
+        <dt>Ablation</dt><dd>Running the system again with one part taken out, to see what that part was worth.</dd>
+        <dt>ARI (adjusted Rand index)</dt><dd>How well a grouping matches the true one. 0 is what random grouping scores and 1 is a perfect match.</dd>
+        <dt>Bootstrap interval</dt><dd>A range for a number found by resampling the data many times and seeing how far the number moves.</dd>
+        <dt>CI (continuous integration)</dt><dd>The automatic test run on every change to a repository. "ci fails" means some tests failed.</dd>
+        <dt>Confidently wrong</dt><dd>A fix the system was sure enough to offer as ready, which then failed the maintainers' hidden tests.</dd>
+        <dt>Gateway</dt><dd>One place every model call goes through, which picks the provider, records the cost and refuses a call once the cap is reached.</dd>
+        <dt>Hidden tests</dt><dd>The tests the maintainers wrote for their own fix. They are kept from every model and used only to mark the result.</dd>
+        <dt>LangGraph</dt><dd>A Python library for building multi-step AI workflows as a graph of steps.</dd>
+        <dt>Pull request</dt><dd>A proposed change to a repository, which a person reviews and accepts or rejects.</dd>
+        <dt>Release gate</dt><dd>A tool that compares two versions of a system on the same cases and decides whether the new one is worse by more than a set margin.</dd>
+        <dt>Sandbox</dt><dd>A sealed container with no network, where the tests and fixes run so they cannot reach anything else.</dd>
+        <dt>SWE-bench Verified</dt><dd>A public benchmark of 500 real GitHub issues from Python projects, each checked by people to be fair and solvable.</dd>
+        <dt>Ticket</dt><dd>One problem to fix, made from all the failures that share its cause.</dd>
+        <dt>Wilson interval</dt><dd>A range for a percentage that stays sensible when the count is small or near 0% or 100%.</dd>
+      </dl>
+    </details>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <p>
+      Source, methods and the full results:
+      <a href="https://github.com/Peter-A-P/failure-to-reviewed-fix">github.com/Peter-A-P/failure-to-reviewed-fix</a>.
+    </p>
+    <ul>
+      <li>Data: SWE-bench Verified (MIT licence); public issue trackers of pandas, matplotlib and numpy</li>
+      <li>Type: Newsreader and Inter, SIL Open Font License, served from this host</li>
+      <li>Results to {{results_date}}</li>
+    </ul>
+  </div>
+</footer>
+<script src="app.js?v={{version}}"></script>
+</body>
+</html>

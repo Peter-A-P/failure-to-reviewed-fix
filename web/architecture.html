@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it's built: From Failure to Reviewed Fix, in Minutes</title>
+<meta name="description" content="How From Failure to Reviewed Fix is put together, in four diagrams: the system, one failure through the pipeline, how the numbers are produced, and the live workflow.">
+<link rel="canonical" href="https://triage.peterparker.ca/architecture.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Peter Parker">
+<meta property="og:url" content="https://triage.peterparker.ca/architecture.html">
+<meta property="og:title" content="How it's built: From Failure to Reviewed Fix, in Minutes">
+<meta property="og:description" content="Four diagrams: the system, one failure through the pipeline, how the numbers are produced, and the live workflow.">
+<meta property="og:image" content="https://triage.peterparker.ca/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="From Failure to Reviewed Fix, in Minutes: a failing test, a drafted fix, a second AI's review, and a person who decides.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="style.css?v={{version}}">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="https://peterparker.ca"><span class="mono-mark" aria-hidden="true">P</span>Peter Parker</a>
+    <p class="top-nav"><a href="https://github.com/Peter-A-P/failure-to-reviewed-fix">Project 10: From Failure to Reviewed Fix</a></p>
+  </div>
+</header>
+<nav class="tabs" aria-label="This site">
+  <div class="tabs-inner">
+    <a href="index.html">Overview</a>
+    <a href="index.html#follow">One failure</a>
+    <a href="index.html#picture">The idea</a>
+    <a href="index.html#results">Does it work?</a>
+    <a href="index.html#wrong">When it was wrong</a>
+    <a href="index.html#live">Real pull requests</a>
+    <a href="index.html#rejected">What did not work</a>
+    <a href="architecture.html" aria-current="page">How it's built</a>
+  </div>
+</nav>
+<main>
+
+  <header class="hero">
+    <p class="eyebrow">Architecture</p>
+    <h1>How it's built</h1>
+    <p class="lead">
+      In four pictures: the whole system, one failure through the pipeline, how every number
+      on the results page is produced, and the live workflow that answers failing pull requests
+      on two other projects. Each names the code that implements it. Select a diagram to open
+      it full size.
+    </p>
+    <p class="hero-note"><a href="index.html">Back to the results</a></p>
+  </header>
+
+{{architecture_sections}}
+  <p class="arch-back"><a href="index.html">Back to the results</a></p>
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <p>
+      The same diagrams are in the repository's docs/architecture.md, rendered from that file.
+      Source, methods and the full results:
+      <a href="https://github.com/Peter-A-P/failure-to-reviewed-fix">github.com/Peter-A-P/failure-to-reviewed-fix</a>.
+    </p>
+    <ul>
+      <li>Type: Newsreader and Inter, SIL Open Font License, served from this host</li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>
