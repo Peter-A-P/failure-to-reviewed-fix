@@ -1,4 +1,4 @@
-"""Render the site's short film: video/film.html drawn at 30 frames a second for 31 seconds,
+"""Render the site's short film: video/film.html drawn at 30 frames a second for 36 seconds,
 each frame screenshot by a headless browser, the frames encoded to H.264 MP4 and
 video/sound.py's track laid under them.
 
@@ -28,7 +28,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 FPS = 30
 # film.html's schedule is drawn on 24 seconds; the film plays it SLOW times slower.
-SLOW = 1.3
+SLOW = 1.5
 SECONDS = 24.0 * SLOW
 POSTER_AT = 20.9  # the result, with its three cards in, in film.html's time
 # The site values film.html shows; only these stamp it, so a new test elsewhere does not.
