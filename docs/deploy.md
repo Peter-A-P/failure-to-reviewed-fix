@@ -27,6 +27,20 @@ drawn.
 from its JUnit report by the same capture and clustering the workflow ran, and the test, the
 patch and the review are the run's own record.
 
+**The film** at the top of the page is 24 seconds, with sound, of that same run.
+`video/film.html` draws one frame for a time t from `web/data.json` and `data/site/values.json`;
+`video/render.py` screenshots it at 30 frames a second in a headless Edge, encodes the frames
+with the track `video/sound.py` synthesises (the instruments project 17's film uses) and writes
+`web/video/film.mp4` and its poster, committed, with `film.json`, a fingerprint of the numbers
+it drew. `tests/test_site.py` fails when those numbers move and the film was not rendered
+again:
+
+    uv run --no-project --with playwright --with imageio-ffmpeg --with numpy python video/render.py
+
+`--social` writes the cut with the site's address on its last screen to `video/out/`, for
+posting elsewhere. It replaced an in-page step-through animation that was too slow and too
+static for a reader who is not technical.
+
 **The content security policy allows this origin and nothing else**: no inline script, no style
 attribute, no font, script or request from anywhere else. The fonts (Newsreader and Inter, SIL
 Open Font License) are served from the site itself for that reason.

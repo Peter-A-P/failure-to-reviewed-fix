@@ -42,3 +42,6 @@ models/
 Thumbs.db
 .vscode/
 .idea/
+
+# The film's social cut (video/render.py --social); the page's cut is committed in web/video
+video/out/

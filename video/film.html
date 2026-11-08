@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A failure becomes a reviewed fix, as a film</title>
+<!-- One 1080 by 1080 frame of the site's short film, drawn for a time t in seconds by
+     render(t). video/render.py steps t at 30 frames a second, screenshots each frame and
+     encodes them. The run, its code and every figure come from web/data.json and
+     data/site/values.json, injected as window.D, so the film says what the site says. -->
+<style>
+@font-face { font-family: "Inter"; font-weight: 400 700; src: url(../web/fonts/inter-latin.woff2) format("woff2"); }
+@font-face { font-family: "Newsreader"; font-weight: 200 800; src: url(../web/fonts/newsreader-latin.woff2) format("woff2"); }
+html, body { margin: 0; width: 1080px; height: 1080px; overflow: hidden; background: #0a111c; }
+svg { display: block; }
+text { font-family: Inter, sans-serif; }
+.serif { font-family: Newsreader, Georgia, serif; }
+.mono { font-family: Consolas, "Cascadia Mono", Menlo, monospace; }
+</style>
+</head>
+<body>
+<svg id="s" width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+"use strict";
+const NS = "http://www.w3.org/2000/svg";
+const W = 1080, H = 1080;
+const C = {
+  bg: "#0a111c", panel: "#111b2a", panel2: "#16243a", line: "#1e2b3d", ink: "#eef2f6", soft: "#a9b4c2", faint: "#6c7a8c",
+  teal: "#5fc4d6", red: "#e0554a", redSoft: "#3a1c20", good: "#58c286", goodSoft: "#14301f", violet: "#b191e0", warn: "#f0a35a",
+};
+
+/* The film's schedule, in seconds. sound.py uses the same numbers. */
+const T = {
+  fail: [0, 3.0], group: [3.0, 6.0], locate: [6.0, 8.4], prove: [8.4, 10.8],
+  fix: [10.8, 13.8], challenge: [13.8, 16.4], post: [16.4, 18.8], result: [18.8, 24.0],
+};
+const END = 24.0;
+
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const ease = v => (v = clamp(v), v < 0.5 ? 4 * v * v * v : 1 - Math.pow(-2 * v + 2, 3) / 2);
+const back = v => { v = clamp(v); const c = 1.7; return 1 + (c + 1) * Math.pow(v - 1, 3) + c * Math.pow(v - 1, 2); };
+const span = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, k) => a + (b - a) * k;
+const fade = (t, a, b, i = 0.4, o = 0.4) => Math.min(ease(span(t, a, a + i)), 1 - ease(span(t, b - o, b)));
+const company = p => ({anthropic: "Anthropic", openai: "OpenAI", google: "Google"}[p] || p);
+
+let S;
+function el(name, attrs, parent, text) {
+  const e = document.createElementNS(NS, name);
+  for (const [k, v] of Object.entries(attrs || {})) e.setAttribute(k, v);
+  if (text != null) e.textContent = text;
+  (parent || S).appendChild(e);
+  return e;
+}
+const g = (attrs, parent) => el("g", attrs, parent);
+function txt(parent, x, y, s, size, fill, opts = {}) {
+  return el("text", Object.assign({x, y, "font-size": size, fill, "text-anchor": opts.anchor || "start", "font-weight": opts.weight || 400}, opts.attrs || {}), parent, s);
+}
+const short = (s, n) => (s.length > n ? s.slice(0, n - 3) + "..." : s);
+
+function caption(t, a, b, head, sub) {
+  const k = fade(t, a + 0.1, b, 0.45, 0.35);
+  if (k <= 0) return;
+  const c = g({opacity: k, transform: `translate(0 ${(1 - k) * 12})`});
+  txt(c, W / 2, 900, head, 44, C.ink, {anchor: "middle", weight: 600});
+  txt(c, W / 2, 950, sub, 25, C.soft, {anchor: "middle"});
+}
+
+function pill(parent, cx, cy, label, color, fillc, size = 22) {
+  const w = label.length * size * 0.66 + 44, h = size * 2;
+  el("rect", {x: cx - w / 2, y: cy - h / 2, width: w, height: h, rx: h / 2, fill: fillc || "none", stroke: color, "stroke-width": 2.5}, parent);
+  txt(parent, cx, cy + size * 0.36, label, size, color, {anchor: "middle", weight: 700, attrs: {"letter-spacing": "0.06em"}});
+  return w;
+}
+
+/* The run: which failure belongs to which ticket, from the ticket's file. */
+function prepare() {
+  const f = D.follow;
+  const fileOf = id => id.split("::")[0];
+  const tickets = f.tickets.map(tk => ({size: tk.size, file: tk.title.replace(/^.* in /, ""), members: []}));
+  const fails = f.failing.map((id, i) => {
+    const ti = Math.max(0, tickets.findIndex(tk => tk.file === fileOf(id)));
+    const m = tickets[ti].members.length;
+    tickets[ti].members.push(i);
+    return {id, name: id.split("::")[1] || id, ti, m};
+  });
+  const diff = String(f.diff).split("\n");
+  const changed = diff.filter(l => /^[-+]/.test(l) && !/^(---|\+\+\+)/.test(l));
+  const context = diff.filter(l => l.startsWith(" ")).slice(0, 3);
+  const file = (String(f.diff).match(/^diff --git a\/(\S+)/m) || [])[1] || "";
+  const testName = (String(f.test_source).match(/^def (\w+)/m) || [])[1] || f.test_id;
+  const testLine = (String(f.test_source).split("\n").find(l => /^\s+assert /.test(l)) || "").trim().replace(/pytest\.approx\((.*)\)$/, "$1");
+  // The clock and the meter: each model call's own seconds and cost, from the run's record.
+  // The rest of the run's time (the sealed rerun and the test runs) is spread over the steps
+  // that spend it: half on capture and grouping, a quarter each on the two test runs.
+  const hop = r => f.hops.find(h => h.role === r) || {cost: 0, seconds: 0};
+  const modelSec = f.hops.reduce((a, h) => a + h.seconds, 0), rest = Math.max(0, f.seconds - modelSec);
+  const e1 = rest * 0.5, e2 = e1 + hop("localiser").seconds, e3 = e2 + hop("tester").seconds + rest * 0.25;
+  const e4 = e3 + hop("fixer").seconds + rest * 0.25, e5 = e4 + hop("reviewer").seconds;
+  const clock = [[T.group[0], 0], [T.group[1], e1], [T.locate[1], e2], [T.prove[1], e3], [T.fix[1], e4], [T.challenge[1], e5], [T.post[0] + 0.6, f.seconds]];
+  let c = 0;
+  const meter = [[T.locate[0], 0]];
+  for (const [r, at] of [["localiser", T.locate[1]], ["tester", T.prove[1]], ["fixer", T.fix[1]], ["reviewer", T.challenge[1]]]) { c += hop(r).cost; meter.push([at, c]); }
+  return {f, tickets, fails, changed, context, file, testName, testLine, clock, meter};
+}
+function along(points, t) {
+  if (t <= points[0][0]) return points[0][1];
+  for (let i = 1; i < points.length; i++) {
+    const [a, va] = points[i - 1], [b, vb] = points[i];
+    if (t <= b) return lerp(va, vb, ease(span(t, a, b)));
+  }
+  return points[points.length - 1][1];
+}
+let R = null;
+
+/* Where ticket ti's cluster sits during grouping, and each member's place around it. */
+const CL_Y = 470;
+const clusterX = (ti, n) => 150 + ti * (780 / Math.max(1, n - 1));
+const around = (m, size, r) => (size === 1 ? [0, 0] : [Math.cos(m / size * 2 * Math.PI - Math.PI / 2) * r, Math.sin(m / size * 2 * Math.PI - Math.PI / 2) * r]);
+/* Ticket 1's badge, top left of the stage, from locating onwards. */
+const BADGE = [150, 175];
+
+function render(t) {
+  if (!R) R = prepare();
+  const {f, tickets, fails, changed, context, file, testName, testLine, clock, meter} = R;
+  const v = D.values;
+  S = document.getElementById("s");
+  S.innerHTML = "";
+  const defs = el("defs", {});
+  const glow = el("radialGradient", {id: "bgGlow", cx: "50%", cy: "40%", r: "60%"}, defs);
+  el("stop", {offset: "0%", "stop-color": "#123049", "stop-opacity": 0.85}, glow);
+  el("stop", {offset: "100%", "stop-color": C.bg, "stop-opacity": 0}, glow);
+  el("rect", {x: 0, y: 0, width: W, height: H, fill: C.bg});
+  el("rect", {x: 0, y: 0, width: W, height: H, fill: "url(#bgGlow)"});
+
+  const story = 1 - ease(span(t, T.result[0] - 0.2, T.result[0] + 0.4));
+  const fixed = t >= T.fix[0] + 2.0;
+
+  /* The bar along the top: what state the pull request is in, the clock and the model meter. */
+  if (story > 0) {
+    const top = g({opacity: story});
+    const posted = t >= T.post[0] + 0.3;
+    const state = posted ? ["FIX POSTED FOR REVIEW", C.teal] : fixed ? ["FIX DRAFTED", C.good] : ["FAILING PULL REQUEST", C.red];
+    const pulse = 0.6 + 0.4 * Math.sin(t * 6);
+    el("circle", {cx: 44, cy: 46, r: 8, fill: state[1], opacity: fixed ? 1 : pulse}, top);
+    txt(top, 62, 53, state[0], 20, C.ink, {weight: 700, attrs: {"letter-spacing": "0.06em"}});
+    txt(top, 62, 80, `${f.repo}, a real pull request`, 18, C.faint);
+    const sec = along(clock, t), cost = along(meter, t);
+    txt(top, 840, 40, "ELAPSED", 14, C.faint, {anchor: "end", weight: 600, attrs: {"letter-spacing": "0.1em"}});
+    txt(top, 840, 72, `0:${String(Math.round(sec)).padStart(2, "0")}`, 30, C.ink, {anchor: "end", weight: 600, attrs: {class: "mono"}});
+    txt(top, 1040, 40, "MODEL COST", 14, C.faint, {anchor: "end", weight: 600, attrs: {"letter-spacing": "0.1em"}});
+    txt(top, 1040, 72, `US$${cost.toFixed(3)}`, 30, C.ink, {anchor: "end", weight: 600, attrs: {class: "mono"}});
+    el("rect", {x: 40, y: 104, width: 1000, height: 1, fill: C.line}, top);
+  }
+
+  /* 1. The tests fail, one after another. */
+  {
+    const k = fade(t, 0, T.group[0] + 0.5, 0.3, 0.6);
+    if (k > 0) {
+      const p = g({opacity: k});
+      const x0 = 170, w = 740, y0 = 170;
+      el("rect", {x: x0, y: y0, width: w, height: 600, rx: 16, fill: C.panel, stroke: C.line, "stroke-width": 1.5}, p);
+      txt(p, x0 + 30, y0 + 46, "Tests on this change", 22, C.soft, {weight: 600});
+      const red = fails.filter((_, i) => t > 0.75 + i * 0.17).length;
+      txt(p, x0 + w - 30, y0 + 46, `${red} failing`, 22, red ? C.red : C.faint, {anchor: "end", weight: 700});
+      fails.forEach((fl, i) => {
+        const y = y0 + 92 + i * 50;
+        const appear = ease(span(t, 0.1 + i * 0.05, 0.5 + i * 0.05));
+        const turned = span(t, 0.75 + i * 0.17, 0.9 + i * 0.17);
+        // In grouping the row's dot leaves for its ticket, so the row's own fades.
+        const leaving = span(t, T.group[0], T.group[0] + 0.3);
+        const row = g({opacity: appear * (1 - 0.6 * leaving), transform: `translate(${(1 - appear) * 30} 0)`}, p);
+        if (turned > 0) el("rect", {x: x0 + 14, y: y - 30, width: w - 28, height: 44, rx: 8, fill: C.redSoft, opacity: turned * 0.8}, row);
+        if (turned <= 0) {
+          const a = t * 8 + i;
+          el("circle", {cx: x0 + 44, cy: y - 8, r: 9, fill: "none", stroke: C.faint, "stroke-width": 2.5, "stroke-dasharray": "14 44", transform: `rotate(${a * 57} ${x0 + 44} ${y - 8})`}, row);
+        }
+        txt(row, x0 + 72, y, short(fl.name.replace(/^test_/, "").replace(/_/g, " "), 52), 20, turned > 0 ? C.ink : C.soft);
+        txt(row, x0 + w - 30, y, turned > 0 ? "FAILED" : "running", 16, turned > 0 ? C.red : C.faint, {anchor: "end", weight: 700, attrs: {"letter-spacing": "0.08em"}});
+      });
+    }
+  }
+
+  /* The failures as dots: from their rows into tickets, then ticket 1 to its badge. */
+  {
+    const gk = span(t, T.group[0] + 0.15, T.group[0] + 1.3);
+    if (t > T.group[0] && story > 0) {
+      const lift = ease(span(t, T.group[0] + 1.6, T.group[0] + 2.4));   // the biggest moves to the middle
+      const toBadge = ease(span(t, T.locate[0] - 0.2, T.locate[0] + 0.5));
+      const layer = g({});
+      tickets.forEach((tk, ti) => {
+        const cx0 = clusterX(ti, tickets.length);
+        let cx = cx0, cy = CL_Y, scale = 1, op = 1;
+        if (ti === 0) {
+          cx = lerp(lerp(cx0, 540, lift), BADGE[0], toBadge); cy = lerp(lerp(CL_Y, 440, lift), BADGE[1], toBadge);
+          op = 1 - ease(span(t, T.prove[0], T.prove[0] + 0.4));
+          scale = lerp(lerp(1, 1.5, lift), 0.7, toBadge);
+        } else {
+          cy = lerp(CL_Y, 640, lift); scale = lerp(1, 0.7, lift); op = lerp(1, 0.35, lift) * (1 - toBadge);
+        }
+        const settled = ease(span(t, T.group[0] + 1.0, T.group[0] + 1.4));
+        if (op <= 0) return;
+        const c = g({opacity: op}, layer);
+        // The ring around a ticket.
+        const rr = (tk.size === 1 ? 26 : 48) * scale;
+        if (settled > 0) {
+          el("circle", {cx, cy, r: rr, fill: ti === 0 && lift > 0 ? C.redSoft : "none", stroke: ti === 0 && fixed ? C.good : C.red, "stroke-width": 2, "stroke-opacity": settled * 0.7, opacity: settled}, c);
+          if (ti === 0 && lift > 0 && toBadge < 1) el("circle", {cx, cy, r: rr + 14 + 8 * Math.sin(t * 5), fill: "none", stroke: C.red, "stroke-width": 1.5, opacity: 0.35 * lift * (1 - toBadge)}, c);
+          const lk = settled * (1 - toBadge);
+          if (lk > 0) {
+            txt(c, cx, cy + rr + 34, tk.size === 1 ? "1 failure" : `${tk.size} failures`, 20, ti === 0 ? C.ink : C.soft, {anchor: "middle", weight: ti === 0 ? 700 : 400, attrs: {opacity: lk}});
+            if (ti === 0) txt(c, cx, cy - rr - 22, "ticket 1: first in line", 20, C.red, {anchor: "middle", weight: 700, attrs: {opacity: lk * lift}});
+          }
+        }
+        if (ti === 0 && toBadge > 0) txt(c, cx + 52, cy + 8, "ticket 1", 20, C.ink, {weight: 600, attrs: {opacity: toBadge}});
+        tk.members.forEach((fi, m) => {
+          const rowX = 170 + 44, rowY = 170 + 92 + fi * 50 - 8;
+          const [ox, oy] = around(m, tk.size, 22 * scale);
+          const stagger = ease(span(gk, fi * 0.04, 0.6 + fi * 0.04));
+          const x = lerp(rowX, cx + ox, stagger), y = lerp(rowY, cy + oy, stagger) - Math.sin(stagger * Math.PI) * 60;
+          const green = ti === 0 && span(t, T.fix[0] + 2.1 + m * 0.08, T.fix[0] + 2.3 + m * 0.08);
+          el("circle", {cx: x, cy: y, r: 10 * Math.max(scale, 0.8), fill: green > 0.5 ? C.good : C.red, stroke: C.bg, "stroke-width": 2.5}, c);
+        });
+      });
+    }
+  }
+
+  /* 3. Find the file. */
+  {
+    const k = fade(t, T.locate[0] + 0.1, T.locate[1] + 0.25, 0.35, 0.35);
+    if (k > 0) {
+      const p = g({opacity: k});
+      const sus = f.suspects, hot = Math.max(0, sus.indexOf(file));
+      const x0 = 270, w = 480, y0 = 300, step = 92;
+      txt(p, x0, y0 - 40, "Files most likely at fault", 22, C.soft, {weight: 600});
+      const scan = span(t, T.locate[0] + 0.5, T.locate[0] + 1.4);
+      const lock = ease(span(t, T.locate[0] + 1.45, T.locate[0] + 1.75));
+      const beamY = lock > 0 ? lerp(y0 + (sus.length - 1) * step, y0 + hot * step, lock) : y0 + scan * (sus.length - 1) * step;
+      sus.forEach((s, i) => {
+        const y = y0 + i * step;
+        const appear = ease(span(t, T.locate[0] + 0.15 + i * 0.08, T.locate[0] + 0.45 + i * 0.08));
+        const isHot = i === hot && lock > 0;
+        const dim = lock > 0 && i !== hot ? 0.4 : 1;
+        const c = g({opacity: appear * dim, transform: `translate(${(1 - appear) * 40} 0)`}, p);
+        el("rect", {x: x0, y, width: w, height: 66, rx: 12, fill: isHot ? "#0f3440" : C.panel, stroke: isHot ? C.teal : C.line, "stroke-width": isHot ? 3 : 1.5}, c);
+        txt(c, x0 + 26, y + 42, `${i + 1}`, 22, C.faint, {weight: 600});
+        txt(c, x0 + 66, y + 43, s, 26, C.ink, {attrs: {class: "mono"}});
+      });
+      if (scan > 0) {
+        el("rect", {x: x0 - 8, y: beamY - 8, width: w + 16, height: 82, rx: 16, fill: "none", stroke: C.teal, "stroke-width": 2, opacity: 0.8}, p);
+        el("rect", {x: x0 - 8, y: beamY - 8, width: w + 16, height: 82, rx: 16, fill: C.teal, opacity: 0.08}, p);
+      }
+      if (lock > 0) {
+        const y = y0 + hot * step + 43;
+        txt(p, x0 + w + 34, y, "the bug is here", 24, C.teal, {weight: 700, attrs: {opacity: lock}});
+      }
+    }
+    caption(t, T.locate[0], T.locate[1], "Find where it broke.", "A small, fast AI lists the files most likely at fault.");
+  }
+
+  /* 4 and 5: the new test, then the fix. The test card stays up while the code changes. */
+  const testCard = (p, y, state) => {
+    el("rect", {x: 140, y, width: 800, height: 150, rx: 16, fill: C.panel, stroke: state === "fail" ? C.red : state === "pass" ? C.good : C.line, "stroke-width": state ? 2.5 : 1.5}, p);
+    txt(p, 170, y + 40, "NEW TEST, WRITTEN FIRST", 16, C.teal, {weight: 700, attrs: {"letter-spacing": "0.1em"}});
+    txt(p, 170, y + 82, short(testName, 50), 24, C.ink, {attrs: {class: "mono"}});
+    txt(p, 170, y + 120, short(testLine, 54), 20, C.soft, {attrs: {class: "mono"}});
+  };
+  {
+    const k = fade(t, T.prove[0] - 0.1, T.challenge[0] + 0.1, 0.4, 0.4);
+    if (k > 0) {
+      const p = g({opacity: k});
+      const up = ease(span(t, T.fix[0], T.fix[0] + 0.5));          // in the fix, the test moves up
+      const y = lerp(300, 150, up);
+      const run = span(t, T.prove[0] + 0.7, T.prove[0] + 1.4);
+      const failed = t > T.prove[0] + 1.45, passed = t > T.fix[0] + 2.0;
+      testCard(p, y, passed ? "pass" : failed ? "fail" : "");
+      if (!failed) {
+        el("rect", {x: 170, y: y + 180, width: 740, height: 10, rx: 5, fill: C.line}, p);
+        el("rect", {x: 170, y: y + 180, width: Math.max(10, 740 * run), height: 10, rx: 5, fill: C.teal}, p);
+        if (run > 0) txt(p, 170, y + 222, "running it on the broken code", 20, C.faint);
+      } else {
+        const pk = passed ? back(span(t, T.fix[0] + 2.0, T.fix[0] + 2.35)) : back(span(t, T.prove[0] + 1.45, T.prove[0] + 1.8));
+        const shake = passed ? 0 : Math.sin(t * 60) * 6 * (1 - span(t, T.prove[0] + 1.45, T.prove[0] + 1.9));
+        const b = g({transform: `translate(${540 + shake} ${y + 200}) scale(${pk})`}, p);
+        pill(b, 0, 0, passed ? "NOW IT PASSES" : "IT FAILS: THE BUG IS REAL", passed ? C.good : C.red, passed ? C.goodSoft : C.redSoft, 24);
+      }
+    }
+    caption(t, T.prove[0], T.prove[1], "Prove the bug first.", "A new test must fail on the broken code. No failing test, no fix.");
+  }
+  const codePanel = (p, x, y, w, k) => {
+    el("rect", {x, y, width: w, height: 250, rx: 16, fill: C.panel, stroke: C.line, "stroke-width": 1.5}, p);
+    txt(p, x + 28, y + 40, file, 20, C.soft, {weight: 600, attrs: {class: "mono"}});
+    const lines = context.map(l => l.slice(1).replace(/^ {4}/, ""));
+    lines.forEach((l, i) => txt(p, x + 28, y + 82 + i * 30, short(l, 64), 19, C.faint, {attrs: {class: "mono"}}));
+    const oldL = (changed.find(l => l[0] === "-") || "-").slice(1).replace(/^ {4}/, "");
+    const newL = (changed.find(l => l[0] === "+") || "+").slice(1).replace(/^ {4}/, "");
+    const yo = y + 82 + lines.length * 30;
+    el("rect", {x: x + 14, y: yo - 22, width: w - 28, height: 30, rx: 5, fill: C.redSoft, opacity: k.red}, p);
+    const ot = txt(p, x + 28, yo, "- " + short(oldL, 70), 19, k.red > 0.5 ? "#f3a59d" : C.soft, {attrs: {class: "mono", opacity: 1 - 0.45 * k.strike}});
+    if (k.strike > 0) el("line", {x1: x + 28, y1: yo - 6, x2: x + 28 + (w - 56) * k.strike, y2: yo - 6, stroke: "#f3a59d", "stroke-width": 2}, p);
+    if (k.add > 0) {
+      el("rect", {x: x + 14, y: yo + 8, width: (w - 28) * k.add, height: 30, rx: 5, fill: C.goodSoft}, p);
+      const shown = Math.round(newL.length * k.add);
+      txt(p, x + 28, yo + 30, "+ " + short(newL, 70).slice(0, shown), 19, "#8fe0ad", {attrs: {class: "mono"}});
+    }
+    return ot;
+  };
+  {
+    const k = fade(t, T.fix[0] + 0.2, T.challenge[1] + 0.25, 0.4, 0.4);
+    if (k > 0) {
+      const p = g({opacity: k});
+      const down = ease(span(t, T.challenge[0], T.challenge[0] + 0.5));
+      const y = lerp(470, 400, down);
+      codePanel(p, 140, y, 800, {red: ease(span(t, T.fix[0] + 0.6, T.fix[0] + 0.9)), strike: ease(span(t, T.fix[0] + 0.8, T.fix[0] + 1.2)), add: span(t, T.fix[0] + 1.25, T.fix[0] + 1.85)});
+    }
+    caption(t, T.fix[0], T.fix[1], "Then write the fix.", "One line changes. The new test passes, and the old tests still pass.");
+  }
+
+  /* 6. The other company's model tries to break it. */
+  {
+    const k = fade(t, T.challenge[0] - 0.1, T.challenge[1] + 0.25, 0.4, 0.4);
+    if (k > 0) {
+      const p = g({opacity: k});
+      const card = (x, label, who, color, a) => {
+        const c = g({opacity: a, transform: `translate(0 ${(1 - a) * 20})`}, p);
+        el("rect", {x, y: 150, width: 330, height: 170, rx: 16, fill: C.panel, stroke: color, "stroke-width": 2.5}, c);
+        txt(c, x + 165, 200, label, 17, C.faint, {anchor: "middle", weight: 700, attrs: {"letter-spacing": "0.1em"}});
+        txt(c, x + 165, 260, who, 46, C.ink, {anchor: "middle", attrs: {class: "serif"}});
+        txt(c, x + 165, 298, label === "FIX WRITTEN BY" ? "one company's AI" : "another company's AI", 18, C.soft, {anchor: "middle"});
+      };
+      card(140, "FIX WRITTEN BY", company(f.fixer), C.teal, ease(span(t, T.challenge[0] + 0.2, T.challenge[0] + 0.6)));
+      card(610, "CHECKED BY", company(f.reviewer), C.violet, ease(span(t, T.challenge[0] + 0.4, T.challenge[0] + 0.8)));
+      // The check: a line sweeps the code from the reviewer's side, twice.
+      const sweep = span(t, T.challenge[0] + 0.7, T.challenge[0] + 1.8);
+      if (sweep > 0 && sweep < 1) {
+        const u = (sweep * 2) % 1, y = 400 + 20 + u * 210;
+        el("rect", {x: 150, y: y - 3, width: 780, height: 6, rx: 3, fill: C.violet, opacity: 0.8}, p);
+        el("rect", {x: 150, y: y - 30, width: 780, height: 30, fill: C.violet, opacity: 0.1}, p);
+      }
+      const verdict = back(span(t, T.challenge[0] + 1.9, T.challenge[0] + 2.2));
+      if (verdict > 0) {
+        const b = g({transform: `translate(540 ${400 + 125}) rotate(-6) scale(${verdict})`}, p);
+        pill(b, 0, 0, f.agrees ? "NOTHING WRONG FOUND" : "OBJECTED", f.agrees ? C.good : C.red, C.bg, 30);
+      }
+    }
+    caption(t, T.challenge[0], T.challenge[1], "A second AI tries to break it.", `A model from another company looks for what is wrong.${f.agrees ? " It found nothing." : ""}`);
+  }
+
+  /* 7. Posted on the pull request; a person decides. */
+  {
+    const k = fade(t, T.post[0] - 0.05, T.post[1] + 0.2, 0.4, 0.4);
+    if (k > 0) {
+      const up = back(span(t, T.post[0] - 0.05, T.post[0] + 0.45));
+      const p = g({opacity: k, transform: `translate(0 ${(1 - up) * 60})`});
+      el("rect", {x: 160, y: 190, width: 760, height: 330, rx: 18, fill: C.panel, stroke: C.teal, "stroke-width": 2}, p);
+      el("circle", {cx: 216, cy: 248, r: 26, fill: "#0f3440", stroke: C.teal, "stroke-width": 2}, p);
+      txt(p, 216, 256, "m", 26, C.teal, {anchor: "middle", weight: 700});
+      txt(p, 262, 244, "mend", 24, C.ink, {weight: 700});
+      txt(p, 262, 272, "commented on the pull request", 19, C.faint);
+      const lines = [`A suggested fix for ${file}`, "The test that failed first, now passing", `${company(f.reviewer)}'s review: nothing wrong found`];
+      lines.forEach((l, i) => {
+        const a = ease(span(t, T.post[0] + 0.5 + i * 0.22, T.post[0] + 0.8 + i * 0.22));
+        const c = g({opacity: a}, p);
+        el("circle", {cx: 206, cy: 340 + i * 52 - 7, r: 6, fill: C.good}, c);
+        txt(c, 228, 340 + i * 52, l, 24, C.ink);
+      });
+      const chips = [[`${f.seconds} seconds`, C.teal], [`US$${f.cost.toFixed(2)} in AI calls`, C.teal], ["nothing merges", C.warn]];
+      let x = 160;
+      chips.forEach(([label, color], i) => {
+        const a = back(span(t, T.post[0] + 1.25 + i * 0.25, T.post[0] + 1.55 + i * 0.25));
+        if (a <= 0) { x += label.length * 20 * 0.62 + 40 + 16; return; }
+        const w = label.length * 20 * 0.62 + 40;
+        const c = g({transform: `translate(${x + w / 2} 580) scale(${a})`}, p);
+        el("rect", {x: -w / 2, y: -24, width: w, height: 48, rx: 24, fill: C.bg, stroke: color, "stroke-width": 2}, c);
+        txt(c, 0, 7, label, 20, color, {anchor: "middle", weight: 700});
+        x += w + 16;
+      });
+    }
+    caption(t, T.post[0], T.post[1] + 0.2, "A person decides.", "The fix waits on the pull request. Nothing changes until someone says yes.");
+  }
+
+  /* Captions for the first two scenes. */
+  caption(t, T.fail[0], T.fail[1], "A change breaks the tests.", `${fails.length} tests fail on a real pull request.`);
+  caption(t, T.group[0], T.group[1], `${fails.length} failures, ${tickets.length} problems.`, "Failures with one cause become one ticket. The biggest goes first.");
+
+  /* The result. */
+  {
+    const r0 = T.result[0];
+    const k = ease(span(t, r0 + 0.2, r0 + 0.8));
+    if (k > 0) {
+      const p = g({opacity: k});
+      const resolved = Number(v.resolved), tasks = Number(v.tasks);
+      const thirds = Math.round(resolved / tasks * 3);
+      const head = thirds === 2 ? "2 in 3" : v.hit_pct;
+      txt(p, W / 2, 250, `ACROSS ${tasks} REAL BUGS`, 22, C.teal, {anchor: "middle", weight: 700, attrs: {"letter-spacing": "0.12em"}});
+      const hk = back(span(t, r0 + 0.4, r0 + 0.9));
+      const hg = g({transform: `translate(${W / 2} 380) scale(${0.85 + 0.15 * hk})`, opacity: ease(span(t, r0 + 0.4, r0 + 0.7))}, p);
+      txt(hg, 0, 0, head, 150, C.ink, {anchor: "middle", weight: 500, attrs: {class: "serif"}});
+      txt(p, W / 2, 440, "fixed before a person even looks,", 30, C.soft, {anchor: "middle", attrs: {opacity: ease(span(t, r0 + 0.7, r0 + 1.0))}});
+      txt(p, W / 2, 480, `${v.hit_pct}, judged by tests no AI ever saw`, 30, C.soft, {anchor: "middle", attrs: {opacity: ease(span(t, r0 + 0.7, r0 + 1.0))}});
+      const cards = [
+        [v.auto_hit_pct, "of the fixes it proposed", `were right: ${v.auto_right} of ${v.auto_count}`, C.good],
+        [v.cost_resolved, "per bug fixed", "in AI calls", C.teal],
+        [v.wrong_pct, "proposed but wrong", "the target was 3%", C.warn],
+      ];
+      cards.forEach(([fig, l1, l2, color], i) => {
+        const a = ease(span(t, r0 + 1.2 + i * 0.3, r0 + 1.6 + i * 0.3));
+        const x = 100 + i * 300;
+        const c = g({opacity: a, transform: `translate(0 ${(1 - a) * 30})`}, p);
+        el("rect", {x, y: 560, width: 280, height: 190, rx: 16, fill: C.panel, stroke: C.line, "stroke-width": 1.5}, c);
+        el("rect", {x, y: 560, width: 280, height: 5, rx: 2, fill: color}, c);
+        txt(c, x + 28, 650, fig, 54, color, {weight: 700});
+        txt(c, x + 28, 696, l1, 21, C.ink);
+        txt(c, x + 28, 726, l2, 19, C.soft);
+      });
+      const fk = ease(span(t, r0 + 2.4, r0 + 2.9));
+      txt(p, W / 2, 830, "Every number with its 95% interval, reproducible from the repository.", 22, C.soft, {anchor: "middle", attrs: {opacity: fk}});
+      if (!(window.TIMING || {}).site) {
+        const ak = back(span(t, r0 + 3.0, r0 + 3.4));
+        if (ak > 0) {
+          const b = g({transform: `translate(${W / 2} 910) scale(${ak})`}, p);
+          el("rect", {x: -230, y: -32, width: 460, height: 64, rx: 32, fill: "#0f3440", stroke: C.teal, "stroke-width": 2}, b);
+          txt(b, 0, 10, "triage.peterparker.ca  →", 28, C.ink, {anchor: "middle", weight: 700});
+        }
+      }
+      txt(p, W / 2, 1040, `A real run on ${f.repo}, a bug planted on purpose. Results: ${tasks} SWE-bench Verified tasks.`, 16, C.faint, {anchor: "middle", attrs: {opacity: fk}});
+    }
+  }
+}
+</script>
+</body>
+</html>

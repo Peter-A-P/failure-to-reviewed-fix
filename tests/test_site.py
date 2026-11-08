@@ -84,3 +84,20 @@ def test_the_script_only_looks_for_elements_the_page_has() -> None:
         assert wanted in ids, wanted
     for wanted in re.findall(r'(?:bars|pairedBars|legend)\("([\w-]+)"', script):
         assert wanted in ids, wanted
+
+
+def test_the_film_was_drawn_from_the_numbers_on_the_page() -> None:
+    """video/render.py stamps the film with a fingerprint of what it drew; when the run or the
+    values move, render it again (and commit web/video) or the film says something else."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("render", ROOT / "video" / "render.py")
+    assert spec and spec.loader
+    render = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(render)
+    stamp = json.loads((ROOT / "web" / "video" / "film.json").read_text(encoding="utf-8"))
+    assert stamp["fingerprint"] == render.fingerprint(render.film_data()), (
+        "render the film again: uv run --no-project --with playwright --with imageio-ffmpeg "
+        "--with numpy python video/render.py"
+    )
+    assert (ROOT / "web" / "video" / "film.mp4").stat().st_size > 100_000

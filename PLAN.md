@@ -728,6 +728,13 @@ routing section and dropped: the main run's scores take six values and the rules
 tier, so a slider would have shown a choice the router never makes. Hosted on Azure Static
 Web Apps' Free plan, CA$0. No model calls.
 
+**2026-11-08, the film.** The site's first section is now a 24-second film with sound of 03's
+live run, rendered from the same records as the page (`video/`, see `docs/deploy.md`): the
+tests failing, the failures grouping into tickets, the file found, the test that fails first,
+the one-line fix, the other company's review, the comment, then the headline figures with the
+missed 3% target among them. It replaces an eight-step animation drawn in the page, which was
+slow, mostly still and written for a technical reader. No model calls.
+
 ### What is blocked, and on what
 
 Updated 2026-10-17, twice: once for where projects 03 and 09 stood, and again when the hops

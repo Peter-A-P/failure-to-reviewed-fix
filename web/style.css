@@ -926,51 +926,9 @@ ul.compact li { font-size: 0.86rem; word-break: break-word; }
 /* The limits are not promises kept, so they get a plain marker rather than the tick. */
 .checks.limits li::before { content: "\2022"; color: var(--ink-faint); }
 
-/* The animation: a row of stages over a scene where the failures move as dots. Movement is a
-   CSS transition on transforms set from the script, so it stops entirely under reduced motion. */
-.flow-figure { margin: 1.1rem 0; }
-.flow { background: var(--paper-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.4rem 0.4rem 0.2rem; }
-.flow svg { width: 100%; height: auto; display: block; }
-.flow-node rect { fill: var(--paper); stroke: var(--line-2); stroke-width: 1; transition: fill 0.4s, stroke 0.4s; }
-.flow-node text { fill: var(--ink-faint); font-size: 13px; font-weight: 600; transition: fill 0.4s; }
-.flow-node.done rect { fill: var(--accent-soft); stroke: var(--accent-soft); }
-.flow-node.done text { fill: var(--accent-ink); }
-.flow-node.on rect { fill: var(--accent); stroke: var(--accent); }
-.flow-node.on text { fill: var(--paper); }
-.flow-track { fill: var(--line); }
-.flow-progress { fill: var(--accent); transform-box: fill-box; transform-origin: left center; transition: transform 0.6s ease; }
-.flow-layer { opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
-.flow-layer.show { opacity: 1; }
-.flow-dot { fill: var(--warn); stroke: var(--paper-soft); stroke-width: 2; transition: transform 0.8s ease, opacity 0.5s, fill 0.5s; }
-.flow-dot.lead { fill: var(--warn); }
-.flow-dot.faded { opacity: 0.15; }
-.flow-dot.gone { opacity: 0; }
-.flow-dot.fixed { fill: var(--good); }
-.flow-title { fill: var(--ink); font-family: var(--serif); font-size: 19px; }
-.flow-text { fill: var(--ink-soft); font-size: 14px; }
-.flow-text.faint { fill: var(--ink-faint); }
-.flow-text.strong { fill: var(--ink); font-weight: 600; }
-.flow-mono { fill: var(--ink-soft); font-family: var(--mono); font-size: 13px; }
-.flow-mono.strong { fill: var(--ink); font-weight: 600; }
-.flow-mono.add { fill: var(--good); }
-.flow-mono.del { fill: var(--warn); }
-.flow-card { fill: var(--paper); stroke: var(--line-2); stroke-width: 1; }
-.flow-card.hot { stroke: var(--accent); stroke-width: 2; fill: var(--accent-soft); }
-.flow-card.comment { stroke: var(--accent); stroke-width: 1.5; }
-.flow-box { fill: none; stroke: var(--line-2); stroke-width: 1.5; stroke-dasharray: 6 5; }
-.flow-pill { stroke: none; }
-.flow-pill.good { fill: var(--good); }
-.flow-pill.bad { fill: var(--warn); }
-.flow-pill.neutral { fill: var(--accent); }
-.flow-pill-text { fill: var(--paper); font-size: 13px; font-weight: 600; }
-.flow-arrow { stroke: var(--ink-faint); stroke-width: 1.5; }
-.flow-arrowhead { fill: var(--ink-faint); }
-.flow-caption { margin: 0.8rem 0 0.4rem; min-height: 3.4em; color: var(--ink); }
-.flow-controls { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-.flow-count { font-size: 0.85rem; color: var(--ink-faint); margin-left: auto; font-variant-numeric: tabular-nums; }
-@media (prefers-reduced-motion: reduce) {
-  .flow-dot, .flow-layer, .flow-progress, .flow-node rect, .flow-node text { transition: none; }
-}
+/* The film: rendered by video/render.py, dark in both themes like the other project films. */
+.demo-video { display: block; width: 100%; max-width: 42rem; aspect-ratio: 1; margin: 1rem auto 0; border-radius: var(--radius); background: #0a111c; box-shadow: var(--shadow); }
+.demo-video-note { max-width: 42rem; margin: 0.6rem auto 0; font-size: 0.9rem; color: var(--ink-faint); text-align: center; }
 
 /* The note under the hero figures that carries the missed target. */
 .hero-caveat { margin-bottom: 0.6rem; color: var(--ink-soft); }

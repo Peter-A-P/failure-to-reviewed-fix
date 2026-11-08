@@ -126,20 +126,14 @@
   <section class="section" id="watch">
     <h2>Watch a failure become a reviewed fix</h2>
     <p class="section-lead">
-      What happens, step by step, from the moment a pull request's tests fail to the moment a
-      person reads the proposed fix. The numbers and the code in the animation are from a real
-      run on another of my projects, with one bug planted in it on purpose.
+      Twenty-four seconds, with sound: a real run on another of my projects, from the moment a
+      pull request's tests fail to the moment a person reads the proposed fix. A bug was planted
+      in it on purpose, and every name, line of code and number in the film is from that run.
     </p>
-    <figure class="flow-figure">
-      <div id="flow" class="flow wide-chart"></div>
-      <p class="flow-caption" id="flow-caption" aria-live="polite"></p>
-      <div class="flow-controls">
-        <button type="button" class="step-move" id="flow-play">Pause</button>
-        <button type="button" class="step-move" id="flow-back">Back</button>
-        <button type="button" class="step-move" id="flow-next">Next</button>
-        <span class="flow-count" id="flow-count"></span>
-      </div>
-    </figure>
+    <video class="demo-video" controls playsinline preload="metadata" poster="video/film-poster.jpg?v={{version}}" src="video/film.mp4?v={{version}}">
+      Your browser cannot play this video. <a href="video/film.mp4">Download it</a> instead.
+    </video>
+    <p class="demo-video-note">Step by step, with the run's own code and output, in the next section.</p>
   </section>
 
   <!-- ============================================================== the thing to use -->
