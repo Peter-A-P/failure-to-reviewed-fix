@@ -1,4 +1,4 @@
-"""Render the site's short film: video/film.html drawn at 30 frames a second for 24 seconds,
+"""Render the site's short film: video/film.html drawn at 30 frames a second for 31 seconds,
 each frame screenshot by a headless browser, the frames encoded to H.264 MP4 and
 video/sound.py's track laid under them.
 
@@ -27,8 +27,10 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 FPS = 30
-SECONDS = 24.0
-POSTER_AT = 20.9  # the result, with its three cards in
+# film.html's schedule is drawn on 24 seconds; the film plays it SLOW times slower.
+SLOW = 1.3
+SECONDS = 24.0 * SLOW
+POSTER_AT = 20.9  # the result, with its three cards in, in film.html's time
 # The site values film.html shows; only these stamp it, so a new test elsewhere does not.
 USED = [
     "resolved",
@@ -73,7 +75,7 @@ def main() -> None:
             page.evaluate("k => { window.TIMING = k; }", {"site": not social})
             page.evaluate("document.fonts.ready")
             for i in range(round(SECONDS * FPS)):
-                page.evaluate("t => render(t)", i / FPS)
+                page.evaluate("t => render(t)", i / FPS / SLOW)
                 page.screenshot(path=str(frames / f"f{i:04d}.png"))
             page.evaluate("t => render(t)", POSTER_AT)
             page.screenshot(path=str(out / "film-poster.jpg"), type="jpeg", quality=86)
@@ -84,7 +86,7 @@ def main() -> None:
 
         f = d["follow"]
         left, right = sound.track(
-            len(f["failing"]), [t["size"] for t in f["tickets"]], len(f["suspects"]), SECONDS
+            len(f["failing"]), [t["size"] for t in f["tickets"]], len(f["suspects"]), SECONDS, SLOW
         )
         sound.write_wav(frames / "track.wav", left, right)
         ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()

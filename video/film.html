@@ -398,7 +398,7 @@ function render(t) {
       txt(p, W / 2, 440, "fixed before a person even looks,", 30, C.soft, {anchor: "middle", attrs: {opacity: ease(span(t, r0 + 0.7, r0 + 1.0))}});
       txt(p, W / 2, 480, `${v.hit_pct}, judged by tests no AI ever saw`, 30, C.soft, {anchor: "middle", attrs: {opacity: ease(span(t, r0 + 0.7, r0 + 1.0))}});
       const cards = [
-        [v.auto_hit_pct, "of the fixes it proposed", `were right: ${v.auto_right} of ${v.auto_count}`, C.good],
+        [v.auto_hit_pct, "proposed fixes correct", `${v.auto_right} of ${v.auto_count}`, C.good],
         [v.cost_resolved, "per bug fixed", "in AI calls", C.teal],
         [v.wrong_pct, "proposed but wrong", "the target was 3%", C.warn],
       ];

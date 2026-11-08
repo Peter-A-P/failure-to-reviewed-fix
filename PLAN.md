@@ -728,7 +728,7 @@ routing section and dropped: the main run's scores take six values and the rules
 tier, so a slider would have shown a choice the router never makes. Hosted on Azure Static
 Web Apps' Free plan, CA$0. No model calls.
 
-**2026-11-08, the film.** The site's first section is now a 24-second film with sound of 03's
+**2026-11-08, the film.** The site's first section is now a 31-second film with sound of 03's
 live run, rendered from the same records as the page (`video/`, see `docs/deploy.md`): the
 tests failing, the failures grouping into tickets, the file found, the test that fails first,
 the one-line fix, the other company's review, the comment, then the headline figures with the

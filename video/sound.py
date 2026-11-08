@@ -123,15 +123,17 @@ def pad(dur: float, chord: list[float], fade: float) -> Arr:
     return res
 
 
-def track(fails: int, tickets: list[int], suspects: int, seconds: float) -> tuple[Arr, Arr]:
+def track(
+    fails: int, tickets: list[int], suspects: int, seconds: float, slow: float = 1.0
+) -> tuple[Arr, Arr]:
     """Left and right channels. Times are film.html's T: fail 0, group 3.0, locate 6.0,
-    prove 8.4, fix 10.8, challenge 13.8, post 16.4, result 18.8."""
+    prove 8.4, fix 10.8, challenge 13.8, post 16.4, result 18.8, each played `slow` times slower."""
     n = int(seconds * SR)
     left, right = np.zeros(n), np.zeros(n)
     rng = np.random.default_rng(10)
 
     def add(sig: Arr, at: float, gain: float, pan: float = 0.0) -> None:
-        i = int(at * SR)
+        i = int(at * slow * SR)
         if i >= n:
             return
         j = min(n, i + len(sig))
@@ -139,8 +141,8 @@ def track(fails: int, tickets: list[int], suspects: int, seconds: float) -> tupl
         right[i:j] += sig[: j - i] * gain * (1 + pan) ** 0.5
 
     # The pad: A minor while the story is told, a brighter D major under the result.
-    add(pad(19.4, [110.0, 164.81, 220.0, 261.63], 1.0), 0.0, 0.10)
-    add(pad(seconds - 18.8, [73.42, 146.83, 220.0, 329.63, 369.99], 1.2), 18.8, 0.11)
+    add(pad(19.4 * slow, [110.0, 164.81, 220.0, 261.63], 1.0), 0.0, 0.10)
+    add(pad(seconds - 18.8 * slow, [73.42, 146.83, 220.0, 329.63, 369.99], 1.2), 18.8, 0.11)
 
     # 1. Each failure, as its row turns red (0.75 + 0.17 i s).
     for i in range(fails):
