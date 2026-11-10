@@ -1,4 +1,4 @@
-"""Render the site's short film: video/film.html drawn at 30 frames a second for 36 seconds,
+"""Render the site's short film: video/film.html drawn at 30 frames a second for 37 seconds,
 each frame screenshot by a headless browser, the frames encoded to H.264 MP4 and
 video/sound.py's track laid under them.
 
@@ -29,7 +29,9 @@ ROOT = Path(__file__).resolve().parents[1]
 FPS = 30
 # film.html's schedule is drawn on 24 seconds; the film plays it SLOW times slower.
 SLOW = 1.5
-SECONDS = 24.0 * SLOW
+# The comment screen holds once its chips are in (film.html's 18.5 s), for HOLD seconds of film.
+HOLD_AT, HOLD = 18.5, 1.0
+SECONDS = 24.0 * SLOW + HOLD
 POSTER_AT = 20.9  # the result, with its three cards in, in film.html's time
 # The site values film.html shows; only these stamp it, so a new test elsewhere does not.
 USED = [
@@ -49,6 +51,14 @@ def film_data() -> dict[str, Any]:
     data = json.loads((ROOT / "web" / "data.json").read_text(encoding="utf8"))
     values = json.loads((ROOT / "data" / "site" / "values.json").read_text(encoding="utf8"))
     return {"follow": data["follow"], "values": {k: values[k] for k in USED}}
+
+
+def story(film: float) -> float:
+    """film.html's time for a time in the film: SLOW times slower, held at HOLD_AT."""
+    at = HOLD_AT * SLOW
+    if film < at:
+        return film / SLOW
+    return HOLD_AT if film < at + HOLD else (film - HOLD) / SLOW
 
 
 def fingerprint(d: dict[str, Any]) -> str:
@@ -75,7 +85,7 @@ def main() -> None:
             page.evaluate("k => { window.TIMING = k; }", {"site": not social})
             page.evaluate("document.fonts.ready")
             for i in range(round(SECONDS * FPS)):
-                page.evaluate("t => render(t)", i / FPS / SLOW)
+                page.evaluate("t => render(t)", story(i / FPS))
                 page.screenshot(path=str(frames / f"f{i:04d}.png"))
             page.evaluate("t => render(t)", POSTER_AT)
             page.screenshot(path=str(out / "film-poster.jpg"), type="jpeg", quality=86)
@@ -86,7 +96,12 @@ def main() -> None:
 
         f = d["follow"]
         left, right = sound.track(
-            len(f["failing"]), [t["size"] for t in f["tickets"]], len(f["suspects"]), SECONDS, SLOW
+            len(f["failing"]),
+            [t["size"] for t in f["tickets"]],
+            len(f["suspects"]),
+            SECONDS,
+            SLOW,
+            (HOLD_AT, HOLD),
         )
         sound.write_wav(frames / "track.wav", left, right)
         ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()

@@ -27,7 +27,7 @@ drawn.
 from its JUnit report by the same capture and clustering the workflow ran, and the test, the
 patch and the review are the run's own record.
 
-**The film** at the top of the page is 36 seconds, with sound, of that same run.
+**The film** at the top of the page is 37 seconds, with sound, of that same run.
 `video/film.html` draws one frame for a time t from `web/data.json` and `data/site/values.json`;
 `video/render.py` screenshots it at 30 frames a second in a headless Edge, encodes the frames
 with the track `video/sound.py` synthesises (the instruments project 17's film uses) and writes
