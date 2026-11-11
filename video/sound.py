@@ -207,6 +207,7 @@ def track(
         add(bell(f, 3.2, 1.2), 19.25, 0.045, pan)
     for i, (f, pan) in enumerate(((880.0, -0.35), (1046.5, 0.0), (1174.66, 0.35))):
         add(marimba(f), 20.1 + 0.3 * i, 0.15, pan)
+    # The last bell lands with the footer, "Every number..." (film.html fades it in from 21.85 s).
     add(bell(293.66, 4.0, 1.4, 2.0), 21.9, 0.16)
     add(bell(1174.66, 3.0, 1.0), 21.95, 0.04, 0.2)
 

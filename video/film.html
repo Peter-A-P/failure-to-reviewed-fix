@@ -412,10 +412,11 @@ function render(t) {
         txt(c, x + 28, 696, l1, 21, C.ink);
         txt(c, x + 28, 726, l2, 19, C.soft);
       });
-      const fk = ease(span(t, r0 + 2.4, r0 + 2.9));
+      // The footer lands with the last bell (sound.py, 21.9 s).
+      const fk = ease(span(t, r0 + 3.05, r0 + 3.3));
       txt(p, W / 2, 830, "Every number with its 95% interval, reproducible from the repository.", 22, C.soft, {anchor: "middle", attrs: {opacity: fk}});
       if (!(window.TIMING || {}).site) {
-        const ak = back(span(t, r0 + 3.0, r0 + 3.4));
+        const ak = back(span(t, r0 + 3.5, r0 + 3.9));
         if (ak > 0) {
           const b = g({transform: `translate(${W / 2} 910) scale(${ak})`}, p);
           el("rect", {x: -230, y: -32, width: 460, height: 64, rx: 32, fill: "#0f3440", stroke: C.teal, "stroke-width": 2}, b);
