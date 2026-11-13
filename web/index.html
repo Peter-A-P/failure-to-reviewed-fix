@@ -162,10 +162,9 @@
     <p class="eyebrow">How it works</p>
     <h2 class="part-title">Seven steps, each checked before the next</h2>
     <p class="lead">
-      The rest of this page is the whole method, in the order it happens. Each part starts in
-      plain language, with a picture. Where there is more to say for someone who does this for
-      a living, it is folded away under <strong>For the technical reader</strong>, so you can
-      skip it if you only want the idea.
+      The method, in the order it happens. Each part starts in plain language with a picture.
+      Detail for people who do this for a living sits folded under <strong>For the technical
+      reader</strong>, and can be skipped.
     </p>
   </div>
 
@@ -173,8 +172,8 @@
     <h2>The whole idea in one picture</h2>
     <p class="section-lead">
       One broken change usually sets off many alarms. The pipeline turns them into one problem,
-      proves the problem with a test, fixes it, has the fix attacked, and then decides how loudly
-      to speak. Nothing it produces is merged; at most it offers a fix.
+      proves the problem with a test, fixes it, has the fix attacked, and then decides whether to
+      offer the fix, suggest it or say nothing. Nothing it produces is merged.
     </p>
     <ol class="pipeline steps-7">
       <li><span class="step">1</span><strong>Capture</strong><span>Each failure becomes one record, with its error and where it happened.</span></li>
@@ -267,9 +266,8 @@
       {{gate_test_diff}} points ({{gate_test_range}}), far too uncertain to call either way.</p>
     </div>
     <div class="assumption">
-      <p><strong>Why it stays.</strong> The test is what the person reviewing the fix gets to
-      read and run, and the pipeline refuses to write a fix without one. It stays as evidence for
-      that person.</p>
+      <p><strong>Why it stays.</strong> The test is evidence the person reviewing the fix can
+      read and run, and the pipeline refuses to write a fix without one.</p>
     </div>
     <details class="disclose">
       <summary>For the technical reader: how the rule is enforced, and how the comparison was run</summary>
@@ -479,7 +477,6 @@
 
   <section class="section" id="limits">
     <h2>What this does not do</h2>
-    <p class="section-lead">The limits, stated as plainly as the results.</p>
     <ul class="checks limits">
       <li><strong>It never merges.</strong> There is no merge step in the code, and a test scans every source file to make sure none appears. On the live repositories it only comments.</li>
       <li><strong>It does not fix without proof.</strong> No failing test, no fix: the run stops and says why.</li>
@@ -513,7 +510,7 @@
     <details class="disclose">
       <summary>For the technical reader: the choices that are easy to get wrong</summary>
       <ul>
-        <li>The sample was committed before the first run and the sampler refuses to redraw, so no hard task can quietly leave.</li>
+        <li>The sample was committed before the first run and the sampler refuses to redraw, so no hard task can be dropped afterwards.</li>
         <li>Every drafted patch is scored, whatever tier it was routed to, so the quiet tier's missed fixes are counted rather than invisible.</li>
         <li>The benchmark harness runs in a Linux container, because on a Windows host even the benchmark's own reference patches fail.</li>
         <li>Django and sympy, 61% of the benchmark, do not use pytest; the sandbox runs each project's own test runner and reads its output with the harness's parsers.</li>

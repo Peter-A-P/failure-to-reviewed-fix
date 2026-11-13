@@ -273,7 +273,8 @@
         return [para("The fixer changed one line. The new test passes with it, and so do the existing tests nearest the change: " + f.suite.join(", ") + " (" + said(hop("fixer")) + ")."), code(f.diff, true)];
       } },
       { name: "Challenge", title: f.agrees ? "The reviewer accepted it" : "The reviewer objected", body: function () {
-        var out = [para("A model from another company (" + f.reviewer + ", against a " + f.fixer + " fixer) was asked to find what is wrong with the fix (" + said(hop("reviewer")) + ").")];
+        var company = function (p) { return { anthropic: "Anthropic", openai: "OpenAI", google: "Google" }[p] || p; };
+        var out = [para("A model from another company (" + company(f.reviewer) + ", against the " + company(f.fixer) + " fixer) was asked to find what is wrong with the fix (" + said(hop("reviewer")) + ").")];
         out.push(para(f.agrees ? "It found nothing wrong and accepted the fix." : "It objected: " + f.objection));
         return out;
       } },

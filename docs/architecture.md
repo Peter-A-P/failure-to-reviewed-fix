@@ -3,8 +3,7 @@
 Four figures: the system as a whole, one failure through the pipeline, how the numbers are
 produced, and the live workflow on two of the portfolio's repositories. Each names the module
 that implements what it shows; [PLAN.md](../PLAN.md) says why and [boundary.md](boundary.md)
-records the public sources the design is built from. The figures are generated from a
-specification, not drawn by hand.
+records the public sources the design is built from.
 
 ## The system
 
